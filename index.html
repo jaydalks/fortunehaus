@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fortune Haus — Premium Event Experiences</title>
+  <meta name="description" content="Fortune Haus delivers premium, interactive event experiences designed to elevate any occasion. The Lucky Claw — a refined vintage-arcade centrepiece for weddings, private events, and brand activations.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+</head>
+<body>
+
+  <!-- ── NAVIGATION ── -->
+  <nav class="nav" id="nav" aria-label="Main navigation">
+    <div class="nav__inner">
+      <a href="index.html" class="nav__logo" aria-label="Fortune Haus — Home">
+        <img src="brand_assets/logo_design2.png" alt="Fortune Haus">
+      </a>
+      <ul class="nav__links" role="list">
+        <li><a href="#the-claw" class="nav__link">The Claw</a></li>
+        <li><a href="#about" class="nav__link">About</a></li>
+        <li><a href="#contact" class="nav__link">Contact</a></li>
+        <li><a href="https://www.instagram.com/fortune.haus" class="nav__link nav__link--ig" target="_blank" rel="noopener noreferrer" aria-label="Fortune Haus on Instagram">Instagram</a></li>
+      </ul>
+      <button class="nav__burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- Mobile nav drawer -->
+  <div class="nav__mobile" id="mobileNav" aria-hidden="true">
+    <ul class="nav__mobile-links" role="list">
+      <li><a href="#the-claw" class="nav__mobile-link" data-mobile-close>The Claw</a></li>
+      <li><a href="#about" class="nav__mobile-link" data-mobile-close>About</a></li>
+      <li><a href="#contact" class="nav__mobile-link" data-mobile-close>Contact</a></li>
+      <li><a href="https://www.instagram.com/fortune.haus" class="nav__mobile-link" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+    </ul>
+  </div>
+
+
+  <!-- ── HERO ── -->
+  <section class="hero" aria-label="Hero">
+
+    <!-- Video background -->
+    <video
+      class="hero__video"
+      autoplay loop muted playsinline
+      aria-hidden="true"
+      preload="auto"
+    >
+      <source src="brand_assets/clawmachine_header.mp4" type="video/mp4">
+    </video>
+
+    <!-- Layered masks: colour grade → edge vignette → bottom dissolve -->
+    <div class="hero__grade"   aria-hidden="true"></div>
+    <div class="hero__vignette" aria-hidden="true"></div>
+    <div class="hero__dissolve" aria-hidden="true"></div>
+
+    <!-- Grain sits above video, below text -->
+    <div class="hero__grain"  aria-hidden="true"></div>
+
+    <!-- Content -->
+    <div class="hero__content">
+      <h1 class="hero__headline">
+        <span class="hero__line-wrap"><span class="hero__line">Where Opulence Meets</span></span>
+        <span class="hero__line-wrap"><span class="hero__line">Contemporary Romance.</span></span>
+      </h1>
+    </div>
+
+    <div class="hero__scroll" aria-hidden="true">
+      <span class="hero__scroll-line"></span>
+      Scroll
+    </div>
+
+  </section>
+
+
+  <!-- ── ABOUT ── -->
+  <section class="about" id="about" aria-label="About Fortune Haus">
+    <div class="about__inner">
+
+      <div class="about__left">
+        <h2 class="display-lg about__headline reveal reveal-d1">Entertainment, Elevated.</h2>
+        <p class="about__body reveal reveal-d2">Fortune Haus is a modern event experience brand delivering premium, interactive moments designed to elevate any occasion.</p>
+        <p class="about__body reveal reveal-d2">Blending entertainment with refined aesthetics, we bring together experiences that create energy, connection and lasting memories.</p>
+      </div>
+
+      <div class="about__right">
+        <div class="about__pillar reveal reveal-d1">
+          <p class="about__pillar-num">01</p>
+          <p class="about__pillar-title">Premium Aesthetic</p>
+          <p class="about__pillar-body">Refined, vintage-inspired equipment finished to the highest standard — a statement piece, not just an activity.</p>
+        </div>
+        <div class="about__pillar reveal reveal-d2">
+          <p class="about__pillar-num">02</p>
+          <p class="about__pillar-title">Tailored Experience</p>
+          <p class="about__pillar-body">Every engagement is shaped around your event, your guests, and your vision — from styling to placement.</p>
+        </div>
+        <div class="about__pillar reveal reveal-d3">
+          <p class="about__pillar-num">03</p>
+          <p class="about__pillar-title">Lasting Memories</p>
+          <p class="about__pillar-body">Interactive moments guests don't forget — the kind of experience that gets talked about long after the event.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ── THE CLAW ── -->
+  <section class="claw grain" id="the-claw" aria-label="The Lucky Claw">
+    <div class="claw__glow" aria-hidden="true"></div>
+    <div class="claw__inner">
+
+      <!-- Phase 1: Centered intro — fades out on scroll -->
+      <div class="claw__intro">
+        <h2 class="display-lg claw__headline">One Experience.<br>Infinite Memories.</h2>
+        <p class="accent claw__accent">A refined take on a timeless classic</p>
+        <p class="claw__body">The Lucky Claw is a full-size, freestanding claw machine with a refined, vintage-arcade aesthetic. Finished in deep espresso with dark wood panelling accents, it stands apart from anything you've seen at an event before.</p>
+        <p class="claw__body">Warmly lit in amber and gold tones, with prizes curated in collaboration with each client to suit the occasion — it's a centrepiece that draws people in and keeps them coming back.</p>
+      </div>
+
+      <!-- Phase 2: Image left + features right — revealed on scroll -->
+      <div class="claw__stage">
+        <div class="claw__images">
+          <img class="claw__img" src="brand_assets/1_luckyclaw.png" alt="Premium Cabinet">
+          <img class="claw__img" src="brand_assets/2_luckyclaw.png" alt="Illuminated Marquee">
+          <img class="claw__img" src="brand_assets/3_luckyclaw.png" alt="Glass & Mirror Panels">
+          <img class="claw__img" src="brand_assets/4_luckyclaw.png" alt="Custom Branding Options">
+        </div>
+        <div class="claw__features">
+          <div class="claw__feature">
+            <span class="claw__feature-num">01</span>
+            <div class="claw__feature-body">
+              <p class="claw__feature-title">Premium Cabinet</p>
+              <p class="claw__feature-desc">Deep espresso finish with dark wood panelling — a nostalgic feel that commands attention.</p>
+            </div>
+          </div>
+          <div class="claw__feature">
+            <span class="claw__feature-num">02</span>
+            <div class="claw__feature-body">
+              <p class="claw__feature-title">Illuminated Marquee</p>
+              <p class="claw__feature-desc">Crowned with a warm cream backlit oval marquee — iconic fairground typography, refined for modern events.</p>
+            </div>
+          </div>
+          <div class="claw__feature">
+            <span class="claw__feature-num">03</span>
+            <div class="claw__feature-body">
+              <p class="claw__feature-title">Glass & Mirror Panels</p>
+              <p class="claw__feature-desc">Glass on three sides with a mirrored rear wall — the amber-lit interior creates constant intrigue and invitation.</p>
+            </div>
+          </div>
+          <div class="claw__feature">
+            <span class="claw__feature-num">04</span>
+            <div class="claw__feature-body">
+              <p class="claw__feature-title">Custom Branding Options</p>
+              <p class="claw__feature-desc">Mirror sticker decals and custom acrylic signs available — seamlessly integrated into your event aesthetic.</p>
+            </div>
+          </div>
+        </div><!-- /.claw__features -->
+      </div><!-- /.claw__stage -->
+
+    </div><!-- /.claw__inner -->
+  </section>
+
+
+  <!-- ── ENQUIRY ENTRY ── -->
+  <section class="enquiry-entry" id="enquire" aria-label="Start your enquiry">
+    <div class="enquiry-entry__inner">
+
+      <div class="enquiry-entry__header">
+        <h2 class="display-lg enquiry-entry__headline reveal reveal-d1">Start Your Fortune Haus Experience</h2>
+        <p class="enquiry-entry__sub reveal reveal-d2">Whether you're celebrating a wedding, hosting a private event, or launching a brand activation — we'll craft a bespoke Lucky Claw experience around your vision, your guests, and your occasion. Every enquiry receives a personalised proposal within 24–48 hours.</p>
+      </div>
+
+      <div class="enquiry-entry__cards">
+
+        <a href="enquire/weddings.html" class="enquiry-card reveal" aria-label="Weddings enquiry">
+          <div class="enquiry-card__bg" aria-hidden="true"></div>
+          <span class="enquiry-card__num" aria-hidden="true">01</span>
+          <div class="enquiry-card__content">
+            <p class="enquiry-card__type">Event Type</p>
+            <h3 class="enquiry-card__title">Weddings</h3>
+            <p class="enquiry-card__sub">Refined moments</p>
+            <span class="enquiry-card__arrow">
+              Enquire
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 8h10M9 4l4 4-4 4"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="enquire/private.html" class="enquiry-card" style="--card-delay:150ms" aria-label="Private events enquiry">
+          <div class="enquiry-card__bg" aria-hidden="true"></div>
+          <span class="enquiry-card__num" aria-hidden="true">02</span>
+          <div class="enquiry-card__content">
+            <p class="enquiry-card__type">Event Type</p>
+            <h3 class="enquiry-card__title">Private Events</h3>
+            <p class="enquiry-card__sub">Unexpected energy</p>
+            <span class="enquiry-card__arrow">
+              Enquire
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 8h10M9 4l4 4-4 4"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+        <a href="enquire/brand.html" class="enquiry-card" style="--card-delay:300ms" aria-label="Brand activations enquiry">
+          <div class="enquiry-card__bg" aria-hidden="true"></div>
+          <span class="enquiry-card__num" aria-hidden="true">03</span>
+          <div class="enquiry-card__content">
+            <p class="enquiry-card__type">Event Type</p>
+            <h3 class="enquiry-card__title">Brand Activations</h3>
+            <p class="enquiry-card__sub">High-impact engagement</p>
+            <span class="enquiry-card__arrow">
+              Enquire
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M3 8h10M9 4l4 4-4 4"/>
+              </svg>
+            </span>
+          </div>
+        </a>
+
+      </div>
+
+    </div>
+  </section>
+
+
+  <!-- ── CONTACT ── -->
+  <section class="contact grain" id="contact" aria-label="Contact Fortune Haus">
+    <div class="contact__glow" aria-hidden="true"></div>
+    <div class="contact__inner">
+      <h2 class="display-lg contact__headline reveal reveal-d1">Let's Create Something Extraordinary</h2>
+      <p class="contact__body reveal reveal-d2">Have a question before you enquire? We're here to help. Reach out and we'll come back to you within 24 hours.</p>
+      <div class="contact__cta reveal reveal-d2">
+        <a href="#enquire" class="btn btn--light">Start an Enquiry</a>
+      </div>
+      <div class="contact__details reveal reveal-d3">
+        <a href="mailto:info@fortunehaus.com.au" class="contact__detail-item">
+          <span class="contact__detail-label">Email</span>
+          <span class="contact__detail-value">info@fortunehaus.com.au</span>
+        </a>
+        <span class="contact__detail-divider" aria-hidden="true"></span>
+        <div class="contact__detail-item">
+          <span class="contact__detail-label">Socials</span>
+          <span class="contact__detail-value">@fortune.haus</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── FOOTER ── -->
+    <footer class="footer" aria-label="Footer">
+      <div class="footer__inner">
+        <a href="index.html" class="footer__logo" aria-label="Fortune Haus — Home">
+          <img src="brand_assets/logo_design2.png" alt="Fortune Haus">
+        </a>
+        <ul class="footer__links" role="list">
+          <li><a href="#the-claw" class="footer__link">The Claw</a></li>
+          <li><a href="#about" class="footer__link">About</a></li>
+          <li><a href="#contact" class="footer__link">Contact</a></li>
+          <li><a href="https://www.instagram.com/fortune.haus" class="footer__link" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+        </ul>
+        <p class="footer__legal">Designed for indoor environments only</p>
+      </div>
+    </footer>
+
+  </section>
+
+
+  <script src="js/main.js"></script>
+</body>
+</html>

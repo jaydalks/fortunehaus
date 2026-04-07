@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Brand Activations — Fortune Haus</title>
+  <meta name="description" content="Enquire about Fortune Haus for your brand activation — high-impact interactive engagement that stops people in their tracks.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body class="enquiry-page">
+
+  <!-- Progress bar -->
+  <div class="progress-bar" role="progressbar" aria-valuemin="1" aria-valuemax="3" aria-valuenow="1">
+    <div class="progress-bar__fill" id="progressFill" style="width: 33.33%"></div>
+  </div>
+  <span class="progress-bar__label" id="progressLabel">Step 1 of 3 — takes ~60 seconds</span>
+
+  <!-- Nav -->
+  <nav class="enquiry-nav" aria-label="Enquiry navigation">
+    <a href="../index.html" class="enquiry-nav__logo" aria-label="Fortune Haus — Home">
+      <img src="../brand_assets/logo_design2.png" alt="Fortune Haus">
+    </a>
+    <a href="../index.html" class="enquiry-nav__back" aria-label="Back to home">
+      <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path d="M13 8H3M7 12l-4-4 4-4"/>
+      </svg>
+      Back
+    </a>
+  </nav>
+
+  <!-- Form -->
+  <div class="enquiry-form-wrap">
+    <form class="enquiry-form" id="enquiryForm" novalidate>
+
+      <!-- STEP 1: ESSENTIALS -->
+      <div class="form-step active" id="step1">
+        <span class="label step__label">Brand Activations · Step 1 of 3</span>
+        <h1 class="step__title">Tell us<br>about your<br>activation</h1>
+        <p class="step__micro">Just the essentials — we'll guide the rest</p>
+
+        <div class="field">
+          <label class="field__label" for="eventDate">Activation Date <span aria-label="required">*</span></label>
+          <input class="field__input" type="date" id="eventDate" name="eventDate" required aria-required="true">
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="venue">Venue / Location</label>
+          <input class="field__input" type="text" id="venue" name="venue" placeholder="Venue or space name">
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="location">Suburb / City</label>
+          <input class="field__input" type="text" id="location" name="location" placeholder="Suburb / City">
+          <p class="field__helper">Based on your location, we'll include any travel considerations in your proposal</p>
+        </div>
+
+        <div class="form-footer">
+          <p class="form-footer__note">Fields marked * are required to continue</p>
+          <button type="button" class="btn btn--dark" id="next1">
+            Next
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 2: PERSONALISATION -->
+      <div class="form-step" id="step2">
+        <span class="label step__label">Brand Activations · Step 2 of 3</span>
+        <h2 class="step__title">Shape your<br>activation</h2>
+        <p class="step__micro">A few quick choices — we'll tailor everything around them</p>
+
+        <div class="chips-section">
+          <p class="chips-question">What is the goal of this activation? <span style="opacity:0.5;font-size:0.75em;">(select all that apply)</span></p>
+          <div class="chips" id="goalChips">
+            <button type="button" class="chip" data-group="goal" data-value="Engagement">Engagement</button>
+            <button type="button" class="chip" data-group="goal" data-value="Awareness">Awareness</button>
+            <button type="button" class="chip" data-group="goal" data-value="Leads">Leads</button>
+            <button type="button" class="chip" data-group="goal" data-value="Content">Content</button>
+          </div>
+        </div>
+
+        <div class="chips-section">
+          <p class="chips-question">Will this include branding?</p>
+          <div class="chips radio-chips" id="brandingChips" style="display:flex;flex-wrap:wrap;gap:0.5rem;">
+            <div class="radio-chip">
+              <input type="radio" name="branding" id="brandingYes" value="Yes">
+              <label for="brandingYes">Yes</label>
+            </div>
+            <div class="radio-chip">
+              <input type="radio" name="branding" id="brandingNo" value="No">
+              <label for="brandingNo">No</label>
+            </div>
+            <div class="radio-chip">
+              <input type="radio" name="branding" id="brandingMaybe" value="Not sure">
+              <label for="brandingMaybe">Not sure</label>
+            </div>
+          </div>
+        </div>
+
+        <p class="form-support">We'll refine styling and details with you once we confirm availability</p>
+
+        <div class="form-footer">
+          <button type="button" class="btn btn--dark" id="back2" style="opacity:0.45;">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M13 8H3M7 12l-4-4 4-4"/>
+            </svg>
+            Back
+          </button>
+          <button type="button" class="btn btn--dark" id="next2">
+            Next
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M3 8h10M9 4l4 4-4 4"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- STEP 3: FINAL DETAILS -->
+      <div class="form-step" id="step3">
+        <span class="label step__label">Brand Activations · Step 3 of 3</span>
+        <h2 class="step__title">Final<br>details</h2>
+        <p class="step__micro">We'll prepare your tailored proposal</p>
+
+        <div class="field">
+          <label class="field__label" for="name">Name <span aria-label="required">*</span></label>
+          <input class="field__input" type="text" id="name" name="name" placeholder="Your full name" required aria-required="true">
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="email">Email <span aria-label="required">*</span></label>
+          <input class="field__input" type="email" id="email" name="email" placeholder="your@email.com" required aria-required="true">
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="phone">Phone <span style="opacity:0.4;font-weight:400;">(optional)</span></label>
+          <input class="field__input" type="tel" id="phone" name="phone" placeholder="+61 4XX XXX XXX">
+        </div>
+
+        <div class="form-footer">
+          <button type="button" class="btn btn--dark" id="back3" style="opacity:0.45;">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M13 8H3M7 12l-4-4 4-4"/>
+            </svg>
+            Back
+          </button>
+          <button type="submit" class="btn btn--dark-fill" id="submitBtn">
+            Create Your Experience
+          </button>
+        </div>
+        <p class="form-support">We'll be in touch within 24–48 hours with a tailored proposal</p>
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Footer -->
+  <footer class="enquiry-footer" aria-label="Enquiry footer">
+    <span class="enquiry-footer__text">Fortune Haus</span>
+    <span class="enquiry-footer__sep" aria-hidden="true"></span>
+    <span class="enquiry-footer__text">Designed for indoor environments only</span>
+  </footer>
+
+  <script src="../js/enquiry.js"></script>
+  <script>
+    initEnquiry({
+      type: 'brand',
+      successUrl: '../success.html'
+    });
+  </script>
+</body>
+</html>
