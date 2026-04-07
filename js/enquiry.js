@@ -163,7 +163,7 @@
       if (brandingRadio) payload['Includes Branding'] = brandingRadio.value;
 
       /* ── Send via FormSubmit ── */
-      fetch('https://formsubmit.co/ajax/info@fortunehaus.com.au', {
+      fetch('https://formsubmit.co/ajax/15631be41594771deefe9f1fb9e1ebef', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body:    JSON.stringify(payload)
