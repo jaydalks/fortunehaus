@@ -200,6 +200,51 @@
     });
   });
 
+  /* ── Footer reveal on scroll ── */
+  var footer = document.querySelector('.footer');
+  if (footer && 'IntersectionObserver' in window) {
+    var footerIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          footer.classList.add('footer--visible');
+          footerIO.unobserve(footer);
+        }
+      });
+    }, { threshold: 0.15 });
+    footerIO.observe(footer);
+  } else if (footer) {
+    footer.classList.add('footer--visible');
+  }
+
+  /* ── Enquiry modal ── */
+  var eqModal    = document.getElementById('eqModal');
+  var eqBackdrop = document.getElementById('eqBackdrop');
+  var eqClose    = document.getElementById('eqClose');
+  var navEnquire = document.getElementById('navEnquireBtn');
+
+  function openModal() {
+    eqModal.classList.add('open');
+    eqModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    if (eqClose) eqClose.focus();
+  }
+  function closeModal() {
+    eqModal.classList.remove('open');
+    eqModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  var mobileEnquire = document.getElementById('mobileEnquireBtn');
+  if (navEnquire)    navEnquire.addEventListener('click', openModal);
+  if (mobileEnquire) mobileEnquire.addEventListener('click', function () { closeMenu(); openModal(); });
+  if (eqClose)    eqClose.addEventListener('click', closeModal);
+  if (eqBackdrop) eqBackdrop.addEventListener('click', closeModal);
+  if (eqModal) {
+    eqModal.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape') closeModal();
+    });
+  }
+
   /* ── Scroll reveal ── */
   var revealEls = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {

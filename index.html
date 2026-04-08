@@ -26,6 +26,7 @@
         <li><a href="#about" class="nav__link">About</a></li>
         <li><a href="#contact" class="nav__link">Contact</a></li>
         <li><a href="https://www.instagram.com/fortune.haus" class="nav__link nav__link--ig" target="_blank" rel="noopener noreferrer" aria-label="Fortune Haus on Instagram">Instagram</a></li>
+        <li><button type="button" class="nav__link nav__link--enquire" id="navEnquireBtn">Enquire</button></li>
       </ul>
       <button class="nav__burger" id="burger" aria-label="Toggle menu" aria-expanded="false">
         <span></span><span></span><span></span>
@@ -40,6 +41,7 @@
       <li><a href="#about" class="nav__mobile-link" data-mobile-close>About</a></li>
       <li><a href="#contact" class="nav__mobile-link" data-mobile-close>Contact</a></li>
       <li><a href="https://www.instagram.com/fortune.haus" class="nav__mobile-link" target="_blank" rel="noopener noreferrer">Instagram</a></li>
+      <li><button type="button" class="nav__mobile-link nav__mobile-link--enquire" id="mobileEnquireBtn">Enquire</button></li>
     </ul>
   </div>
 
@@ -240,9 +242,6 @@
     <div class="contact__inner">
       <h2 class="display-lg contact__headline reveal reveal-d1">Let's Create Something Extraordinary</h2>
       <p class="contact__body reveal reveal-d2">Have a question before you enquire? We're here to help. Reach out and we'll come back to you within 24 hours.</p>
-      <div class="contact__cta reveal reveal-d2">
-        <a href="#enquire" class="btn btn--light">Start an Enquiry</a>
-      </div>
       <div class="contact__details reveal reveal-d3">
         <a href="mailto:info@fortunehaus.com.au" class="contact__detail-item">
           <span class="contact__detail-label">Email</span>
@@ -274,6 +273,40 @@
 
   </section>
 
+
+  <!-- ── ENQUIRY MODAL ── -->
+  <div class="eq-modal" id="eqModal" aria-hidden="true" role="dialog" aria-label="Enquiry">
+    <div class="eq-modal__backdrop" id="eqBackdrop"></div>
+    <div class="eq-modal__panel">
+      <button class="eq-modal__close" id="eqClose" aria-label="Close enquiry">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 3l10 10M13 3L3 13"/>
+        </svg>
+      </button>
+      <div class="eq-modal__inner">
+        <span class="label eq-modal__label">Start your enquiry</span>
+        <h2 class="eq-modal__title">What kind of<br>event is it?</h2>
+        <p class="eq-modal__sub">Choose a category and we'll take you to a short, tailored form.</p>
+        <div class="eq-modal__cards">
+          <a href="enquire/weddings.html" class="eq-card">
+            <span class="eq-card__num">01</span>
+            <p class="eq-card__title">Weddings</p>
+            <p class="eq-card__sub">Refined moments</p>
+          </a>
+          <a href="enquire/private.html" class="eq-card">
+            <span class="eq-card__num">02</span>
+            <p class="eq-card__title">Private Events</p>
+            <p class="eq-card__sub">Unexpected energy</p>
+          </a>
+          <a href="enquire/brand.html" class="eq-card">
+            <span class="eq-card__num">03</span>
+            <p class="eq-card__title">Brand Activations</p>
+            <p class="eq-card__sub">High-impact engagement</p>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <script src="js/main.js"></script>
 </body>
