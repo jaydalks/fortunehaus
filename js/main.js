@@ -128,16 +128,115 @@
       });
     }
 
-    if (cards.length) {
-      cards.forEach(function (c) { c.classList.remove('reveal', 'visible'); });
-      gsap.fromTo(cards,
-        { opacity: 0, y: 60, scale: 0.95 },
-        {
-          opacity: 1, y: 0, scale: 1, duration: 0.9, ease: 'power3.out', stagger: 0.14,
-          scrollTrigger: { trigger: '.enquiry-entry__cards', start: 'top 82%', toggleActions: 'play none none reverse' }
-        }
+    /* ── About section — scrubbed entry ── */
+    var aboutHeadline = document.querySelector('.about__headline');
+    var aboutBodies   = document.querySelectorAll('.about__body');
+    var aboutPillars  = document.querySelectorAll('.about__pillar');
+
+    if (aboutHeadline) {
+      aboutHeadline.classList.remove('reveal', 'reveal-d1', 'visible');
+      gsap.fromTo(aboutHeadline,
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, ease: 'none',
+          scrollTrigger: { trigger: aboutHeadline, start: 'top 90%', end: 'top 40%', scrub: 0.6 } }
       );
     }
+    aboutBodies.forEach(function (el) {
+      el.classList.remove('reveal', 'reveal-d2', 'visible');
+      gsap.fromTo(el,
+        { opacity: 0, y: 35 },
+        { opacity: 1, y: 0, ease: 'none',
+          scrollTrigger: { trigger: el, start: 'top 92%', end: 'top 55%', scrub: 0.6 } }
+      );
+    });
+    aboutPillars.forEach(function (el, i) {
+      el.classList.remove('reveal', 'reveal-d1', 'reveal-d2', 'reveal-d3', 'visible');
+      gsap.fromTo(el,
+        { opacity: 0, y: 40 + i * 10 },
+        { opacity: 1, y: 0, ease: 'none',
+          scrollTrigger: { trigger: el, start: 'top 92%', end: 'top 50%', scrub: 0.6 } }
+      );
+    });
+
+    /* ── Enquiry entry — scrubbed entry ── */
+    var eqHeadline = document.querySelector('.enquiry-entry__headline');
+    var eqSub      = document.querySelector('.enquiry-entry__sub');
+
+    if (eqHeadline) {
+      eqHeadline.classList.remove('reveal', 'reveal-d1', 'visible');
+      gsap.fromTo(eqHeadline,
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, ease: 'none',
+          scrollTrigger: { trigger: eqHeadline, start: 'top 90%', end: 'top 45%', scrub: 0.6 } }
+      );
+    }
+    if (eqSub) {
+      eqSub.classList.remove('reveal', 'reveal-d2', 'visible');
+      gsap.fromTo(eqSub,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, ease: 'none',
+          scrollTrigger: { trigger: eqSub, start: 'top 92%', end: 'top 55%', scrub: 0.6 } }
+      );
+    }
+
+    if (cards.length) {
+      cards.forEach(function (c) { c.classList.remove('reveal', 'visible'); });
+      cards.forEach(function (c, i) {
+        gsap.fromTo(c,
+          { opacity: 0, y: 60, scale: 0.96 },
+          { opacity: 1, y: 0, scale: 1, ease: 'none',
+            scrollTrigger: { trigger: c, start: 'top 92%', end: 'top 55%', scrub: 0.5 } }
+        );
+      });
+    }
+
+    /* ── Contact section — scrubbed entry ── */
+    var contactHeadline = document.querySelector('.contact__headline');
+    var contactBody     = document.querySelector('.contact__body');
+    var contactDetails  = document.querySelector('.contact__details');
+
+    if (contactHeadline) {
+      contactHeadline.classList.remove('reveal', 'reveal-d1', 'visible');
+      gsap.fromTo(contactHeadline,
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, ease: 'none',
+          scrollTrigger: { trigger: contactHeadline, start: 'top 90%', end: 'top 45%', scrub: 0.6 } }
+      );
+    }
+    if (contactBody) {
+      contactBody.classList.remove('reveal', 'reveal-d2', 'visible');
+      gsap.fromTo(contactBody,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, ease: 'none',
+          scrollTrigger: { trigger: contactBody, start: 'top 92%', end: 'top 58%', scrub: 0.6 } }
+      );
+    }
+    if (contactDetails) {
+      contactDetails.classList.remove('reveal', 'reveal-d3', 'visible');
+      gsap.fromTo(contactDetails,
+        { opacity: 0, y: 25 },
+        { opacity: 1, y: 0, ease: 'none',
+          scrollTrigger: { trigger: contactDetails, start: 'top 92%', end: 'top 60%', scrub: 0.6 } }
+      );
+    }
+
+    /* ── Subtle parallax depth on section backgrounds ── */
+    gsap.to('.about__left', {
+      yPercent: -8, ease: 'none',
+      scrollTrigger: { trigger: '.about', start: 'top bottom', end: 'bottom top', scrub: 0.4 }
+    });
+    gsap.to('.about__right', {
+      yPercent: -5, ease: 'none',
+      scrollTrigger: { trigger: '.about', start: 'top bottom', end: 'bottom top', scrub: 0.4 }
+    });
+    gsap.to('.enquiry-entry__header', {
+      yPercent: -6, ease: 'none',
+      scrollTrigger: { trigger: '.enquiry-entry', start: 'top bottom', end: 'bottom top', scrub: 0.4 }
+    });
+    gsap.to('.contact__inner', {
+      yPercent: -5, ease: 'none',
+      scrollTrigger: { trigger: '.contact', start: 'top bottom', end: 'bottom top', scrub: 0.4 }
+    });
 
     /* About section snap */
     (function () {
