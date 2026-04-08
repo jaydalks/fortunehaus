@@ -87,7 +87,7 @@ ul { list-style: none; }
   background: var(--espresso);
   border-radius: 1px;
   transition: width 400ms var(--ease-out);
-  animation: loaderBarProgress 4.8s cubic-bezier(0.4, 0, 0.6, 1) 0.6s forwards;
+  animation: loaderBarProgress 2.8s cubic-bezier(0.4, 0, 0.6, 1) 0.6s forwards;
 }
 @keyframes loaderBarProgress {
   0%   { width: 0%; }

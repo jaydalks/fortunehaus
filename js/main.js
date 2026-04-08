@@ -31,7 +31,7 @@
   var docReady   = false;
   var timerReady = false;
 
-  setTimeout(function () { timerReady = true; checkReady(); }, 5000);
+  setTimeout(function () { timerReady = true; checkReady(); }, 3000);
 
   function checkReady() {
     var allAssets = docReady && videoReady;
