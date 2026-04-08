@@ -86,7 +86,12 @@ ul { list-style: none; }
   width: 0%;
   background: var(--espresso);
   border-radius: 1px;
-  transition: width 200ms var(--ease-out);
+  transition: width 400ms var(--ease-out);
+  animation: loaderBarProgress 4.8s cubic-bezier(0.4, 0, 0.6, 1) 0.6s forwards;
+}
+@keyframes loaderBarProgress {
+  0%   { width: 0%; }
+  100% { width: 80%; }
 }
 
 /* ─── GRAIN TEXTURE ─── */

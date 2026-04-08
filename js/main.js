@@ -32,16 +32,21 @@
   }
 
   /* Track assets: video + document ready */
-  var videoReady = false;
-  var docReady   = false;
+  var videoReady  = false;
+  var docReady    = false;
+  var timerReady  = false;
+  var loadStart   = Date.now();
+
+  /* Minimum 5 second hold */
+  setTimeout(function () { timerReady = true; checkReady(); }, 5000);
 
   function checkReady() {
-    if (docReady && loaderFill)   loaderFill.style.width = '60%';
-    if (videoReady && loaderFill) loaderFill.style.width = '90%';
-    if (docReady && videoReady)   dismissLoader();
+    var allAssets = docReady && videoReady;
+    if (allAssets && loaderFill)    loaderFill.style.width = '85%';
+    if (allAssets && timerReady)    dismissLoader();
   }
 
-  var fallback = setTimeout(dismissLoader, 4000);
+  var fallback = setTimeout(dismissLoader, 8000);
 
   document.addEventListener('DOMContentLoaded', function () {
     docReady = true;
@@ -73,11 +78,11 @@
 
   function initLenis() {
     lenis = new Lenis({
-      duration: 1.4,
-      easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+      duration: 0.9,
+      easing: function (t) { return 1 - Math.pow(1 - t, 3); },
       smoothWheel: true,
-      wheelMultiplier: 0.9,
-      touchMultiplier: 1.5,
+      wheelMultiplier: 1,
+      touchMultiplier: 1,
     });
 
     /* Connect Lenis to GSAP's ticker so ScrollTrigger stays in sync */
