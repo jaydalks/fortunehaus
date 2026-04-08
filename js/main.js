@@ -220,15 +220,16 @@
   (function () {
     var aboutEl = document.getElementById('about');
     var heroEl  = document.querySelector('.hero');
-    if (!aboutEl || !heroEl) return;
+    if (!aboutEl || !heroEl || typeof gsap === 'undefined') return;
+
+    gsap.registerPlugin(ScrollToPlugin);
 
     var snapped = false;
     var navH    = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
 
     function trySnap() {
       if (snapped) return;
-      /* Fire when hero is mostly scrolled past (bottom < 40% viewport) */
-      if (heroEl.getBoundingClientRect().bottom < window.innerHeight * 0.4) {
+      if (heroEl.getBoundingClientRect().bottom < window.innerHeight * 0.5) {
         snapped = true;
         window.removeEventListener('scroll', trySnap, true);
 
@@ -237,12 +238,11 @@
         var offset   = sectionH < viewH ? navH + (viewH - sectionH) / 2 : navH;
         var targetY  = aboutEl.getBoundingClientRect().top + window.scrollY - offset;
 
-        /* Lock scroll briefly so user scroll doesn't interrupt the snap */
-        document.documentElement.style.overflow = 'hidden';
-        window.scrollTo({ top: targetY, behavior: 'smooth' });
-        setTimeout(function () {
-          document.documentElement.style.overflow = '';
-        }, 900);
+        gsap.to(window, {
+          scrollTo: { y: targetY, autoKill: false },
+          duration: 1,
+          ease: 'power3.inOut'
+        });
       }
     }
 
@@ -253,24 +253,38 @@
   var eqModal    = document.getElementById('eqModal');
   var eqBackdrop = document.getElementById('eqBackdrop');
   var eqClose    = document.getElementById('eqClose');
+  var eqPanel    = eqModal  ? eqModal.querySelector('.eq-modal__panel') : null;
   var navEnquire = document.getElementById('navEnquireBtn');
 
+  /* Set initial hidden state via JS so CSS needs no transition logic */
+  if (eqBackdrop) gsap.set(eqBackdrop, { opacity: 0 });
+  if (eqPanel)    gsap.set(eqPanel,    { opacity: 0, y: 28, scale: 0.97 });
+
   function openModal() {
-    /* Compensate for scrollbar disappearing so page doesn't jump */
     var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
     document.body.style.overflow = 'hidden';
     document.body.style.paddingRight = scrollbarW + 'px';
     nav.style.paddingRight = scrollbarW + 'px';
+
     eqModal.classList.add('open');
     eqModal.setAttribute('aria-hidden', 'false');
+
+    gsap.to(eqBackdrop, { opacity: 1, duration: 0.55, ease: 'power2.out' });
+    gsap.to(eqPanel,    { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'back.out(1.5)', delay: 0.05 });
+
     if (eqClose) eqClose.focus();
   }
   function closeModal() {
-    eqModal.classList.remove('open');
-    eqModal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-    document.body.style.paddingRight = '';
-    nav.style.paddingRight = '';
+    gsap.to(eqBackdrop, { opacity: 0, duration: 0.35, ease: 'power2.in' });
+    gsap.to(eqPanel,    { opacity: 0, y: 16, scale: 0.97, duration: 0.3, ease: 'power2.in',
+      onComplete: function () {
+        eqModal.classList.remove('open');
+        eqModal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        document.body.style.paddingRight = '';
+        nav.style.paddingRight = '';
+      }
+    });
   }
 
   var mobileEnquire = document.getElementById('mobileEnquireBtn');
