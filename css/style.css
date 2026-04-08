@@ -925,28 +925,23 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   align-items: center;
   justify-content: center;
   pointer-events: none;
-  opacity: 0;
-  transition: opacity 400ms var(--ease-out);
+  /* No opacity here — each child animates itself so backdrop-filter
+     is never composited under a fading ancestor (which kills the transition) */
 }
 .eq-modal.open {
-  opacity: 1;
   pointer-events: all;
 }
 .eq-modal__backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(28, 18, 10, 0);
-  backdrop-filter: blur(0px) saturate(1);
-  -webkit-backdrop-filter: blur(0px) saturate(1);
-  transition:
-    background 480ms var(--ease-out),
-    backdrop-filter 480ms var(--ease-out),
-    -webkit-backdrop-filter 480ms var(--ease-out);
+  opacity: 0;
+  background: rgba(28, 18, 10, 0.55);
+  backdrop-filter: blur(14px) saturate(0.8);
+  -webkit-backdrop-filter: blur(14px) saturate(0.8);
+  transition: opacity 520ms var(--ease-out);
 }
 .eq-modal.open .eq-modal__backdrop {
-  background: rgba(28, 18, 10, 0.55);
-  backdrop-filter: blur(12px) saturate(0.8);
-  -webkit-backdrop-filter: blur(12px) saturate(0.8);
+  opacity: 1;
 }
 .eq-modal__panel {
   position: relative;
@@ -959,15 +954,15 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   box-shadow:
     0 32px 80px rgba(0,0,0,0.55),
     0 2px 0 rgba(255,255,255,0.05) inset;
+  opacity: 0;
   transform: translateY(32px) scale(0.97);
   transition:
-    transform 420ms cubic-bezier(0.34, 1.4, 0.64, 1),
-    opacity 400ms var(--ease-out);
-  opacity: 0;
+    opacity 420ms var(--ease-out),
+    transform 440ms cubic-bezier(0.34, 1.4, 0.64, 1);
 }
 .eq-modal.open .eq-modal__panel {
-  transform: translateY(0) scale(1);
   opacity: 1;
+  transform: translateY(0) scale(1);
 }
 .eq-modal__close {
   position: absolute;

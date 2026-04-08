@@ -216,29 +216,37 @@
     footer.classList.add('footer--visible');
   }
 
-  /* ── About section: snap into centered view on first entry ── */
+  /* ── About section: snap into centered view on first scroll past hero ── */
   (function () {
     var aboutEl = document.getElementById('about');
-    if (!aboutEl || !('IntersectionObserver' in window)) return;
+    var heroEl  = document.querySelector('.hero');
+    if (!aboutEl || !heroEl) return;
 
     var snapped = false;
     var navH    = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
 
-    var snapIO = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (!entry.isIntersecting || snapped) return;
+    function trySnap() {
+      if (snapped) return;
+      /* Fire when hero is mostly scrolled past (bottom < 40% viewport) */
+      if (heroEl.getBoundingClientRect().bottom < window.innerHeight * 0.4) {
         snapped = true;
-        snapIO.disconnect();
+        window.removeEventListener('scroll', trySnap, true);
 
         var sectionH = aboutEl.offsetHeight;
         var viewH    = window.innerHeight - navH;
         var offset   = sectionH < viewH ? navH + (viewH - sectionH) / 2 : navH;
         var targetY  = aboutEl.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top: targetY, behavior: 'smooth' });
-      });
-    }, { threshold: 0.2 });
 
-    snapIO.observe(aboutEl);
+        /* Lock scroll briefly so user scroll doesn't interrupt the snap */
+        document.documentElement.style.overflow = 'hidden';
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
+        setTimeout(function () {
+          document.documentElement.style.overflow = '';
+        }, 900);
+      }
+    }
+
+    window.addEventListener('scroll', trySnap, { passive: true, capture: true });
   }());
 
   /* ── Enquiry modal ── */
