@@ -64,11 +64,22 @@
     }
   });
 
-  /* ── Video playback speed ── */
+  /* ── Video playback ── */
   var heroVideo = document.querySelector('.hero__video');
   if (heroVideo) {
     heroVideo.addEventListener('loadedmetadata', function () { heroVideo.playbackRate = 0.55; });
     if (heroVideo.readyState >= 1) heroVideo.playbackRate = 0.55;
+    /* iOS Safari sometimes needs an explicit play() call */
+    var playPromise = heroVideo.play();
+    if (playPromise !== undefined) {
+      playPromise.catch(function () {
+        /* Autoplay blocked — try again on first user interaction */
+        document.addEventListener('touchstart', function tryPlay() {
+          heroVideo.play();
+          document.removeEventListener('touchstart', tryPlay);
+        }, { once: true });
+      });
+    }
   }
 
   /* ── GSAP animations ── */
@@ -82,15 +93,16 @@
       { yPercent: 0, opacity: 1, duration: 1.4, ease: 'power4.out', stagger: 0.14, delay: 1.1 }
     );
 
-    gsap.to('.hero__content', {
-      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.2 },
-      yPercent: -18, opacity: 0, ease: 'none'
-    });
-
-    gsap.to('.hero__video', {
-      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.2 },
-      yPercent: 16, ease: 'none'
-    });
+    if (!isMobile) {
+      gsap.to('.hero__content', {
+        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.2 },
+        yPercent: -18, opacity: 0, ease: 'none'
+      });
+      gsap.to('.hero__video', {
+        scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.2 },
+        yPercent: 16, ease: 'none'
+      });
+    }
 
     var clawSection  = document.querySelector('.claw');
     var clawFeatures = clawSection ? gsap.utils.toArray('.claw__feature') : [];
@@ -128,6 +140,14 @@
       });
     }
 
+    if (isMobile) {
+      /* On mobile: ensure all animated elements are visible — no scrub */
+      document.querySelectorAll('.about__headline,.about__body,.about__pillar,.enquiry-entry__headline,.enquiry-entry__sub,.enquiry-card,.contact__headline,.contact__body,.contact__details').forEach(function (el) {
+        el.classList.remove('reveal','reveal-d1','reveal-d2','reveal-d3');
+      });
+    }
+
+    if (!isMobile) {
     /* ── About section — scrubbed entry ── */
     var aboutHeadline = document.querySelector('.about__headline');
     var aboutBodies   = document.querySelectorAll('.about__body');
@@ -238,7 +258,10 @@
       scrollTrigger: { trigger: '.contact', start: 'top bottom', end: 'bottom top', scrub: 0.4 }
     });
 
-    /* About section snap */
+    } /* end !isMobile scrub block */
+
+    /* About section snap — desktop only */
+    if (!isMobile)
     (function () {
       var aboutEl = document.getElementById('about');
       if (!aboutEl) return;
@@ -267,48 +290,38 @@
     });
   }
 
-  /* ── Scroll momentum — coast after wheel stops ── */
-  (function () {
-    var velocity      = 0;
-    var lastY         = window.scrollY;
-    var wheelTimer    = null;
-    var momentumTween = null;
-    var isWheeling    = false;
+  /* ── Scroll momentum — desktop only (touch has native momentum) ── */
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 900;
 
-    /* Track velocity every frame */
-    function trackVelocity() {
-      var currentY = window.scrollY;
-      velocity = currentY - lastY;
-      lastY = currentY;
+  if (!isMobile) {
+    (function () {
+      var velocity      = 0;
+      var lastY         = window.scrollY;
+      var wheelTimer    = null;
+      var momentumTween = null;
+
+      function trackVelocity() {
+        var currentY = window.scrollY;
+        velocity = currentY - lastY;
+        lastY = currentY;
+        requestAnimationFrame(trackVelocity);
+      }
       requestAnimationFrame(trackVelocity);
-    }
-    requestAnimationFrame(trackVelocity);
 
-    window.addEventListener('wheel', function () {
-      isWheeling = true;
-      /* Kill any in-progress momentum so native scroll takes over instantly */
-      if (momentumTween) { momentumTween.kill(); momentumTween = null; }
-      clearTimeout(wheelTimer);
-
-      /* When wheel events stop for 40ms, apply momentum */
-      wheelTimer = setTimeout(function () {
-        isWheeling = false;
-        if (Math.abs(velocity) < 1.5) return;
-
-        /* Coast distance proportional to velocity, capped */
-        var distance = velocity * 6;
-        distance = Math.max(-350, Math.min(350, distance));
-        var target = Math.max(0, Math.min(window.scrollY + distance, document.body.scrollHeight - window.innerHeight));
-        var dur = 0.9 + Math.min(Math.abs(distance) / 1200, 0.7);
-
-        momentumTween = gsap.to(window, {
-          scrollTo: { y: target, autoKill: true },
-          duration: dur,
-          ease: 'power3.out'
-        });
-      }, 40);
-    }, { passive: true });
-  }());
+      window.addEventListener('wheel', function () {
+        if (momentumTween) { momentumTween.kill(); momentumTween = null; }
+        clearTimeout(wheelTimer);
+        wheelTimer = setTimeout(function () {
+          if (Math.abs(velocity) < 1.5) return;
+          var distance = velocity * 6;
+          distance = Math.max(-350, Math.min(350, distance));
+          var target = Math.max(0, Math.min(window.scrollY + distance, document.body.scrollHeight - window.innerHeight));
+          var dur = 0.9 + Math.min(Math.abs(distance) / 1200, 0.7);
+          momentumTween = gsap.to(window, { scrollTo: { y: target, autoKill: true }, duration: dur, ease: 'power3.out' });
+        }, 40);
+      }, { passive: true });
+    }());
+  }
 
   /* ── Navigation ── */
   var nav = document.getElementById('nav');
