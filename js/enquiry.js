@@ -38,14 +38,16 @@
         chip.classList.toggle('selected');
         chip.setAttribute('aria-pressed', chip.classList.contains('selected') ? 'true' : 'false');
 
-        /* Show/hide "Other" text input for celebration type */
-        if (chip.id === 'celebrationOtherChip') {
-          var wrap = document.getElementById('celebrationOtherWrap');
+        /* Show/hide "Other" free-text input if this chip has one */
+        if (chip.dataset.value === 'Other') {
+          var section = chip.closest('.chips-section');
+          var wrap = section && section.querySelector('.chip-other-input');
           if (wrap) {
-            wrap.classList.toggle('visible', chip.classList.contains('selected'));
-            if (!chip.classList.contains('selected')) {
-              var input = document.getElementById('celebrationOtherText');
-              if (input) input.value = '';
+            var isSelected = chip.classList.contains('selected');
+            wrap.classList.toggle('visible', isSelected);
+            if (!isSelected) {
+              var otherInput = wrap.querySelector('input');
+              if (otherInput) otherInput.value = '';
             }
           }
         }
