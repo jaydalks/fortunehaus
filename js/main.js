@@ -141,6 +141,12 @@
     }
 
     if (isMobile) {
+      /* On mobile: ensure claw section is visible and laid out statically */
+      if (clawStage)  { clawStage.style.opacity  = ''; clawStage.style.position  = ''; }
+      if (clawIntro)  { clawIntro.style.opacity   = ''; clawIntro.style.position   = ''; }
+      clawImgs.forEach(function (img, i) { img.style.opacity = i === 0 ? '1' : ''; });
+      clawFeatures.forEach(function (f) { f.style.opacity = '1'; f.style.transform = 'none'; f.style.willChange = 'auto'; });
+
       /* On mobile: ensure all animated elements are visible — no scrub */
       document.querySelectorAll('.about__headline,.about__body,.about__pillar,.enquiry-entry__headline,.enquiry-entry__sub,.enquiry-card,.contact__headline,.contact__body,.contact__details').forEach(function (el) {
         el.classList.remove('reveal','reveal-d1','reveal-d2','reveal-d3');

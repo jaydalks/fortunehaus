@@ -1486,10 +1486,13 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   .about__inner { grid-template-columns: 1fr; gap: 3rem; }
   .about__body { max-width: 100%; }
 
-  .claw__stage { position: static; grid-template-columns: 1fr; gap: 2rem; }
-  .claw__intro { position: static; text-align: left; align-items: flex-start; }
-  .claw__images { height: 50vw; min-height: 240px; }
+  .claw { min-height: auto; padding: 0 clamp(1.5rem, 4vw, 3rem); }
+  .claw__inner { flex-direction: column; height: auto; padding: 4rem 0; align-items: flex-start; justify-content: flex-start; gap: 3rem; }
+  .claw__intro { position: static; text-align: left; align-items: flex-start; max-width: 100%; padding: 0; }
+  .claw__stage { position: static; width: 100%; grid-template-columns: 1fr; gap: 2rem; opacity: 1 !important; }
+  .claw__images { height: 55vw; min-height: 240px; }
   .claw__img:first-child { opacity: 1 !important; }
+  .claw__feature { opacity: 1 !important; transform: none !important; }
 
   .enquiry-entry__cards { grid-template-columns: 1fr; gap: 2px; }
   .enquiry-card { min-height: 220px; }
@@ -1499,6 +1502,18 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   .about { overflow: hidden; }
   .enquiry-entry { overflow: hidden; }
   .contact { overflow: hidden; }
+
+  /* Contact: reset desktop left-offset layout so text fills the screen */
+  .contact__inner {
+    margin-left: 0;
+    max-width: 100%;
+    padding-right: 0;
+  }
+  .contact {
+    background:
+      linear-gradient(to bottom, rgba(5,2,1,0.82) 0%, rgba(5,2,1,0.92) 100%),
+      url('../brand_assets/lucky_claw2.png') right center / cover no-repeat;
+  }
 
   /* Ensure all scrub-animated elements are visible on mobile
      (GSAP scrub is disabled on mobile so these must default to visible) */
