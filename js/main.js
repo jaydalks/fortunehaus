@@ -83,12 +83,12 @@
     );
 
     gsap.to('.hero__content', {
-      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.8 },
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.2 },
       yPercent: -18, opacity: 0, ease: 'none'
     });
 
     gsap.to('.hero__video', {
-      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.8 },
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.2 },
       yPercent: 16, ease: 'none'
     });
 
@@ -110,7 +110,7 @@
           trigger: clawSection,
           start: 'top top',
           end: function () { return '+=' + ((clawFeatures.length + 1) * window.innerHeight * 0.65); },
-          pin: true, anticipatePin: 1, scrub: 1.5
+          pin: true, anticipatePin: 1, scrub: 0.4
         }
       });
 
