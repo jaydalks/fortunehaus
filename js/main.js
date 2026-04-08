@@ -78,11 +78,11 @@
 
   function initLenis() {
     lenis = new Lenis({
-      duration: 0.9,
-      easing: function (t) { return 1 - Math.pow(1 - t, 3); },
+      duration: 0.6,
+      easing: function (t) { return 1 - Math.pow(1 - t, 2); },
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 1,
+      wheelMultiplier: 1.2,
+      touchMultiplier: 1.2,
     });
 
     /* Connect Lenis to GSAP's ticker so ScrollTrigger stays in sync */
