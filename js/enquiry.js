@@ -37,6 +37,18 @@
       chip.addEventListener('click', function () {
         chip.classList.toggle('selected');
         chip.setAttribute('aria-pressed', chip.classList.contains('selected') ? 'true' : 'false');
+
+        /* Show/hide "Other" text input for celebration type */
+        if (chip.id === 'celebrationOtherChip') {
+          var wrap = document.getElementById('celebrationOtherWrap');
+          if (wrap) {
+            wrap.classList.toggle('visible', chip.classList.contains('selected'));
+            if (!chip.classList.contains('selected')) {
+              var input = document.getElementById('celebrationOtherText');
+              if (input) input.value = '';
+            }
+          }
+        }
       });
       chip.setAttribute('aria-pressed', 'false');
     });
@@ -151,12 +163,19 @@
         timing:      'Timing',
         custom:      'Customisation',
         goal:        'Activation Goals',
-        celebration: 'Celebration Type'
+        celebration: 'Celebration Type',
+        guests:      'Expected Guests'
       };
       Object.keys(chipGroups).forEach(function (g) {
         var label = groupLabels[g] || (g.charAt(0).toUpperCase() + g.slice(1));
         payload[label] = chipGroups[g].join(', ');
       });
+
+      /* "Other" celebration free-text */
+      var otherText = document.getElementById('celebrationOtherText');
+      if (otherText && otherText.value.trim()) {
+        payload['Celebration — Other'] = otherText.value.trim();
+      }
 
       /* Radio chips (branding question) */
       var brandingRadio = document.querySelector('input[name="branding"]:checked');

@@ -568,18 +568,17 @@ ul { list-style: none; }
   width: 100%;
   height: 65vh;
   min-height: 320px;
-  border-radius: 2rem 2rem 1rem 1rem;
-  overflow: hidden;
 }
 .claw__img {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center top;
+  object-fit: contain;
+  object-position: center center;
   opacity: 0;
   will-change: opacity;
+  clip-path: inset(0% round 2rem 2rem 1.25rem 1.25rem);
 }
 
 /* Features — GSAP animates each in one by one */
@@ -1062,6 +1061,15 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   color: var(--white);
 }
 .chip:focus-visible { outline: 2px solid var(--espresso); outline-offset: 2px; }
+
+/* Other text reveal */
+.chip-other-input {
+  display: none;
+  margin-top: 0.75rem;
+  width: 100%;
+}
+.chip-other-input.visible { display: block; }
+.chip-other-input .field__input { margin-top: 0; }
 
 /* Radio chips */
 .radio-chip { position: relative; }
