@@ -216,6 +216,32 @@
     footer.classList.add('footer--visible');
   }
 
+  /* ── About section: snap into view on first scroll entry ── */
+  if (typeof gsap !== 'undefined') {
+    var aboutEl  = document.getElementById('about');
+    var navH     = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
+    var snapped  = false;
+
+    if (aboutEl) {
+      ScrollTrigger.create({
+        trigger: aboutEl,
+        start: 'top 75%',
+        onEnter: function () {
+          if (snapped) return;
+          snapped = true;
+          var sectionH = aboutEl.offsetHeight;
+          var viewH    = window.innerHeight - navH;
+          /* Center if section fits in viewport, otherwise pin to top */
+          var offset   = sectionH < viewH
+            ? navH + (viewH - sectionH) / 2
+            : navH;
+          var targetY  = aboutEl.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top: targetY, behavior: 'smooth' });
+        }
+      });
+    }
+  }
+
   /* ── Enquiry modal ── */
   var eqModal    = document.getElementById('eqModal');
   var eqBackdrop = document.getElementById('eqBackdrop');
@@ -223,15 +249,21 @@
   var navEnquire = document.getElementById('navEnquireBtn');
 
   function openModal() {
+    /* Compensate for scrollbar disappearing so page doesn't jump */
+    var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+    document.body.style.overflow = 'hidden';
+    document.body.style.paddingRight = scrollbarW + 'px';
+    nav.style.paddingRight = scrollbarW + 'px';
     eqModal.classList.add('open');
     eqModal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
     if (eqClose) eqClose.focus();
   }
   function closeModal() {
     eqModal.classList.remove('open');
     eqModal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+    nav.style.paddingRight = '';
   }
 
   var mobileEnquire = document.getElementById('mobileEnquireBtn');
