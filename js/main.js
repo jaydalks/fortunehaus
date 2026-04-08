@@ -144,10 +144,11 @@
     }
 
     if (isMobile) {
-      /* On mobile: build swipe carousel from existing image + feature data */
-      if (clawStage && clawImgs.length && clawFeatures.length) {
-        /* Hide the original stage — carousel replaces it */
-        clawStage.style.display = 'none';
+      /* On mobile: build full-bleed image carousel with crossfade + description overlay */
+      if (clawSection && clawImgs.length && clawFeatures.length) {
+        /* Hide the original inner content — carousel takes over the full section */
+        var clawInnerEl = clawSection.querySelector('.claw__inner');
+        if (clawInnerEl) clawInnerEl.style.display = 'none';
 
         /* Collect data from existing DOM nodes */
         var slideData = clawImgs.map(function (img, i) {
@@ -161,30 +162,40 @@
           };
         });
 
-        /* Build carousel markup */
+        /* ── Build markup ── */
         var carousel = document.createElement('div');
-        carousel.className = 'claw__carousel';
+        carousel.className = 'claw__fbc'; /* full-bleed carousel */
 
-        var track = document.createElement('div');
-        track.className = 'claw__carousel-track';
-
-        slideData.forEach(function (d) {
-          var slide = document.createElement('div');
-          slide.className = 'claw__slide';
-          slide.innerHTML =
-            '<div class="claw__slide-img-wrap">' +
-              '<img class="claw__slide-img" src="' + d.src + '" alt="' + d.alt + '">' +
-            '</div>' +
-            '<div class="claw__slide-info">' +
-              '<span class="claw__feature-num">' + d.num + '</span>' +
-              '<p class="claw__feature-title">' + d.title + '</p>' +
-              '<p class="claw__feature-desc">' + d.desc + '</p>' +
-            '</div>';
-          track.appendChild(slide);
+        /* Background image layers — crossfade by toggling active class */
+        var bgWrap = document.createElement('div');
+        bgWrap.className = 'claw__fbc-bgs';
+        slideData.forEach(function (d, i) {
+          var bg = document.createElement('div');
+          bg.className = 'claw__fbc-bg' + (i === 0 ? ' claw__fbc-bg--active' : '');
+          bg.style.backgroundImage = 'url(' + d.src + ')';
+          bgWrap.appendChild(bg);
         });
 
+        /* Gradient overlay for text legibility */
+        var overlay = document.createElement('div');
+        overlay.className = 'claw__fbc-overlay';
+
+        /* Text panels — fade in/out over each other */
+        var panelWrap = document.createElement('div');
+        panelWrap.className = 'claw__fbc-panels';
+        slideData.forEach(function (d, i) {
+          var panel = document.createElement('div');
+          panel.className = 'claw__fbc-panel' + (i === 0 ? ' claw__fbc-panel--active' : '');
+          panel.innerHTML =
+            '<span class="claw__feature-num">' + d.num + '</span>' +
+            '<p class="claw__fbc-title">' + d.title + '</p>' +
+            '<p class="claw__fbc-desc">' + d.desc + '</p>';
+          panelWrap.appendChild(panel);
+        });
+
+        /* Dot indicators */
         var dotsWrap = document.createElement('div');
-        dotsWrap.className = 'claw__carousel-dots';
+        dotsWrap.className = 'claw__carousel-dots claw__fbc-dots';
         slideData.forEach(function (_, i) {
           var dot = document.createElement('button');
           dot.className = 'claw__dot' + (i === 0 ? ' claw__dot--active' : '');
@@ -193,23 +204,31 @@
           dotsWrap.appendChild(dot);
         });
 
-        carousel.appendChild(track);
+        carousel.appendChild(bgWrap);
+        carousel.appendChild(overlay);
+        carousel.appendChild(panelWrap);
         carousel.appendChild(dotsWrap);
-        clawSection.querySelector('.claw__inner').appendChild(carousel);
+        clawSection.appendChild(carousel);
 
-        /* Carousel state */
+        /* ── State & navigation ── */
         var currentSlide = 0;
-        var totalSlides  = slideData.length;
+        var allBgs    = bgWrap.querySelectorAll('.claw__fbc-bg');
+        var allPanels = panelWrap.querySelectorAll('.claw__fbc-panel');
+        var allDots   = dotsWrap.querySelectorAll('.claw__dot');
 
         function goToSlide(index) {
-          currentSlide = Math.max(0, Math.min(index, totalSlides - 1));
-          track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
-          dotsWrap.querySelectorAll('.claw__dot').forEach(function (d, i) {
-            d.classList.toggle('claw__dot--active', i === currentSlide);
-          });
+          var next = Math.max(0, Math.min(index, slideData.length - 1));
+          if (next === currentSlide) return;
+          allBgs[currentSlide].classList.remove('claw__fbc-bg--active');
+          allPanels[currentSlide].classList.remove('claw__fbc-panel--active');
+          allDots[currentSlide].classList.remove('claw__dot--active');
+          currentSlide = next;
+          allBgs[currentSlide].classList.add('claw__fbc-bg--active');
+          allPanels[currentSlide].classList.add('claw__fbc-panel--active');
+          allDots[currentSlide].classList.add('claw__dot--active');
         }
 
-        /* Dot navigation */
+        /* Dot taps */
         dotsWrap.addEventListener('click', function (e) {
           var dot = e.target.closest('.claw__dot');
           if (dot) goToSlide(parseInt(dot.dataset.index, 10));
@@ -218,11 +237,11 @@
         /* Touch swipe */
         var swipeStartX = 0;
         var swipeStartY = 0;
-        track.addEventListener('touchstart', function (e) {
+        carousel.addEventListener('touchstart', function (e) {
           swipeStartX = e.touches[0].clientX;
           swipeStartY = e.touches[0].clientY;
         }, { passive: true });
-        track.addEventListener('touchend', function (e) {
+        carousel.addEventListener('touchend', function (e) {
           var dx = e.changedTouches[0].clientX - swipeStartX;
           var dy = e.changedTouches[0].clientY - swipeStartY;
           if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
