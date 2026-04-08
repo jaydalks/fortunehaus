@@ -14,10 +14,21 @@
     loaderDone = true;
     if (loaderFill) loaderFill.style.width = '100%';
     setTimeout(function () {
-      /* Restore scroll position to top, then unlock */
-      window.scrollTo(0, 0);
+      /* Measure scrollbar width before unlocking */
+      var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+      /* Unlock scroll — scrollbar reappears here */
       document.documentElement.style.overflow = '';
+      window.scrollTo(0, 0);
+      /* Compensate body and nav so content doesn't shift */
+      document.body.style.paddingRight = scrollbarW + 'px';
+      var navEl = document.getElementById('nav');
+      if (navEl) navEl.style.paddingRight = scrollbarW + 'px';
+      /* Fade out loader, then remove the compensation */
       loader.classList.add('loader--hidden');
+      setTimeout(function () {
+        document.body.style.paddingRight = '';
+        if (navEl) navEl.style.paddingRight = '';
+      }, 750); /* matches loader fade-out duration (700ms) */
     }, 300);
   }
 
