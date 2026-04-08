@@ -6,11 +6,17 @@
   var loaderFill  = document.getElementById('loaderBarFill');
   var loaderDone  = false;
 
+  /* Lock scroll immediately */
+  document.documentElement.style.overflow = 'hidden';
+
   function dismissLoader() {
     if (loaderDone) return;
     loaderDone = true;
     if (loaderFill) loaderFill.style.width = '100%';
     setTimeout(function () {
+      /* Restore scroll position to top, then unlock */
+      window.scrollTo(0, 0);
+      document.documentElement.style.overflow = '';
       loader.classList.add('loader--hidden');
     }, 300);
   }
