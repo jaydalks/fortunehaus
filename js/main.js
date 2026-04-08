@@ -296,10 +296,10 @@
         if (Math.abs(velocity) < 1.5) return;
 
         /* Coast distance proportional to velocity, capped */
-        var distance = velocity * 10;
-        distance = Math.max(-600, Math.min(600, distance));
+        var distance = velocity * 6;
+        distance = Math.max(-350, Math.min(350, distance));
         var target = Math.max(0, Math.min(window.scrollY + distance, document.body.scrollHeight - window.innerHeight));
-        var dur = 0.6 + Math.min(Math.abs(distance) / 1800, 0.6);
+        var dur = 0.9 + Math.min(Math.abs(distance) / 1200, 0.7);
 
         momentumTween = gsap.to(window, {
           scrollTo: { y: target, autoKill: true },
