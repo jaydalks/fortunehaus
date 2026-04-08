@@ -267,6 +267,49 @@
     });
   }
 
+  /* ── Scroll momentum — coast after wheel stops ── */
+  (function () {
+    var velocity      = 0;
+    var lastY         = window.scrollY;
+    var wheelTimer    = null;
+    var momentumTween = null;
+    var isWheeling    = false;
+
+    /* Track velocity every frame */
+    function trackVelocity() {
+      var currentY = window.scrollY;
+      velocity = currentY - lastY;
+      lastY = currentY;
+      requestAnimationFrame(trackVelocity);
+    }
+    requestAnimationFrame(trackVelocity);
+
+    window.addEventListener('wheel', function () {
+      isWheeling = true;
+      /* Kill any in-progress momentum so native scroll takes over instantly */
+      if (momentumTween) { momentumTween.kill(); momentumTween = null; }
+      clearTimeout(wheelTimer);
+
+      /* When wheel events stop for 40ms, apply momentum */
+      wheelTimer = setTimeout(function () {
+        isWheeling = false;
+        if (Math.abs(velocity) < 1.5) return;
+
+        /* Coast distance proportional to velocity, capped */
+        var distance = velocity * 10;
+        distance = Math.max(-600, Math.min(600, distance));
+        var target = Math.max(0, Math.min(window.scrollY + distance, document.body.scrollHeight - window.innerHeight));
+        var dur = 0.6 + Math.min(Math.abs(distance) / 1800, 0.6);
+
+        momentumTween = gsap.to(window, {
+          scrollTo: { y: target, autoKill: true },
+          duration: dur,
+          ease: 'power3.out'
+        });
+      }, 40);
+    }, { passive: true });
+  }());
+
   /* ── Navigation ── */
   var nav = document.getElementById('nav');
 
