@@ -1,6 +1,60 @@
 (function () {
   'use strict';
 
+  /* ── Loader ── */
+  var loader      = document.getElementById('loader');
+  var loaderFill  = document.getElementById('loaderBarFill');
+  var loaderDone  = false;
+
+  function dismissLoader() {
+    if (loaderDone) return;
+    loaderDone = true;
+    if (loaderFill) loaderFill.style.width = '100%';
+    setTimeout(function () {
+      loader.classList.add('loader--hidden');
+    }, 300);
+  }
+
+  /* Track assets: video + document ready */
+  var videoReady = false;
+  var docReady   = false;
+
+  function checkReady() {
+    /* Animate bar: 0 → 60% on doc ready, 60 → 100% when video loads */
+    if (docReady && loaderFill)  loaderFill.style.width = '60%';
+    if (videoReady && loaderFill) loaderFill.style.width = '90%';
+    if (docReady && videoReady) dismissLoader();
+  }
+
+  /* Fallback: dismiss after 4s no matter what */
+  var fallback = setTimeout(dismissLoader, 4000);
+
+  document.addEventListener('DOMContentLoaded', function () {
+    docReady = true;
+    checkReady();
+
+    var video = document.querySelector('.hero__video');
+    if (!video) { videoReady = true; checkReady(); return; }
+
+    if (video.readyState >= 3) {
+      videoReady = true; checkReady();
+    } else {
+      video.addEventListener('canplaythrough', function onReady() {
+        video.removeEventListener('canplaythrough', onReady);
+        clearTimeout(fallback);
+        videoReady = true;
+        checkReady();
+      });
+      /* Also catch loadeddata as a lighter fallback */
+      video.addEventListener('loadeddata', function onData() {
+        video.removeEventListener('loadeddata', onData);
+        clearTimeout(fallback);
+        videoReady = true;
+        checkReady();
+      });
+    }
+  });
+
   /* ── Video playback speed ── */
   var heroVideo = document.querySelector('.hero__video');
   if (heroVideo) {
@@ -17,7 +71,7 @@
   if (typeof gsap !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger);
 
-    // On-load: each line slides up out of its clip container
+    // On-load: each line slides up — delayed to play after loader exits
     gsap.fromTo(heroLines,
       { yPercent: 105, opacity: 0 },
       {
@@ -26,7 +80,7 @@
         duration: 1.4,
         ease: 'power4.out',
         stagger: 0.14,
-        delay: 0.2
+        delay: 1.1
       }
     );
 
