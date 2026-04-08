@@ -144,65 +144,96 @@
     }
 
     if (isMobile) {
-      /* On mobile: build full-bleed image carousel with crossfade + description overlay */
+      /* On mobile: full-bleed image carousel — slide 0 = intro text, slides 1-4 = features */
       if (clawSection && clawImgs.length && clawFeatures.length) {
-        /* Hide the original inner content — carousel takes over the full section */
+        /* Hide the original inner content */
         var clawInnerEl = clawSection.querySelector('.claw__inner');
         if (clawInnerEl) clawInnerEl.style.display = 'none';
 
-        /* Collect data from existing DOM nodes */
-        var slideData = clawImgs.map(function (img, i) {
+        /* Collect intro copy from original DOM */
+        var introHeadline = clawIntro ? clawIntro.querySelector('.claw__headline') : null;
+        var introBodies   = clawIntro ? clawIntro.querySelectorAll('.claw__body')   : [];
+
+        /* Collect feature data */
+        var featData = clawImgs.map(function (img, i) {
           var feat = clawFeatures[i];
           return {
             src:   img.src,
-            alt:   img.alt,
             num:   feat ? (feat.querySelector('.claw__feature-num')   || {}).textContent || '' : '',
             title: feat ? (feat.querySelector('.claw__feature-title') || {}).textContent || '' : '',
             desc:  feat ? (feat.querySelector('.claw__feature-desc')  || {}).textContent || '' : ''
           };
         });
 
+        /* Total slides: 1 intro + 4 features */
+        var totalSlides = featData.length + 1;
+
         /* ── Build markup ── */
         var carousel = document.createElement('div');
-        carousel.className = 'claw__fbc'; /* full-bleed carousel */
+        carousel.className = 'claw__fbc';
 
-        /* Background image layers — crossfade by toggling active class */
+        /* Top dissolve — pale-oak → transparent, blends with About section above */
+        var topDissolve = document.createElement('div');
+        topDissolve.className = 'claw__fbc-top-dissolve';
+        carousel.appendChild(topDissolve);
+
+        /* Background image layers (one per feature slide, indices 0–3) */
         var bgWrap = document.createElement('div');
         bgWrap.className = 'claw__fbc-bgs';
-        slideData.forEach(function (d, i) {
+        featData.forEach(function (d) {
           var bg = document.createElement('div');
-          bg.className = 'claw__fbc-bg' + (i === 0 ? ' claw__fbc-bg--active' : '');
+          bg.className = 'claw__fbc-bg';
           bg.style.backgroundImage = 'url(' + d.src + ')';
           bgWrap.appendChild(bg);
         });
 
-        /* Gradient overlay for text legibility */
+        /* Bottom gradient overlay for feature text legibility */
         var overlay = document.createElement('div');
         overlay.className = 'claw__fbc-overlay';
 
-        /* Text panels — fade in/out over each other */
+        /* Panel container — fills entire carousel */
         var panelWrap = document.createElement('div');
         panelWrap.className = 'claw__fbc-panels';
-        slideData.forEach(function (d, i) {
+
+        /* Panel 0: intro copy + swipe hint */
+        var introBodyHTML = '';
+        introBodies.forEach(function (b) {
+          introBodyHTML += '<p class="claw__fbc-intro-body">' + b.textContent + '</p>';
+        });
+        var introPanel = document.createElement('div');
+        introPanel.className = 'claw__fbc-panel claw__fbc-intro claw__fbc-panel--active';
+        introPanel.innerHTML =
+          '<h2 class="claw__fbc-intro-headline">' + (introHeadline ? introHeadline.innerHTML : 'One Experience.<br>Infinite Memories.') + '</h2>' +
+          introBodyHTML +
+          '<div class="claw__fbc-swipe-hint" aria-hidden="true">' +
+            '<span>Swipe to explore</span>' +
+            '<svg viewBox="0 0 20 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">' +
+              '<path d="M1 6h18M13 1l5 5-5 5"/>' +
+            '</svg>' +
+          '</div>';
+        panelWrap.appendChild(introPanel);
+
+        /* Panels 1–4: feature descriptions */
+        featData.forEach(function (d) {
           var panel = document.createElement('div');
-          panel.className = 'claw__fbc-panel' + (i === 0 ? ' claw__fbc-panel--active' : '');
+          panel.className = 'claw__fbc-panel claw__fbc-feat';
           panel.innerHTML =
             '<span class="claw__feature-num">' + d.num + '</span>' +
             '<p class="claw__fbc-title">' + d.title + '</p>' +
-            '<p class="claw__fbc-desc">' + d.desc + '</p>';
+            '<p class="claw__fbc-desc">'  + d.desc  + '</p>';
           panelWrap.appendChild(panel);
         });
 
         /* Dot indicators */
         var dotsWrap = document.createElement('div');
-        dotsWrap.className = 'claw__carousel-dots claw__fbc-dots';
-        slideData.forEach(function (_, i) {
+        dotsWrap.className = 'claw__fbc-dots';
+        for (var di = 0; di < totalSlides; di++) {
           var dot = document.createElement('button');
-          dot.className = 'claw__dot' + (i === 0 ? ' claw__dot--active' : '');
-          dot.setAttribute('aria-label', 'Slide ' + (i + 1));
-          dot.dataset.index = i;
+          dot.className = 'claw__dot' + (di === 0 ? ' claw__dot--active' : '');
+          dot.setAttribute('aria-label', 'Slide ' + (di + 1));
+          dot.dataset.index = di;
           dotsWrap.appendChild(dot);
-        });
+        }
 
         carousel.appendChild(bgWrap);
         carousel.appendChild(overlay);
@@ -217,16 +248,28 @@
         var allDots   = dotsWrap.querySelectorAll('.claw__dot');
 
         function goToSlide(index) {
-          var next = Math.max(0, Math.min(index, slideData.length - 1));
+          var next = Math.max(0, Math.min(index, totalSlides - 1));
           if (next === currentSlide) return;
-          allBgs[currentSlide].classList.remove('claw__fbc-bg--active');
+
+          /* Deactivate current */
           allPanels[currentSlide].classList.remove('claw__fbc-panel--active');
           allDots[currentSlide].classList.remove('claw__dot--active');
+          if (currentSlide > 0) allBgs[currentSlide - 1].classList.remove('claw__fbc-bg--active');
+
           currentSlide = next;
-          allBgs[currentSlide].classList.add('claw__fbc-bg--active');
+
+          /* Activate next */
           allPanels[currentSlide].classList.add('claw__fbc-panel--active');
           allDots[currentSlide].classList.add('claw__dot--active');
+          if (currentSlide > 0) allBgs[currentSlide - 1].classList.add('claw__fbc-bg--active');
+
+          /* Show overlay only when a feature image is active */
+          overlay.style.opacity = currentSlide > 0 ? '1' : '0';
         }
+
+        /* Initialise overlay hidden on intro slide */
+        overlay.style.opacity = '0';
+        overlay.style.transition = 'opacity 0.55s ease';
 
         /* Dot taps */
         dotsWrap.addEventListener('click', function (e) {

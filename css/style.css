@@ -1486,7 +1486,7 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   .about__inner { grid-template-columns: 1fr; gap: 3rem; }
   .about__body { max-width: 100%; }
 
-  /* Full-bleed image carousel — replaces the entire claw section content on mobile */
+  /* Full-bleed image carousel — replaces the entire claw section on mobile */
   .claw { min-height: 100svh; height: 100svh; padding: 0; }
 
   .claw__fbc {
@@ -1495,45 +1495,58 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
     overflow: hidden;
   }
 
+  /* Top dissolve — blends About section (pale oak) into the dark claw section */
+  .claw__fbc-top-dissolve {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 38%;
+    z-index: 4;
+    background: linear-gradient(
+      to bottom,
+      var(--pale-oak) 0%,
+      rgba(221, 217, 206, 0.55) 40%,
+      rgba(221, 217, 206, 0.08) 75%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
   /* Background image layers */
   .claw__fbc-bgs { position: absolute; inset: 0; }
   .claw__fbc-bg {
     position: absolute;
     inset: 0;
     background-size: contain;
-    background-position: center 38%;
+    background-position: center 42%;
     background-repeat: no-repeat;
     opacity: 0;
     transition: opacity 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
   .claw__fbc-bg--active { opacity: 1; }
 
-  /* Gradient — transparent at top, dark at bottom for text */
+  /* Bottom gradient — fades image into dark for text legibility */
   .claw__fbc-overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(
       to bottom,
-      rgba(30, 14, 5, 0.15) 0%,
-      rgba(20, 8, 2, 0.05) 35%,
-      rgba(10, 4, 1, 0.72) 65%,
-      rgba(5, 2, 1, 0.96) 100%
+      transparent 0%,
+      rgba(10, 4, 1, 0.55) 60%,
+      rgba(5, 2, 1, 0.97) 100%
     );
     pointer-events: none;
+    /* opacity toggled via JS when switching between intro and feature slides */
   }
 
-  /* Text panels */
+  /* Panel container — fills full carousel */
   .claw__fbc-panels {
     position: absolute;
-    bottom: 5.5rem;
-    left: 1.75rem;
-    right: 1.75rem;
+    inset: 0;
+    pointer-events: none;
   }
   .claw__fbc-panel {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    inset: 0;
     opacity: 0;
     transition: opacity 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     pointer-events: none;
@@ -1541,6 +1554,57 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   .claw__fbc-panel--active {
     opacity: 1;
     pointer-events: auto;
+  }
+
+  /* Intro panel — centered text layout */
+  .claw__fbc-intro {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 1.75rem 6rem;
+  }
+  .claw__fbc-intro-headline {
+    font-size: clamp(1.8rem, 8vw, 2.6rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 1.25rem;
+  }
+  .claw__fbc-intro-body {
+    font-size: 0.88rem;
+    line-height: 1.8;
+    color: var(--pale-oak);
+    opacity: 0.65;
+    margin-bottom: 1rem;
+  }
+  .claw__fbc-intro-body:last-of-type { margin-bottom: 0; }
+
+  /* Swipe hint */
+  .claw__fbc-swipe-hint {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2.25rem;
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--pale-oak);
+    opacity: 0.45;
+    animation: swipeHintPulse 2.2s ease-in-out infinite;
+  }
+  .claw__fbc-swipe-hint svg { width: 18px; height: auto; }
+  @keyframes swipeHintPulse {
+    0%, 100% { opacity: 0.45; transform: translateX(0); }
+    50%       { opacity: 0.75; transform: translateX(4px); }
+  }
+
+  /* Feature panels — sit at the bottom (override full-inset from base panel rule) */
+  .claw__fbc-feat {
+    top: auto;
+    bottom: 5.5rem;
+    left: 1.75rem;
+    right: 1.75rem;
   }
   .claw__fbc-title {
     font-size: 1.45rem;
@@ -1561,14 +1625,12 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   .claw__fbc-dots {
     position: absolute;
     bottom: 2.75rem;
-    left: 0;
-    right: 0;
+    left: 0; right: 0;
     display: flex;
     justify-content: center;
     gap: 0.5rem;
-    margin: 0;
+    z-index: 3;
   }
-  .claw__carousel-dots { display: flex; gap: 0.5rem; justify-content: center; }
   .claw__dot {
     height: 6px;
     width: 6px;
