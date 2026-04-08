@@ -82,6 +82,9 @@
     }
   }
 
+  /* ── Mobile detection — must be before GSAP block ── */
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 900;
+
   /* ── GSAP animations ── */
   var heroLines = document.querySelectorAll('.hero__line');
 
@@ -378,8 +381,6 @@
   }
 
   /* ── Scroll momentum — desktop only (touch has native momentum) ── */
-  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || window.innerWidth <= 900;
-
   if (!isMobile) {
     (function () {
       var velocity      = 0;
