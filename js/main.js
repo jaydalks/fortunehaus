@@ -23,7 +23,6 @@
       setTimeout(function () {
         document.body.style.paddingRight = '';
         if (navEl) navEl.style.paddingRight = '';
-        initSmoothScroll();
       }, 750);
     }, 300);
   }
@@ -65,65 +64,6 @@
     }
   });
 
-  /* ── Smooth scroll controller ── */
-  var scrollTarget  = 0;
-  var scrollCurrent = 0;
-  var scrollLocked  = false;
-
-  function lerp(a, b, t) { return a + (b - a) * t; }
-
-  function maxScroll() {
-    return Math.max(0, document.body.scrollHeight - window.innerHeight);
-  }
-
-  function scrollTick() {
-    if (!scrollLocked) {
-      scrollCurrent = lerp(scrollCurrent, scrollTarget, 0.1);
-      if (Math.abs(scrollCurrent - scrollTarget) < 0.5) scrollCurrent = scrollTarget;
-      window.scrollTo(0, scrollCurrent);
-    }
-    requestAnimationFrame(scrollTick);
-  }
-
-  function initSmoothScroll() {
-    scrollTarget  = window.scrollY;
-    scrollCurrent = window.scrollY;
-
-    /* Wheel — cap delta per event so scroll feels controlled */
-    window.addEventListener('wheel', function (e) {
-      if (scrollLocked) return;
-      e.preventDefault();
-      var delta = e.deltaY;
-      if (e.deltaMode === 1) delta *= 28;   /* line mode */
-      if (e.deltaMode === 2) delta *= window.innerHeight; /* page mode */
-      delta = Math.max(-110, Math.min(110, delta)); /* cap speed */
-      scrollTarget = Math.max(0, Math.min(scrollTarget + delta, maxScroll()));
-    }, { passive: false });
-
-    /* Keyboard */
-    window.addEventListener('keydown', function (e) {
-      if (scrollLocked) return;
-      var delta = 0;
-      if (e.key === 'ArrowDown')              delta =  80;
-      if (e.key === 'ArrowUp')                delta = -80;
-      if (e.key === 'PageDown')               delta =  window.innerHeight * 0.85;
-      if (e.key === 'PageUp')                 delta = -window.innerHeight * 0.85;
-      if (e.key === ' ' && !e.shiftKey)       delta =  window.innerHeight * 0.85;
-      if (e.key === ' ' &&  e.shiftKey)       delta = -window.innerHeight * 0.85;
-      if (e.key === 'Home') { scrollTarget = 0; e.preventDefault(); return; }
-      if (e.key === 'End')  { scrollTarget = maxScroll(); e.preventDefault(); return; }
-      if (delta) { e.preventDefault(); scrollTarget = Math.max(0, Math.min(scrollTarget + delta, maxScroll())); }
-    });
-
-    requestAnimationFrame(scrollTick);
-  }
-
-  /* Scroll to a position via the smooth controller */
-  function smoothScrollTo(y, instant) {
-    scrollTarget = Math.max(0, Math.min(y, maxScroll()));
-    if (instant) scrollCurrent = scrollTarget;
-  }
-
   /* ── Video playback speed ── */
   var heroVideo = document.querySelector('.hero__video');
   if (heroVideo) {
@@ -143,12 +83,12 @@
     );
 
     gsap.to('.hero__content', {
-      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 },
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.8 },
       yPercent: -18, opacity: 0, ease: 'none'
     });
 
     gsap.to('.hero__video', {
-      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 1 },
+      scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: 0.8 },
       yPercent: 16, ease: 'none'
     });
 
@@ -217,18 +157,7 @@
           var viewH    = window.innerHeight - navH;
           var offset   = sectionH < viewH ? navH + (viewH - sectionH) / 2 : navH;
           var targetY  = aboutEl.getBoundingClientRect().top + window.scrollY - offset;
-          /* Animate scrollTarget gradually so the lerp carries it smoothly */
-          var start = scrollTarget;
-          var startTime = null;
-          var dur = 1400;
-          function animateSnap(ts) {
-            if (!startTime) startTime = ts;
-            var p = Math.min((ts - startTime) / dur, 1);
-            var ease = p < 0.5 ? 2*p*p : -1+(4-2*p)*p;
-            scrollTarget = start + (targetY - start) * ease;
-            if (p < 1) requestAnimationFrame(animateSnap);
-          }
-          requestAnimationFrame(animateSnap);
+          gsap.to(window, { scrollTo: { y: targetY, autoKill: true }, duration: 1.4, ease: 'power2.inOut' });
         }
       });
     }());
@@ -290,7 +219,6 @@
     el.addEventListener('click', closeMenu);
   });
 
-  /* Anchor links */
   document.querySelectorAll('a[href^="#"]').forEach(function (link) {
     link.addEventListener('click', function (e) {
       var target = document.querySelector(link.getAttribute('href'));
@@ -299,7 +227,7 @@
       closeMenu();
       var navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
       var top = target.getBoundingClientRect().top + window.scrollY - navH;
-      smoothScrollTo(top);
+      window.scrollTo({ top: top, behavior: 'smooth' });
     });
   });
 
@@ -328,7 +256,6 @@
 
   function openModal() {
     var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
-    scrollLocked = true;
     document.body.style.overflow = 'hidden';
     document.body.style.paddingRight = scrollbarW + 'px';
     nav.style.paddingRight = scrollbarW + 'px';
@@ -348,7 +275,6 @@
         document.body.style.overflow = '';
         document.body.style.paddingRight = '';
         nav.style.paddingRight = '';
-        scrollLocked = false;
       }
     });
   }
