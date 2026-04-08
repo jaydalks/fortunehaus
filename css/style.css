@@ -935,6 +935,15 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
 .eq-modal__backdrop {
   position: absolute;
   inset: 0;
+  background: rgba(28, 18, 10, 0);
+  backdrop-filter: blur(0px) saturate(1);
+  -webkit-backdrop-filter: blur(0px) saturate(1);
+  transition:
+    background 480ms var(--ease-out),
+    backdrop-filter 480ms var(--ease-out),
+    -webkit-backdrop-filter 480ms var(--ease-out);
+}
+.eq-modal.open .eq-modal__backdrop {
   background: rgba(28, 18, 10, 0.55);
   backdrop-filter: blur(12px) saturate(0.8);
   -webkit-backdrop-filter: blur(12px) saturate(0.8);

@@ -216,31 +216,30 @@
     footer.classList.add('footer--visible');
   }
 
-  /* ── About section: snap into view on first scroll entry ── */
-  if (typeof gsap !== 'undefined') {
-    var aboutEl  = document.getElementById('about');
-    var navH     = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
-    var snapped  = false;
+  /* ── About section: snap into centered view on first entry ── */
+  (function () {
+    var aboutEl = document.getElementById('about');
+    if (!aboutEl || !('IntersectionObserver' in window)) return;
 
-    if (aboutEl) {
-      ScrollTrigger.create({
-        trigger: aboutEl,
-        start: 'top 75%',
-        onEnter: function () {
-          if (snapped) return;
-          snapped = true;
-          var sectionH = aboutEl.offsetHeight;
-          var viewH    = window.innerHeight - navH;
-          /* Center if section fits in viewport, otherwise pin to top */
-          var offset   = sectionH < viewH
-            ? navH + (viewH - sectionH) / 2
-            : navH;
-          var targetY  = aboutEl.getBoundingClientRect().top + window.scrollY - offset;
-          window.scrollTo({ top: targetY, behavior: 'smooth' });
-        }
+    var snapped = false;
+    var navH    = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
+
+    var snapIO = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting || snapped) return;
+        snapped = true;
+        snapIO.disconnect();
+
+        var sectionH = aboutEl.offsetHeight;
+        var viewH    = window.innerHeight - navH;
+        var offset   = sectionH < viewH ? navH + (viewH - sectionH) / 2 : navH;
+        var targetY  = aboutEl.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top: targetY, behavior: 'smooth' });
       });
-    }
-  }
+    }, { threshold: 0.2 });
+
+    snapIO.observe(aboutEl);
+  }());
 
   /* ── Enquiry modal ── */
   var eqModal    = document.getElementById('eqModal');
