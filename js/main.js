@@ -141,11 +141,92 @@
     }
 
     if (isMobile) {
-      /* On mobile: ensure claw section is visible and laid out statically */
-      if (clawStage)  { clawStage.style.opacity  = ''; clawStage.style.position  = ''; }
-      if (clawIntro)  { clawIntro.style.opacity   = ''; clawIntro.style.position   = ''; }
-      clawImgs.forEach(function (img, i) { img.style.opacity = i === 0 ? '1' : ''; });
-      clawFeatures.forEach(function (f) { f.style.opacity = '1'; f.style.transform = 'none'; f.style.willChange = 'auto'; });
+      /* On mobile: build swipe carousel from existing image + feature data */
+      if (clawStage && clawImgs.length && clawFeatures.length) {
+        /* Hide the original stage — carousel replaces it */
+        clawStage.style.display = 'none';
+
+        /* Collect data from existing DOM nodes */
+        var slideData = clawImgs.map(function (img, i) {
+          var feat = clawFeatures[i];
+          return {
+            src:   img.src,
+            alt:   img.alt,
+            num:   feat ? (feat.querySelector('.claw__feature-num')   || {}).textContent || '' : '',
+            title: feat ? (feat.querySelector('.claw__feature-title') || {}).textContent || '' : '',
+            desc:  feat ? (feat.querySelector('.claw__feature-desc')  || {}).textContent || '' : ''
+          };
+        });
+
+        /* Build carousel markup */
+        var carousel = document.createElement('div');
+        carousel.className = 'claw__carousel';
+
+        var track = document.createElement('div');
+        track.className = 'claw__carousel-track';
+
+        slideData.forEach(function (d) {
+          var slide = document.createElement('div');
+          slide.className = 'claw__slide';
+          slide.innerHTML =
+            '<div class="claw__slide-img-wrap">' +
+              '<img class="claw__slide-img" src="' + d.src + '" alt="' + d.alt + '">' +
+            '</div>' +
+            '<div class="claw__slide-info">' +
+              '<span class="claw__feature-num">' + d.num + '</span>' +
+              '<p class="claw__feature-title">' + d.title + '</p>' +
+              '<p class="claw__feature-desc">' + d.desc + '</p>' +
+            '</div>';
+          track.appendChild(slide);
+        });
+
+        var dotsWrap = document.createElement('div');
+        dotsWrap.className = 'claw__carousel-dots';
+        slideData.forEach(function (_, i) {
+          var dot = document.createElement('button');
+          dot.className = 'claw__dot' + (i === 0 ? ' claw__dot--active' : '');
+          dot.setAttribute('aria-label', 'Slide ' + (i + 1));
+          dot.dataset.index = i;
+          dotsWrap.appendChild(dot);
+        });
+
+        carousel.appendChild(track);
+        carousel.appendChild(dotsWrap);
+        clawSection.querySelector('.claw__inner').appendChild(carousel);
+
+        /* Carousel state */
+        var currentSlide = 0;
+        var totalSlides  = slideData.length;
+
+        function goToSlide(index) {
+          currentSlide = Math.max(0, Math.min(index, totalSlides - 1));
+          track.style.transform = 'translateX(-' + (currentSlide * 100) + '%)';
+          dotsWrap.querySelectorAll('.claw__dot').forEach(function (d, i) {
+            d.classList.toggle('claw__dot--active', i === currentSlide);
+          });
+        }
+
+        /* Dot navigation */
+        dotsWrap.addEventListener('click', function (e) {
+          var dot = e.target.closest('.claw__dot');
+          if (dot) goToSlide(parseInt(dot.dataset.index, 10));
+        });
+
+        /* Touch swipe */
+        var swipeStartX = 0;
+        var swipeStartY = 0;
+        track.addEventListener('touchstart', function (e) {
+          swipeStartX = e.touches[0].clientX;
+          swipeStartY = e.touches[0].clientY;
+        }, { passive: true });
+        track.addEventListener('touchend', function (e) {
+          var dx = e.changedTouches[0].clientX - swipeStartX;
+          var dy = e.changedTouches[0].clientY - swipeStartY;
+          if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 40) {
+            goToSlide(dx < 0 ? currentSlide + 1 : currentSlide - 1);
+          }
+        }, { passive: true });
+      }
 
       /* On mobile: ensure all animated elements are visible — no scrub */
       document.querySelectorAll('.about__headline,.about__body,.about__pillar,.enquiry-entry__headline,.enquiry-entry__sub,.enquiry-card,.contact__headline,.contact__body,.contact__details').forEach(function (el) {
