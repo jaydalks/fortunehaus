@@ -216,37 +216,46 @@
     footer.classList.add('footer--visible');
   }
 
-  /* ── About section: snap into centered view on first scroll past hero ── */
+  /* ── About section: ease into center when user pauses scrolling into it ── */
   (function () {
     var aboutEl = document.getElementById('about');
-    var heroEl  = document.querySelector('.hero');
-    if (!aboutEl || !heroEl || typeof gsap === 'undefined') return;
+    if (!aboutEl || typeof gsap === 'undefined') return;
 
     gsap.registerPlugin(ScrollToPlugin);
 
-    var snapped = false;
-    var navH    = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
+    var snapped  = false;
+    var timer    = null;
+    var navH     = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
 
-    function trySnap() {
+    function doSnap() {
+      snapped = true;
+      window.removeEventListener('scroll', onScroll, true);
+
+      var sectionH = aboutEl.offsetHeight;
+      var viewH    = window.innerHeight - navH;
+      var offset   = sectionH < viewH ? navH + (viewH - sectionH) / 2 : navH;
+      var targetY  = aboutEl.getBoundingClientRect().top + window.scrollY - offset;
+
+      gsap.to(window, {
+        scrollTo: { y: targetY, autoKill: true },
+        duration: 1.2,
+        ease: 'power2.inOut'
+      });
+    }
+
+    function onScroll() {
       if (snapped) return;
-      if (heroEl.getBoundingClientRect().bottom < window.innerHeight * 0.5) {
-        snapped = true;
-        window.removeEventListener('scroll', trySnap, true);
+      clearTimeout(timer);
 
-        var sectionH = aboutEl.offsetHeight;
-        var viewH    = window.innerHeight - navH;
-        var offset   = sectionH < viewH ? navH + (viewH - sectionH) / 2 : navH;
-        var targetY  = aboutEl.getBoundingClientRect().top + window.scrollY - offset;
-
-        gsap.to(window, {
-          scrollTo: { y: targetY, autoKill: false },
-          duration: 1,
-          ease: 'power3.inOut'
-        });
+      var rect = aboutEl.getBoundingClientRect();
+      /* Only arm if about section is entering from the bottom — at least 10% visible */
+      if (rect.top < window.innerHeight * 0.9 && rect.top > -rect.height * 0.1) {
+        /* Wait for scroll to pause, then snap */
+        timer = setTimeout(doSnap, 120);
       }
     }
 
-    window.addEventListener('scroll', trySnap, { passive: true, capture: true });
+    window.addEventListener('scroll', onScroll, { passive: true, capture: true });
   }());
 
   /* ── Enquiry modal ── */
