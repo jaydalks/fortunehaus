@@ -129,9 +129,8 @@ ul { list-style: none; }
   display: flex;
   align-items: center;
   height: 100%;
-  padding: 0 clamp(1.5rem, 4vw, 3rem);
-  max-width: 1400px;
-  margin: 0 auto;
+  padding: 0 clamp(1.5rem, 3vw, 2.5rem);
+  width: 100%;
 }
 .nav__logo {
   display: flex;
@@ -569,6 +568,8 @@ ul { list-style: none; }
   width: 100%;
   height: 65vh;
   min-height: 320px;
+  border-radius: 2rem 2rem 1rem 1rem;
+  overflow: hidden;
 }
 .claw__img {
   position: absolute;
@@ -579,8 +580,6 @@ ul { list-style: none; }
   object-position: center center;
   opacity: 0;
   will-change: opacity;
-  border-radius: 2.5rem 2.5rem 1.25rem 1.25rem / 2rem 2rem 1rem 1rem;
-  overflow: hidden;
 }
 
 /* Features — GSAP animates each in one by one */
