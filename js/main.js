@@ -19,11 +19,26 @@
       document.body.style.paddingRight = scrollbarW + 'px';
       var navEl = document.getElementById('nav');
       if (navEl) navEl.style.paddingRight = scrollbarW + 'px';
-      loader.classList.add('loader--hidden');
-      setTimeout(function () {
-        document.body.style.paddingRight = '';
-        if (navEl) navEl.style.paddingRight = '';
-      }, 750);
+
+      /* Create a white flash overlay */
+      var flash = document.createElement('div');
+      flash.style.cssText = 'position:fixed;inset:0;z-index:999;background:#fff;opacity:0;pointer-events:none;transition:opacity 220ms ease-out;';
+      document.body.appendChild(flash);
+
+      /* Bloom to white, then fade out revealing the site */
+      requestAnimationFrame(function () {
+        flash.style.opacity = '1';
+        setTimeout(function () {
+          loader.classList.add('loader--hidden');
+          flash.style.transition = 'opacity 600ms ease-in';
+          flash.style.opacity = '0';
+          setTimeout(function () {
+            document.body.style.paddingRight = '';
+            if (navEl) navEl.style.paddingRight = '';
+            flash.remove();
+          }, 650);
+        }, 240);
+      });
     }, 300);
   }
 

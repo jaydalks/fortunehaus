@@ -848,7 +848,7 @@ ul { list-style: none; }
 .contact__headline { color: var(--white); margin-bottom: 1.25rem; }
 .contact__body {
   color: var(--pale-oak);
-  opacity: 0.6;
+  opacity: 0.85;
   margin-bottom: 2.25rem;
   font-size: 0.93rem;
   line-height: 1.8;
@@ -877,7 +877,7 @@ a.contact__detail-item:hover { opacity: 0.8; }
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--pale-oak);
-  opacity: 0.35;
+  opacity: 0.55;
 }
 .contact__detail-value {
   font-family: var(--font-body);
