@@ -380,14 +380,13 @@ ul { list-style: none; }
   line-height: 1;
   letter-spacing: -0.03em;
   color: var(--white);
-  /* Desktop: stretch across full width, lines pushed to each side */
+  /* Desktop: centered column, second line nudged left */
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-end;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
   max-width: none;
-  text-align: left;
+  text-align: center;
 }
 
 /* Line-by-line animation clips */
@@ -396,8 +395,8 @@ ul { list-style: none; }
   overflow: hidden;
   padding-bottom: 0.06em;
 }
-.hero__line-wrap--left  { text-align: left; }
-.hero__line-wrap--right { text-align: right; }
+.hero__line-wrap--left  { text-align: center; }
+.hero__line-wrap--right { text-align: center; transform: translateX(-3cm); }
 .hero__line {
   display: block;
   white-space: nowrap;
