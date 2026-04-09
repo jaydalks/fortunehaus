@@ -57,29 +57,59 @@
 
     /* ── Validate step 1 ── */
     function validateStep1() {
+      var ok = true;
+
       var dateEl = document.getElementById('eventDate');
-      if (!dateEl) return true;
-      if (!dateEl.value) {
+      if (dateEl && !dateEl.value) {
         dateEl.focus();
         dateEl.style.borderColor = 'rgba(180,40,40,0.6)';
-        return false;
+        ok = false;
+      } else if (dateEl) {
+        dateEl.style.borderColor = '';
       }
-      dateEl.style.borderColor = '';
-      return true;
+
+      var venueEl = document.getElementById('venue');
+      if (venueEl && !venueEl.value.trim()) {
+        if (ok) venueEl.focus();
+        venueEl.style.borderColor = 'rgba(180,40,40,0.6)';
+        ok = false;
+      } else if (venueEl) {
+        venueEl.style.borderColor = '';
+      }
+
+      var locationEl = document.getElementById('location');
+      if (locationEl && !locationEl.value.trim()) {
+        if (ok) locationEl.focus();
+        locationEl.style.borderColor = 'rgba(180,40,40,0.6)';
+        ok = false;
+      } else if (locationEl) {
+        locationEl.style.borderColor = '';
+      }
+
+      return ok;
     }
 
     /* ── Validate step 3 ── */
     function validateStep3() {
-      var nameEl  = document.getElementById('name');
+      var firstEl = document.getElementById('firstName');
+      var lastEl  = document.getElementById('lastName');
       var emailEl = document.getElementById('email');
       var ok = true;
 
-      if (nameEl && !nameEl.value.trim()) {
-        nameEl.focus();
-        nameEl.style.borderColor = 'rgba(180,40,40,0.6)';
+      if (firstEl && !firstEl.value.trim()) {
+        firstEl.focus();
+        firstEl.style.borderColor = 'rgba(180,40,40,0.6)';
         ok = false;
-      } else if (nameEl) {
-        nameEl.style.borderColor = '';
+      } else if (firstEl) {
+        firstEl.style.borderColor = '';
+      }
+
+      if (lastEl && !lastEl.value.trim()) {
+        if (ok) lastEl.focus();
+        lastEl.style.borderColor = 'rgba(180,40,40,0.6)';
+        ok = false;
+      } else if (lastEl) {
+        lastEl.style.borderColor = '';
       }
 
       if (emailEl) {
@@ -139,12 +169,14 @@
       };
 
       /* Contact details */
-      var nameEl  = document.getElementById('name');
+      var firstEl = document.getElementById('firstName');
+      var lastEl  = document.getElementById('lastName');
       var emailEl = document.getElementById('email');
       var phoneEl = document.getElementById('phone');
-      if (nameEl && nameEl.value)  payload['Name']  = nameEl.value.trim();
-      if (emailEl && emailEl.value) payload['Email'] = emailEl.value.trim();
-      if (phoneEl && phoneEl.value) payload['Phone'] = phoneEl.value.trim();
+      if (firstEl && firstEl.value) payload['First Name'] = firstEl.value.trim();
+      if (lastEl  && lastEl.value)  payload['Last Name']  = lastEl.value.trim();
+      if (emailEl && emailEl.value) payload['Email']      = emailEl.value.trim();
+      if (phoneEl && phoneEl.value) payload['Phone']      = phoneEl.value.trim();
 
       /* Event basics */
       var dateEl     = document.getElementById('eventDate');

@@ -1243,6 +1243,8 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   line-height: 1.55;
 }
 .field__group { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+.field--group { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 0; }
+.field__half { display: flex; flex-direction: column; gap: 0.5rem; }
 
 /* Chips */
 .chips-section { margin-bottom: 2rem; }
@@ -1692,6 +1694,7 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   .footer__inner { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
   .footer__links { gap: 1.25rem; }
   .field__group { grid-template-columns: 1fr; }
+  .field--group { grid-template-columns: 1fr; }
   .form-footer { flex-direction: column; align-items: flex-start; }
 
   /* Contact section background on small screens */

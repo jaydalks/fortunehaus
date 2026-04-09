@@ -48,13 +48,13 @@
         </div>
 
         <div class="field">
-          <label class="field__label" for="venue">Venue / Location</label>
-          <input class="field__input" type="text" id="venue" name="venue" placeholder="Venue or space name">
+          <label class="field__label" for="venue">Venue / Location <span aria-label="required">*</span></label>
+          <input class="field__input" type="text" id="venue" name="venue" placeholder="Venue or space name" required aria-required="true">
         </div>
 
         <div class="field">
-          <label class="field__label" for="location">Suburb / City</label>
-          <input class="field__input" type="text" id="location" name="location" placeholder="Suburb / City">
+          <label class="field__label" for="location">Suburb / City <span aria-label="required">*</span></label>
+          <input class="field__input" type="text" id="location" name="location" placeholder="Suburb / City" required aria-required="true">
           <p class="field__helper">Based on your location, we'll include any travel considerations in your proposal</p>
         </div>
 
@@ -137,9 +137,15 @@
         <h2 class="step__title">Final details</h2>
         <p class="step__micro">Last step and we'll be in touch</p>
 
-        <div class="field">
-          <label class="field__label" for="name">Name <span aria-label="required">*</span></label>
-          <input class="field__input" type="text" id="name" name="name" placeholder="Your full name" required aria-required="true">
+        <div class="field field--group">
+          <div class="field__half">
+            <label class="field__label" for="firstName">First Name <span aria-label="required">*</span></label>
+            <input class="field__input" type="text" id="firstName" name="firstName" placeholder="First name" required aria-required="true">
+          </div>
+          <div class="field__half">
+            <label class="field__label" for="lastName">Last Name <span aria-label="required">*</span></label>
+            <input class="field__input" type="text" id="lastName" name="lastName" placeholder="Last name" required aria-required="true">
+          </div>
         </div>
 
         <div class="field">
