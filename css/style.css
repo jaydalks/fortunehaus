@@ -1730,11 +1730,11 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
       url('../brand_assets/lucky_claw2.png') center / cover no-repeat;
   }
 
-  /* Contact: solid espresso, centered text, compact height */
+  /* Contact: solid espresso, centered text, height fits content */
   .contact {
     background: var(--espresso);
-    min-height: auto;
-    padding: clamp(4rem, 7vw, 6rem) clamp(2rem, 5vw, 5rem) clamp(4rem, 7vw, 6rem);
+    min-height: 0;
+    padding: clamp(4rem, 7vw, 6rem) clamp(2rem, 5vw, 5rem) 0;
   }
   .contact__inner {
     margin-left: auto;
