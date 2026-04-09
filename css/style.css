@@ -823,7 +823,7 @@ ul { list-style: none; }
   min-height: max(560px, 56.25vw);
   display: flex;
   flex-direction: column;
-  padding: clamp(4rem, 7vw, 7rem) clamp(2rem, 5vw, 5rem) 0;
+  padding: clamp(4rem, 7vw, 7rem) clamp(2rem, 5vw, 5rem) clamp(4rem, 7vw, 7rem);
   position: relative;
 }
 .contact__glow {
@@ -877,7 +877,7 @@ a.contact__detail-item:hover { opacity: 0.8; }
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--pale-oak);
-  opacity: 0.55;
+  opacity: 0.75;
 }
 .contact__detail-value {
   font-family: var(--font-body);
