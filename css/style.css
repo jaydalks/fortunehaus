@@ -1733,7 +1733,7 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   .contact {
     background: var(--espresso);
     min-height: auto;
-    padding: clamp(4rem, 7vw, 6rem) clamp(2rem, 5vw, 5rem) 0;
+    padding: clamp(4rem, 7vw, 6rem) clamp(2rem, 5vw, 5rem) clamp(4rem, 7vw, 6rem);
   }
   .contact__inner {
     margin-left: auto;
@@ -1741,6 +1741,8 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
     max-width: 560px;
     align-items: center;
     text-align: center;
+    flex: none;
+    justify-content: flex-start;
   }
   .contact__details {
     justify-content: center;
