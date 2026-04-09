@@ -907,6 +907,7 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   border-top: 1px solid rgba(255,255,255,0.1);
   position: relative;
   z-index: 2;
+  margin-top: auto;
 }
 .footer__inner {
   max-width: 1400px;
@@ -1743,6 +1744,7 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
     text-align: center;
     flex: none;
     justify-content: flex-start;
+    margin-bottom: 4rem;
   }
   .contact__details {
     justify-content: center;
