@@ -115,6 +115,7 @@
     var cards        = gsap.utils.toArray('.enquiry-card');
 
     if (clawFeatures.length && clawSection && window.innerWidth > 768) {
+      var clawBlur = document.getElementById('clawBlur');
       clawFeatures.forEach(function (f) { f.classList.remove('reveal', 'visible'); });
       gsap.set(clawFeatures, { opacity: 0, y: 40 });
       gsap.set(clawImgs,     { opacity: 0 });
@@ -130,6 +131,7 @@
       });
 
       clawTl.to(clawIntro, { opacity: 0, y: -30, duration: 0.8, ease: 'power2.in' }, 0);
+      if (clawBlur) clawTl.to(clawBlur, { opacity: 1, duration: 0.8, ease: 'none' }, 0.1);
       clawTl.to(clawStage, { opacity: 1, duration: 0.01 }, 0.9);
       if (clawImgs[0]) clawTl.to(clawImgs[0], { opacity: 1, duration: 0.5 }, 0.9);
 

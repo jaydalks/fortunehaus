@@ -295,7 +295,7 @@ ul { list-style: none; }
   min-height: 100svh;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   background: var(--espresso); /* fallback while video loads */
   overflow: hidden;
 }
@@ -361,14 +361,14 @@ ul { list-style: none; }
   pointer-events: none;
 }
 
-/* Hero content — fluid.glass style: centered, bottom-anchored */
+/* Hero content — centered */
 .hero__content {
   position: relative;
   z-index: 5;
   display: flex;
   justify-content: center;
   width: 100%;
-  padding: 0 clamp(1.5rem, 4vw, 3rem) clamp(5rem, 10vw, 9rem);
+  padding: 0 clamp(1.5rem, 4vw, 3rem);
   will-change: transform, opacity;
 }
 
@@ -569,6 +569,16 @@ ul { list-style: none; }
     radial-gradient(ellipse 55% 50% at 75% 45%, rgba(122,80,53,0.4) 0%, transparent 65%),
     radial-gradient(ellipse 40% 60% at 5% 75%, rgba(60,36,21,0.5) 0%, transparent 60%);
   pointer-events: none;
+}
+.claw__blur {
+  position: absolute;
+  inset: 0;
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  background: rgba(5, 2, 1, 0.35);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 1;
 }
 .claw__inner {
   position: relative;
@@ -1718,7 +1728,21 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
       ),
       url('../brand_assets/lucky_claw2.png') center / cover no-repeat;
   }
+
+  /* Contact: solid espresso, centered text, compact height */
   .contact {
     background: var(--espresso);
+    min-height: auto;
+    padding: clamp(4rem, 7vw, 6rem) clamp(2rem, 5vw, 5rem) 0;
+  }
+  .contact__inner {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 560px;
+    align-items: center;
+    text-align: center;
+  }
+  .contact__details {
+    justify-content: center;
   }
 }
