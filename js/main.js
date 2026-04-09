@@ -389,15 +389,15 @@
       gsap.fromTo(contactHeadline,
         { opacity: 0, y: 50 },
         { opacity: 1, y: 0, ease: 'none',
-          scrollTrigger: { trigger: contactHeadline, start: 'top 90%', end: 'top 45%', scrub: 0.6 } }
+          scrollTrigger: { trigger: contactHeadline, start: 'top 95%', end: 'top 65%', scrub: 0.6 } }
       );
     }
     if (contactBody) {
       contactBody.classList.remove('reveal', 'reveal-d2', 'visible');
       gsap.fromTo(contactBody,
         { opacity: 0, y: 30 },
-        { opacity: 1, y: 0, ease: 'none',
-          scrollTrigger: { trigger: contactBody, start: 'top 92%', end: 'top 58%', scrub: 0.6 } }
+        { opacity: 0.85, y: 0, ease: 'none',
+          scrollTrigger: { trigger: contactBody, start: 'top 95%', end: 'top 70%', scrub: 0.6 } }
       );
     }
     if (contactDetails) {
@@ -405,7 +405,7 @@
       gsap.fromTo(contactDetails,
         { opacity: 0, y: 25 },
         { opacity: 1, y: 0, ease: 'none',
-          scrollTrigger: { trigger: contactDetails, start: 'top 92%', end: 'top 60%', scrub: 0.6 } }
+          scrollTrigger: { trigger: contactDetails, start: 'top 95%', end: 'top 72%', scrub: 0.6 } }
       );
     }
 
