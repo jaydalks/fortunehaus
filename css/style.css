@@ -383,8 +383,8 @@ ul { list-style: none; }
   display: flex;
   flex-direction: column;
   align-items: center;
-  max-width: 14ch;
   text-align: center;
+  white-space: nowrap;
 }
 
 /* Line-by-line animation clips */
@@ -1685,11 +1685,11 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   .hero__headline {
     font-size: clamp(1.55rem, 7.2vw, 2.5rem);
     align-items: center;
-    max-width: none;
     text-align: center;
+    white-space: normal;
   }
   .hero__line-wrap { display: block; overflow: visible; }
-  .hero__line { white-space: nowrap; display: block; }
+  .hero__line { white-space: normal; display: block; }
   .footer__inner { flex-direction: column; align-items: flex-start; gap: 1.25rem; }
   .footer__links { gap: 1.25rem; }
   .field__group { grid-template-columns: 1fr; }
