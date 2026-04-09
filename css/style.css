@@ -1703,3 +1703,22 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
       url('../brand_assets/lucky_claw2.png') center / cover no-repeat;
   }
 }
+
+@media (min-width: 901px) {
+  /* Swap backgrounds: claw section gets the contact image, contact gets solid espresso */
+  .claw {
+    background:
+      linear-gradient(
+        to left,
+        rgba(5, 2, 1, 0.96) 0%,
+        rgba(8, 4, 1, 0.90) 22%,
+        rgba(8, 4, 1, 0.72) 42%,
+        rgba(8, 4, 1, 0.10) 62%,
+        transparent 100%
+      ),
+      url('../brand_assets/lucky_claw2.png') center / cover no-repeat;
+  }
+  .contact {
+    background: var(--espresso);
+  }
+}
