@@ -32,15 +32,23 @@
         /* Fade the loader out — video becomes visible beneath */
         loader.classList.add('loader--hidden');
 
-        /* Fade hero text in 300ms into the loader fade */
+        /* Fade hero text + CTA button in 300ms into the loader fade */
         setTimeout(function () {
+          var heroCta = document.querySelector('.hero__cta');
           if (typeof gsap !== 'undefined') {
-            gsap.to(heroLines, { opacity: 1, duration: 1.1, ease: 'power2.out', stagger: 0.08 });
+            gsap.to(heroLines, { opacity: 1, duration: 1.1, ease: 'power2.out' });
+            if (heroCta) gsap.to(heroCta, { opacity: 1, duration: 1.1, ease: 'power2.out', delay: 0.18 });
           } else {
             heroLines.forEach(function (el) {
               el.style.transition = 'opacity 1.1s ease';
               el.style.opacity    = '1';
             });
+            if (heroCta) {
+              setTimeout(function () {
+                heroCta.style.transition = 'opacity 1.1s ease';
+                heroCta.style.opacity    = '1';
+              }, 180);
+            }
           }
         }, 300);
 
