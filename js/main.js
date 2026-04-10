@@ -385,11 +385,16 @@
 
     if (cards.length) {
       cards.forEach(function (c) { c.classList.remove('reveal', 'visible'); });
+      /* Use the cards container as a single shared trigger so all three cards
+         animate from the same scroll point — individual triggers caused
+         misalignment because the initial y:60 transform shifted each card's
+         bounding rect before ScrollTrigger measured it */
+      var cardsContainer = document.querySelector('.enquiry-entry__cards');
       cards.forEach(function (c) {
         gsap.fromTo(c,
           { opacity: 0, y: 60, scale: 0.96 },
           { opacity: 1, y: 0, scale: 1, ease: 'none',
-            scrollTrigger: { trigger: c, start: 'top 92%', end: 'top 55%', scrub: 0.5 } }
+            scrollTrigger: { trigger: cardsContainer, start: 'top 88%', end: 'top 48%', scrub: 0.5 } }
         );
       });
     }
