@@ -370,7 +370,7 @@
 
     if (cards.length) {
       cards.forEach(function (c) { c.classList.remove('reveal', 'visible'); });
-      cards.forEach(function (c, i) {
+      cards.forEach(function (c) {
         gsap.fromTo(c,
           { opacity: 0, y: 60, scale: 0.96 },
           { opacity: 1, y: 0, scale: 1, ease: 'none',
@@ -459,35 +459,21 @@
     });
   }
 
-  /* ── Scroll momentum — desktop only (touch has native momentum) ── */
-  if (!isMobile) {
-    (function () {
-      var velocity      = 0;
-      var lastY         = window.scrollY;
-      var wheelTimer    = null;
-      var momentumTween = null;
+  /* ── Lenis smooth scroll — desktop only ── */
+  if (!isMobile && typeof Lenis !== 'undefined') {
+    var lenis = new Lenis({
+      lerp:        0.08,
+      smoothWheel: true,
+      syncTouch:   false
+    });
 
-      function trackVelocity() {
-        var currentY = window.scrollY;
-        velocity = currentY - lastY;
-        lastY = currentY;
-        requestAnimationFrame(trackVelocity);
-      }
-      requestAnimationFrame(trackVelocity);
+    /* Sync Lenis with GSAP ScrollTrigger so pinning works correctly */
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(function (time) { lenis.raf(time * 1000); });
+    gsap.ticker.lagSmoothing(0);
 
-      window.addEventListener('wheel', function () {
-        if (momentumTween) { momentumTween.kill(); momentumTween = null; }
-        clearTimeout(wheelTimer);
-        wheelTimer = setTimeout(function () {
-          if (Math.abs(velocity) < 1.5) return;
-          var distance = velocity * 6;
-          distance = Math.max(-350, Math.min(350, distance));
-          var target = Math.max(0, Math.min(window.scrollY + distance, document.body.scrollHeight - window.innerHeight));
-          var dur = 0.9 + Math.min(Math.abs(distance) / 1200, 0.7);
-          momentumTween = gsap.to(window, { scrollTo: { y: target, autoKill: true }, duration: dur, ease: 'power3.out' });
-        }, 40);
-      }, { passive: true });
-    }());
+    /* Expose lenis globally so modal open/close can stop/start it */
+    window._lenis = lenis;
   }
 
   /* ── Navigation ── */
@@ -577,6 +563,7 @@
   if (eqPanel)    gsap.set(eqPanel,    { opacity: 0, y: 28, scale: 0.97 });
 
   function openModal() {
+    if (window._lenis) window._lenis.stop();
     var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
     document.body.style.overflow = 'hidden';
     document.body.style.paddingRight = scrollbarW + 'px';
@@ -597,6 +584,7 @@
         document.body.style.overflow = '';
         document.body.style.paddingRight = '';
         nav.style.paddingRight = '';
+        if (window._lenis) window._lenis.start();
       }
     });
   }
