@@ -16,6 +16,8 @@
       var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
       document.documentElement.style.overflow = '';
       window.scrollTo(0, 0);
+      /* Sync Lenis to position 0 and release it now that overflow is cleared */
+      if (window._lenis) { window._lenis.scrollTo(0, { immediate: true }); window._lenis.start(); }
       document.body.style.paddingRight = scrollbarW + 'px';
       var navEl = document.getElementById('nav');
       if (navEl) navEl.style.paddingRight = scrollbarW + 'px';
@@ -481,6 +483,9 @@
 
     /* Expose lenis globally so modal open/close can stop/start it */
     window._lenis = lenis;
+
+    /* Start paused — loader will release it once overflow is cleared */
+    lenis.stop();
   }
 
   /* ── Navigation ── */
