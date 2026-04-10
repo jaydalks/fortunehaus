@@ -13,38 +13,31 @@
     loaderDone = true;
     if (loaderFill) loaderFill.style.width = '100%';
     setTimeout(function () {
-      /* Measure real scrollbar width before overflow changes so we can
-         pre-compensate the loader and prevent the logo from jumping */
-      var testEl = document.createElement('div');
-      testEl.style.cssText = 'width:100px;height:100px;overflow:scroll;position:absolute;top:-9999px;visibility:hidden;';
-      document.body.appendChild(testEl);
-      var scrollbarW = testEl.offsetWidth - testEl.clientWidth;
-      testEl.remove();
-
-      if (loader) loader.style.paddingRight = scrollbarW + 'px';
-      document.documentElement.style.overflow = '';
-      window.scrollTo(0, 0);
-      /* Sync Lenis to position 0 and release it now that overflow is cleared */
-      if (window._lenis) { window._lenis.scrollTo(0, { immediate: true }); window._lenis.start(); }
-      document.body.style.paddingRight = scrollbarW + 'px';
-      var navEl = document.getElementById('nav');
-      if (navEl) navEl.style.paddingRight = scrollbarW + 'px';
-
-      /* Create a white flash overlay */
+      /* Show the white flash FIRST — all layout changes happen underneath it
+         so the logo jump and page shift are completely hidden */
       var flash = document.createElement('div');
       flash.style.cssText = 'position:fixed;inset:0;z-index:999;background:#fff;opacity:0;pointer-events:none;transition:opacity 220ms ease-out;';
       document.body.appendChild(flash);
 
-      /* Bloom to white, then fade out revealing the site */
       requestAnimationFrame(function () {
         flash.style.opacity = '1';
+
+        /* Wait for flash to reach full white, then do layout changes */
         setTimeout(function () {
+          document.documentElement.style.overflow = '';
+          /* Measure scrollbar width now that overflow is restored — same frame
+             as the change so both are batched into one paint */
+          var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+          if (loader) loader.style.paddingRight = scrollbarW + 'px';
+          window.scrollTo(0, 0);
+          /* Sync Lenis to position 0 and release */
+          if (window._lenis) { window._lenis.scrollTo(0, { immediate: true }); window._lenis.start(); }
+
           loader.classList.add('loader--hidden');
           flash.style.transition = 'opacity 600ms ease-in';
           flash.style.opacity = '0';
           setTimeout(function () {
-            document.body.style.paddingRight = '';
-            if (navEl) navEl.style.paddingRight = '';
+            if (loader) loader.style.paddingRight = '';
             flash.remove();
           }, 650);
         }, 240);
@@ -472,7 +465,8 @@
   var nav = document.getElementById('nav');
 
   function updateNav() {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
+    var isHidden = nav.classList.contains('nav--hidden');
+    nav.classList.toggle('scrolled', !isHidden && window.scrollY > 40);
   }
   updateNav();
 
@@ -482,7 +476,7 @@
   window.addEventListener('scroll', function () {
     var currentY = window.scrollY;
     if (currentY > lastScrollY && currentY > 10) {
-      if (!isOpen) nav.classList.add('nav--hidden');
+      if (!isOpen) { nav.classList.add('nav--hidden'); nav.classList.remove('scrolled'); }
     } else {
       nav.classList.remove('nav--hidden');
     }
