@@ -455,10 +455,10 @@
   /* ── Lenis smooth scroll — desktop only ── */
   if (!isMobile && typeof Lenis !== 'undefined') {
     var lenis = new Lenis({
-      duration:        1.3,
+      duration:        1.6,
       easing:          function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
       smoothWheel:     true,
-      wheelMultiplier: 0.9,
+      wheelMultiplier: 0.7,
       syncTouch:       false
     });
 
