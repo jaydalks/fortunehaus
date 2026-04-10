@@ -13,35 +13,42 @@
     loaderDone = true;
     if (loaderFill) loaderFill.style.width = '100%';
     setTimeout(function () {
-      /* Show the white flash FIRST — all layout changes happen underneath it
-         so the logo jump and page shift are completely hidden */
-      var flash = document.createElement('div');
-      flash.style.cssText = 'position:fixed;inset:0;z-index:1001;background:#fff;opacity:0;pointer-events:none;transition:opacity 220ms ease-out;';
-      document.body.appendChild(flash);
+      var inner = loader ? loader.querySelector('.loader__inner') : null;
 
-      requestAnimationFrame(function () {
-        flash.style.opacity = '1';
+      /* Step 1 — fade out inner content */
+      if (inner) {
+        inner.style.transition = 'opacity 350ms ease';
+        inner.style.opacity    = '0';
+      }
 
-        /* Wait for flash to reach full white, then do layout changes */
-        setTimeout(function () {
-          document.documentElement.style.overflow = '';
-          /* Measure scrollbar width now that overflow is restored — same frame
-             as the change so both are batched into one paint */
-          var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
-          if (loader) loader.style.paddingRight = scrollbarW + 'px';
-          window.scrollTo(0, 0);
-          /* Sync Lenis to position 0 and release */
-          if (window._lenis) { window._lenis.scrollTo(0, { immediate: true }); window._lenis.start(); }
+      /* Step 2 — restore scroll and slide the loader panel up (curtain rise) */
+      setTimeout(function () {
+        document.documentElement.style.overflow = '';
+        var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+        if (loader) loader.style.paddingRight = scrollbarW + 'px';
+        window.scrollTo(0, 0);
+        if (window._lenis) { window._lenis.scrollTo(0, { immediate: true }); window._lenis.start(); }
 
-          loader.classList.add('loader--hidden');
-          flash.style.transition = 'opacity 600ms ease-in';
-          flash.style.opacity = '0';
+        if (typeof gsap !== 'undefined' && loader) {
+          gsap.to(loader, {
+            yPercent: -100,
+            duration:  0.95,
+            ease:      'power3.inOut',
+            onComplete: function () {
+              loader.classList.add('loader--hidden');
+              loader.style.paddingRight = '';
+            }
+          });
+        } else if (loader) {
+          /* CSS fallback */
+          loader.style.transition  = 'transform 950ms cubic-bezier(0.87, 0, 0.13, 1)';
+          loader.style.transform   = 'translateY(-100%)';
           setTimeout(function () {
-            if (loader) loader.style.paddingRight = '';
-            flash.remove();
-          }, 650);
-        }, 240);
-      });
+            loader.classList.add('loader--hidden');
+            loader.style.paddingRight = '';
+          }, 1000);
+        }
+      }, 400);
     }, 300);
   }
 
