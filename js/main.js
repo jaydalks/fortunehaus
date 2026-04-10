@@ -15,13 +15,13 @@
     setTimeout(function () {
       var inner = loader ? loader.querySelector('.loader__inner') : null;
 
-      /* Step 1 — fade out inner content */
+      /* Fade out inner content (logo + bar) */
       if (inner) {
         inner.style.transition = 'opacity 350ms ease';
         inner.style.opacity    = '0';
       }
 
-      /* Step 2 — restore scroll and slide the loader panel up (curtain rise) */
+      /* Restore scroll, fade loader out, then fade hero text in */
       setTimeout(function () {
         document.documentElement.style.overflow = '';
         var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
@@ -29,25 +29,25 @@
         window.scrollTo(0, 0);
         if (window._lenis) { window._lenis.scrollTo(0, { immediate: true }); window._lenis.start(); }
 
-        if (typeof gsap !== 'undefined' && loader) {
-          gsap.to(loader, {
-            yPercent: -100,
-            duration:  0.95,
-            ease:      'power3.inOut',
-            onComplete: function () {
-              loader.classList.add('loader--hidden');
-              loader.style.paddingRight = '';
-            }
-          });
-        } else if (loader) {
-          /* CSS fallback */
-          loader.style.transition  = 'transform 950ms cubic-bezier(0.87, 0, 0.13, 1)';
-          loader.style.transform   = 'translateY(-100%)';
-          setTimeout(function () {
-            loader.classList.add('loader--hidden');
-            loader.style.paddingRight = '';
-          }, 1000);
-        }
+        /* Fade the loader out — video becomes visible beneath */
+        loader.classList.add('loader--hidden');
+
+        /* Fade hero text in 300ms into the loader fade */
+        setTimeout(function () {
+          if (typeof gsap !== 'undefined') {
+            gsap.to(heroLines, { opacity: 1, duration: 1.1, ease: 'power2.out', stagger: 0.08 });
+          } else {
+            heroLines.forEach(function (el) {
+              el.style.transition = 'opacity 1.1s ease';
+              el.style.opacity    = '1';
+            });
+          }
+        }, 300);
+
+        /* Remove scrollbar padding compensation after fade completes */
+        setTimeout(function () {
+          if (loader) loader.style.paddingRight = '';
+        }, 950);
       }, 400);
     }, 300);
   }
@@ -116,10 +116,7 @@
   if (typeof gsap !== 'undefined') {
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
-    gsap.fromTo(heroLines,
-      { yPercent: 105, opacity: 0 },
-      { yPercent: 0, opacity: 1, duration: 1.4, ease: 'power4.out', stagger: 0.14, delay: 1.1 }
-    );
+    /* Hero text is animated by dismissLoader once the loader fades out */
 
     if (!isMobile) {
       gsap.to('.hero__content', {
@@ -440,10 +437,6 @@
     } /* end !isMobile scrub block */
 
 
-  } else {
-    heroLines.forEach(function (el, i) {
-      el.style.animation = 'heroLineIn 0.9s cubic-bezier(0.25,0.46,0.45,0.94) ' + (0.2 + i * 0.14) + 's both';
-    });
   }
 
   /* ── Lenis smooth scroll — desktop only ── */
