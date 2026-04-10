@@ -19,7 +19,7 @@
       progressLabel.textContent = 'Step ' + step + ' of ' + total + ' — takes ~60 seconds';
     }
 
-    /* ── Show step ── */
+    /* ── Show step + update URL for analytics tracking ── */
     function showStep(n) {
       document.querySelectorAll('.form-step').forEach(function (el) {
         el.classList.remove('active');
@@ -27,10 +27,34 @@
       var target = document.getElementById('step' + n);
       if (target) {
         target.classList.add('active');
-        target.scrollIntoView ? window.scrollTo(0, 0) : null;
+        window.scrollTo(0, 0);
       }
       setProgress(n);
+
+      /* Update URL so each step has a trackable address */
+      var newUrl = window.location.pathname + '?step=' + n;
+      history.pushState({ step: n }, '', newUrl);
+
+      /* Fire GA4 virtual pageview */
+      if (typeof gtag === 'function') {
+        gtag('event', 'page_view', {
+          page_location: window.location.href,
+          page_title: document.title + ' — Step ' + n
+        });
+      }
+
+      /* Fire GTM dataLayer event */
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'enquiry_step',
+        enquiry_type: opts.type,
+        step_number: n,
+        step_name: 'Step ' + n + ' of 3'
+      });
     }
+
+    /* Initialise URL on page load to step=1 */
+    history.replaceState({ step: 1 }, '', window.location.pathname + '?step=1');
 
     /* ── Chip toggle (multi-select) ── */
     document.querySelectorAll('.chip[data-group]').forEach(function (chip) {
