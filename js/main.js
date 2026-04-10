@@ -16,7 +16,7 @@
       /* Show the white flash FIRST — all layout changes happen underneath it
          so the logo jump and page shift are completely hidden */
       var flash = document.createElement('div');
-      flash.style.cssText = 'position:fixed;inset:0;z-index:999;background:#fff;opacity:0;pointer-events:none;transition:opacity 220ms ease-out;';
+      flash.style.cssText = 'position:fixed;inset:0;z-index:1001;background:#fff;opacity:0;pointer-events:none;transition:opacity 220ms ease-out;';
       document.body.appendChild(flash);
 
       requestAnimationFrame(function () {
