@@ -467,9 +467,11 @@
   /* ── Lenis smooth scroll — desktop only ── */
   if (!isMobile && typeof Lenis !== 'undefined') {
     var lenis = new Lenis({
-      lerp:        0.08,
-      smoothWheel: true,
-      syncTouch:   false
+      duration:        1.3,
+      easing:          function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
+      smoothWheel:     true,
+      wheelMultiplier: 0.9,
+      syncTouch:       false
     });
 
     /* Sync Lenis with GSAP ScrollTrigger so pinning works correctly */
