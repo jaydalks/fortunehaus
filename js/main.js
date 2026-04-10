@@ -450,6 +450,8 @@
           var viewH    = window.innerHeight - navH;
           var offset   = sectionH < viewH ? navH + (viewH - sectionH) / 2 : navH;
           var targetY  = aboutEl.getBoundingClientRect().top + window.scrollY - offset;
+          /* Skip snap if user has already scrolled past the target (fast scroll) */
+          if (window.scrollY > targetY + 40) return;
           /* Use Lenis scrollTo if available so it doesn't fight smooth scroll */
           if (window._lenis) {
             window._lenis.scrollTo(targetY, { duration: 1.6, easing: function (t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; } });
