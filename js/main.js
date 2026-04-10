@@ -141,7 +141,7 @@
           trigger: clawSection,
           start: 'top top',
           end: function () { return '+=' + ((clawFeatures.length + 1) * window.innerHeight * 0.65); },
-          pin: true, anticipatePin: 1, scrub: 0.4
+          pin: true, anticipatePin: 0, scrub: 0.4
         }
       });
 
@@ -448,7 +448,12 @@
           var viewH    = window.innerHeight - navH;
           var offset   = sectionH < viewH ? navH + (viewH - sectionH) / 2 : navH;
           var targetY  = aboutEl.getBoundingClientRect().top + window.scrollY - offset;
-          gsap.to(window, { scrollTo: { y: targetY, autoKill: true }, duration: 1.4, ease: 'power2.inOut' });
+          /* Use Lenis scrollTo if available so it doesn't fight smooth scroll */
+          if (window._lenis) {
+            window._lenis.scrollTo(targetY, { duration: 1.6, easing: function (t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; } });
+          } else {
+            gsap.to(window, { scrollTo: { y: targetY, autoKill: true }, duration: 1.4, ease: 'power2.inOut' });
+          }
         }
       });
     }());
