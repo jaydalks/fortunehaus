@@ -13,7 +13,15 @@
     loaderDone = true;
     if (loaderFill) loaderFill.style.width = '100%';
     setTimeout(function () {
-      var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
+      /* Measure real scrollbar width before overflow changes so we can
+         pre-compensate the loader and prevent the logo from jumping */
+      var testEl = document.createElement('div');
+      testEl.style.cssText = 'width:100px;height:100px;overflow:scroll;position:absolute;top:-9999px;visibility:hidden;';
+      document.body.appendChild(testEl);
+      var scrollbarW = testEl.offsetWidth - testEl.clientWidth;
+      testEl.remove();
+
+      if (loader) loader.style.paddingRight = scrollbarW + 'px';
       document.documentElement.style.overflow = '';
       window.scrollTo(0, 0);
       /* Sync Lenis to position 0 and release it now that overflow is cleared */
@@ -431,36 +439,6 @@
 
     } /* end !isMobile scrub block */
 
-    /* About section snap — desktop only */
-    if (!isMobile)
-    (function () {
-      var aboutEl = document.getElementById('about');
-      if (!aboutEl) return;
-      var triggered = false;
-      var navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
-
-      ScrollTrigger.create({
-        trigger: aboutEl,
-        start: 'top 55%',
-        once: true,
-        onEnter: function () {
-          if (triggered) return;
-          triggered = true;
-          var sectionH = aboutEl.offsetHeight;
-          var viewH    = window.innerHeight - navH;
-          var offset   = sectionH < viewH ? navH + (viewH - sectionH) / 2 : navH;
-          var targetY  = aboutEl.getBoundingClientRect().top + window.scrollY - offset;
-          /* Skip snap if user has already scrolled past the target (fast scroll) */
-          if (window.scrollY > targetY + 40) return;
-          /* Use Lenis scrollTo if available so it doesn't fight smooth scroll */
-          if (window._lenis) {
-            window._lenis.scrollTo(targetY, { duration: 1.6, easing: function (t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; } });
-          } else {
-            gsap.to(window, { scrollTo: { y: targetY, autoKill: true }, duration: 1.4, ease: 'power2.inOut' });
-          }
-        }
-      });
-    }());
 
   } else {
     heroLines.forEach(function (el, i) {
@@ -503,7 +481,7 @@
 
   window.addEventListener('scroll', function () {
     var currentY = window.scrollY;
-    if (currentY > lastScrollY && currentY > 80) {
+    if (currentY > lastScrollY && currentY > 10) {
       if (!isOpen) nav.classList.add('nav--hidden');
     } else {
       nav.classList.remove('nav--hidden');
