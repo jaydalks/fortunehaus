@@ -139,149 +139,58 @@
 
     var clawSection  = document.querySelector('.claw');
     var clawFeatures = clawSection ? gsap.utils.toArray('.claw__feature') : [];
+    var clawImgs     = gsap.utils.toArray('.claw__img');
     var clawIntro    = clawSection ? clawSection.querySelector('.claw__intro') : null;
     var clawStage    = clawSection ? clawSection.querySelector('.claw__stage') : null;
     var cards        = gsap.utils.toArray('.enquiry-card');
 
     if (clawFeatures.length && clawSection && window.innerWidth > 768) {
-      var clawScrim      = document.getElementById('clawScrim');
-      var clawPulse      = document.getElementById('clawPulse');
-      var clawRevealLine = document.getElementById('clawRevealLine');
-      var clawDots       = document.getElementById('clawDots');
-      var clawBgs        = gsap.utils.toArray('.claw__bg-img');
-      var dotEls         = clawDots ? clawDots.querySelectorAll('.claw__dot') : [];
-
-      /* ── Word-split helper ── */
-      function wordSplit(el) {
-        el.innerHTML = el.textContent.split(' ').map(function (w) {
-          return '<span class="word"><span>' + w + '</span></span>';
-        }).join(' ');
-      }
-
-      /* Split titles and descs into words */
-      clawFeatures.forEach(function (f) {
-        var title = f.querySelector('.claw__feature-title');
-        var desc  = f.querySelector('.claw__feature-desc');
-        if (title) wordSplit(title);
-        if (desc)  wordSplit(desc);
-      });
-
-      /* Initial states */
-      gsap.set(clawFeatures, { opacity: 0 });
+      var clawBlur = document.getElementById('clawBlur');
+      clawFeatures.forEach(function (f) { f.classList.remove('reveal', 'visible'); });
+      gsap.set(clawFeatures, { opacity: 0, y: 40 });
+      gsap.set(clawImgs,     { opacity: 0 });
       gsap.set(clawStage,    { opacity: 0 });
-      gsap.set(clawDots,     { opacity: 0 });
-      gsap.set(clawBgs,      { opacity: 0, scale: 1 });
 
-      /* ── Pulse helper — amber ring heartbeat ── */
-      function firePulse() {
-        gsap.fromTo(clawPulse,
-          { opacity: 0.5, scale: 0.65 },
-          { opacity: 0, scale: 1.15, duration: 1.1, ease: 'power2.out' }
-        );
-      }
-
-      /* ── Dot update helper ── */
-      function setDot(i) {
-        dotEls.forEach(function (d, j) {
-          d.classList.toggle('claw__dot--active', j === i);
-        });
-      }
-
-      /* ── Show a feature (word-by-word reveal) ── */
-      function showFeature(i) {
-        clawFeatures.forEach(function (f, j) {
-          if (j !== i) gsap.to(f, { opacity: 0, duration: 0.25, ease: 'power1.in' });
-        });
-        var f = clawFeatures[i];
-        var words = f.querySelectorAll('.word span');
-        gsap.set(f, { opacity: 1 });
-        gsap.set(words, { y: '110%' });
-        gsap.to(words, {
-          y: '0%', duration: 0.55, ease: 'power3.out',
-          stagger: 0.028, overwrite: true
-        });
-        setDot(i);
-      }
-
-      /* ── Main scrub timeline ── */
       var clawTl = gsap.timeline({
         scrollTrigger: {
           trigger: clawSection,
           start: 'top top',
-          end: function () { return '+=' + ((clawFeatures.length + 1) * window.innerHeight * 0.7); },
-          pin: true, anticipatePin: 0, scrub: 0.5
+          end: function () { return '+=' + ((clawFeatures.length + 1) * window.innerHeight * 0.65); },
+          pin: true, anticipatePin: 0, scrub: 0.4
         }
       });
 
-      /* Phase 1 → reveal line draws across while intro is still visible */
-      clawTl.to(clawRevealLine, { opacity: 1, duration: 0.15 }, 0);
-      clawTl.to(clawRevealLine.querySelector('line'), {
-        strokeDashoffset: 0, duration: 0.45, ease: 'power2.inOut',
-        attr: { 'stroke-dashoffset': 0 }
-      }, 0.05);
+      clawTl.to(clawIntro, { opacity: 0, y: -30, duration: 0.8, ease: 'power2.in' }, 0);
+      if (clawBlur) clawTl.to(clawBlur, { opacity: 1, duration: 0.8, ease: 'none' }, 0.1);
+      clawTl.to(clawStage, { opacity: 1, duration: 0.01 }, 0.9);
+      if (clawImgs[0]) clawTl.to(clawImgs[0], { opacity: 1, duration: 0.5 }, 0.9);
 
-      /* Intro fades out, first BG tears in underneath */
-      clawTl.to(clawIntro,    { opacity: 0, y: -24, duration: 0.5, ease: 'power2.in' }, 0.3);
-      clawTl.to(clawRevealLine, { opacity: 0, duration: 0.2 }, 0.55);
-      clawTl.to(clawBgs[0],   { opacity: 1, duration: 0.5, ease: 'power2.out' }, 0.45);
-      clawTl.to(clawScrim,    { opacity: 0.55, duration: 0.5, ease: 'none' }, 0.45); /* scrim lifts slightly */
-      clawTl.to(clawStage,    { opacity: 1, duration: 0.01 }, 0.88);
-      clawTl.to(clawDots,     { opacity: 1, duration: 0.3 }, 0.9);
-
-      /* Callback: fire pulse + word reveal for first feature */
-      clawTl.call(function () {
-        if (clawTl.scrollTrigger.direction > 0) { firePulse(); showFeature(0); }
-      }, null, 0.9);
-      clawTl.call(function () {
-        if (clawTl.scrollTrigger.direction < 0) { showFeature(0); setDot(0); }
-      }, null, 0.9);
-
-      /* Ken Burns on BG 0 */
-      clawTl.to(clawBgs[0], { scale: 1.06, ease: 'none', duration: 1 }, 0.9);
-
-      /* Features 1–3 */
-      clawFeatures.forEach(function (_, i) {
-        if (i === 0) return; /* 0 handled above */
-        var pos = 1 + (i * 0.9);
-        var iCopy = i;
-
-        /* Crossfade backgrounds */
-        clawTl.to(clawBgs[iCopy - 1], { opacity: 0, scale: 1.06, duration: 0.6, ease: 'none' }, pos);
-        clawTl.to(clawBgs[iCopy],     { opacity: 1, scale: 1,    duration: 0.6, ease: 'none' }, pos);
-        clawTl.to(clawBgs[iCopy],     { scale: 1.06, ease: 'none', duration: 0.9 }, pos + 0.1);
-
-        /* Pulse + word reveal on enter */
-        clawTl.call(function () {
-          if (clawTl.scrollTrigger.direction > 0) { firePulse(); showFeature(iCopy); }
-        }, null, pos + 0.05);
-
-        /* Reverse: restore previous */
-        clawTl.call(function () {
-          if (clawTl.scrollTrigger.direction < 0) { showFeature(iCopy - 1); }
-        }, null, pos);
+      clawFeatures.forEach(function (feature, i) {
+        var pos = 1 + i;
+        clawTl.to(feature, { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }, pos);
+        if (i > 0 && clawImgs[i]) {
+          clawTl.to(clawImgs[i - 1], { opacity: 0, duration: 0.7, ease: 'none' }, pos);
+          clawTl.to(clawImgs[i],     { opacity: 1, duration: 0.7, ease: 'none' }, pos);
+        }
       });
     }
 
     if (isMobile) {
       /* On mobile: full-bleed image carousel — slide 0 = intro text, slides 1-4 = features */
-      var clawBgEls = clawSection ? gsap.utils.toArray('.claw__bg-img', clawSection) : [];
-      if (clawSection && clawBgEls.length && clawFeatures.length) {
-        /* Hide the original inner content and bg stack (carousel rebuilds its own) */
-        var clawInnerEl  = clawSection.querySelector('.claw__inner');
-        var clawBgStack  = clawSection.querySelector('.claw__bg-stack');
+      if (clawSection && clawImgs.length && clawFeatures.length) {
+        /* Hide the original inner content */
+        var clawInnerEl = clawSection.querySelector('.claw__inner');
         if (clawInnerEl) clawInnerEl.style.display = 'none';
-        if (clawBgStack) clawBgStack.style.display = 'none';
 
         /* Collect intro copy from original DOM */
         var introHeadline = clawIntro ? clawIntro.querySelector('.claw__headline') : null;
         var introBodies   = clawIntro ? clawIntro.querySelectorAll('.claw__body')   : [];
 
-        /* Collect feature data from bg-stack URLs + feature card text */
-        var featData = clawBgEls.map(function (bgEl, i) {
+        /* Collect feature data */
+        var featData = clawImgs.map(function (img, i) {
           var feat = clawFeatures[i];
-          /* Read the title/desc before word-split (which only runs on desktop) */
           return {
-            src:   (bgEl.style.backgroundImage || '').replace(/url\(['"]?|['"]?\)/g, ''),
+            src:   img.src,
             num:   feat ? (feat.querySelector('.claw__feature-num')   || {}).textContent || '' : '',
             title: feat ? (feat.querySelector('.claw__feature-title') || {}).textContent || '' : '',
             desc:  feat ? (feat.querySelector('.claw__feature-desc')  || {}).textContent || '' : ''
