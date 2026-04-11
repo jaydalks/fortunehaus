@@ -651,7 +651,70 @@ ul { list-style: none; }
     radial-gradient(ellipse 55% 50% at 75% 45%, rgba(122,80,53,0.4) 0%, transparent 65%),
     radial-gradient(ellipse 40% 60% at 5% 75%, rgba(60,36,21,0.5) 0%, transparent 60%);
   pointer-events: none;
+  z-index: 1;
 }
+
+/* ── Full-viewport background image stack ── */
+.claw__bg-stack {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.claw__bg-img {
+  position: absolute;
+  inset: -8% 0;           /* extra height for Ken Burns without showing edges */
+  background-size: cover;
+  background-position: center 20%;
+  opacity: 0;
+  will-change: opacity, transform;
+  transform: scale(1);
+}
+.claw__bg-img--active { opacity: 1; }
+
+/* Dark scrim — starts opaque, lifts on scroll to reveal image */
+.claw__scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to bottom,
+    rgba(20, 10, 5, 0.72) 0%,
+    rgba(20, 10, 5, 0.45) 50%,
+    rgba(20, 10, 5, 0.78) 100%
+  );
+  pointer-events: none;
+}
+
+/* Pulse ring — amber heartbeat on image change */
+.claw__pulse {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 60vw; height: 60vw;
+  max-width: 700px; max-height: 700px;
+  border-radius: 50%;
+  border: 1px solid rgba(190, 140, 80, 0.5);
+  transform: translate(-50%, -50%) scale(0.6);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 3;
+  will-change: transform, opacity;
+}
+
+/* Intro reveal line — draws across on enter */
+.claw__reveal-line {
+  position: absolute;
+  top: 50%; left: 0; right: 0;
+  z-index: 3;
+  pointer-events: none;
+  transform: translateY(-50%);
+  opacity: 0;
+}
+.claw__reveal-line svg {
+  width: 100%; height: 1px; display: block;
+  stroke-dasharray: 1200;
+  stroke-dashoffset: 1200;
+}
+
 .claw__blur {
   position: absolute;
   inset: 0;
@@ -664,7 +727,7 @@ ul { list-style: none; }
 }
 .claw__inner {
   position: relative;
-  z-index: 2;
+  z-index: 4;
   max-width: 1400px;
   margin: 0 auto;
   width: 100%;
@@ -699,75 +762,102 @@ ul { list-style: none; }
 }
 .claw__body:last-of-type { margin-bottom: 0; }
 
-/* ── Phase 2: Image + features stage ── */
+/* ── Phase 2: Feature overlay stage ── */
 .claw__stage {
   position: absolute;
   inset: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 6rem;
-  align-items: center;
+  pointer-events: none;
 }
 
-/* Image stack */
-.claw__images {
-  position: relative;
-  width: 100%;
-  height: 65vh;
-  min-height: 320px;
-}
-.claw__img {
+/* Feature card — bottom-left overlay */
+.claw__feature-card {
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  object-position: center center;
-  opacity: 0;
-  will-change: opacity;
-  clip-path: inset(0% round 2rem 2rem 1.25rem 1.25rem);
+  bottom: clamp(3rem, 6vh, 5.5rem);
+  left: clamp(1.5rem, 4vw, 4rem);
+  max-width: 480px;
+  pointer-events: auto;
 }
 
-/* Features — GSAP animates each in one by one */
-.claw__features {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
+/* Each feature — only the active one visible */
 .claw__feature {
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 100%;
   display: flex;
   align-items: flex-start;
   gap: 1.5rem;
-  padding: 1.5rem 0;
-  border-top: 1px solid rgba(221, 217, 206, 0.1);
-  will-change: transform, opacity;
+  padding: 1.75rem 2rem;
+  background: rgba(10, 5, 2, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(221, 217, 206, 0.1);
+  border-radius: 2px;
+  opacity: 0;
+  will-change: opacity, transform;
 }
-.claw__feature:last-child {
-  border-bottom: 1px solid rgba(221, 217, 206, 0.1);
-}
+.claw__feature--active { opacity: 1; }
+
 .claw__feature-num {
-  font-size: 0.65rem;
+  font-size: 0.62rem;
   font-weight: 400;
-  letter-spacing: 0.12em;
-  color: var(--pale-oak);
-  opacity: 0.3;
+  letter-spacing: 0.14em;
+  color: rgba(190, 140, 80, 0.85);
   flex-shrink: 0;
-  padding-top: 0.2rem;
+  padding-top: 0.25rem;
   min-width: 1.8rem;
 }
-.claw__feature-body { flex: 1; }
+.claw__feature-body { flex: 1; overflow: hidden; }
 .claw__feature-title {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 500;
   letter-spacing: -0.01em;
   color: var(--white);
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.4rem;
+}
+/* Word-level reveal containers */
+.claw__feature-title .word,
+.claw__feature-desc .word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+}
+.claw__feature-title .word span,
+.claw__feature-desc .word span {
+  display: inline-block;
+  transform: translateY(110%);
 }
 .claw__feature-desc {
   font-size: 0.83rem;
-  line-height: 1.65;
+  line-height: 1.7;
   color: var(--pale-oak);
-  opacity: 0.55;
+  opacity: 0.7;
+}
+
+/* Progress dots — vertical, right edge */
+.claw__dots {
+  position: absolute;
+  right: clamp(1.5rem, 3.5vw, 3.5rem);
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  pointer-events: auto;
+  opacity: 0;
+}
+.claw__dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  border: 1px solid rgba(221, 217, 206, 0.4);
+  background: transparent;
+  transition: background 400ms ease, border-color 400ms ease, transform 400ms ease;
+  cursor: default;
+  display: block;
+}
+.claw__dot--active {
+  background: var(--pale-oak);
+  border-color: var(--pale-oak);
+  transform: scale(1.5);
 }
 
 
@@ -1569,17 +1659,6 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   transition-delay: 0ms;
 }
 
-/* ── Claw feature reveal — slide up with stagger ── */
-.claw__feature.reveal {
-  transform: translateY(30px);
-  transition:
-    opacity 650ms var(--ease-out),
-    transform 650ms var(--ease-out);
-  transition-delay: var(--feat-delay, 0ms);
-}
-.claw__feature.reveal.visible {
-  transition-delay: var(--feat-delay, 0ms);
-}
 .reveal-d3 { transition-delay: 300ms; }
 .reveal-d4 { transition-delay: 420ms; }
 
@@ -1812,20 +1891,6 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
 }
 
 @media (min-width: 901px) {
-  /* Swap backgrounds: claw section gets the contact image, contact gets solid espresso */
-  .claw {
-    background:
-      linear-gradient(
-        to left,
-        rgba(5, 2, 1, 0.96) 0%,
-        rgba(8, 4, 1, 0.90) 22%,
-        rgba(8, 4, 1, 0.72) 42%,
-        rgba(8, 4, 1, 0.10) 62%,
-        transparent 100%
-      ),
-      url('../brand_assets/lucky_claw2.webp') center / cover no-repeat;
-  }
-
   /* Contact: solid espresso, centered text, height fits content */
   .contact {
     background: var(--espresso);

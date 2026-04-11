@@ -153,6 +153,23 @@
   <section class="claw grain" id="the-claw" aria-label="The Lucky Claw">
     <div class="claw__glow" aria-hidden="true"></div>
     <div class="claw__blur" id="clawBlur" aria-hidden="true"></div>
+
+    <!-- Full-viewport background images (parallax) -->
+    <div class="claw__bg-stack" aria-hidden="true">
+      <div class="claw__bg-img" id="clawBg0" style="background-image:url('brand_assets/1_luckyclaw.webp')"></div>
+      <div class="claw__bg-img" id="clawBg1" style="background-image:url('brand_assets/2_luckyclaw.webp')"></div>
+      <div class="claw__bg-img" id="clawBg2" style="background-image:url('brand_assets/3_luckyclaw.webp')"></div>
+      <div class="claw__bg-img" id="clawBg3" style="background-image:url('brand_assets/4_luckyclaw.webp')"></div>
+    </div>
+    <!-- Dark scrim over background — lifts to reveal image -->
+    <div class="claw__scrim" id="clawScrim" aria-hidden="true"></div>
+    <!-- Pulse ring — fires on each image transition -->
+    <div class="claw__pulse" id="clawPulse" aria-hidden="true"></div>
+    <!-- Intro reveal line -->
+    <div class="claw__reveal-line" id="clawRevealLine" aria-hidden="true">
+      <svg viewBox="0 0 1200 1" preserveAspectRatio="none"><line x1="0" y1="0.5" x2="1200" y2="0.5" stroke="rgba(221,217,206,0.35)" stroke-width="1"/></svg>
+    </div>
+
     <div class="claw__inner">
 
       <!-- Phase 1: Centered intro — fades out on scroll -->
@@ -162,44 +179,46 @@
         <p class="claw__body">Prizes are chosen with each client to suit the occasion. People gather around it, come back for another go, and remember it long after the night is over.</p>
       </div>
 
-      <!-- Phase 2: Image left + features right — revealed on scroll -->
+      <!-- Phase 2: Feature overlay — bottom-left card + right progress dots -->
       <div class="claw__stage">
-        <div class="claw__images">
-          <img class="claw__img" src="brand_assets/1_luckyclaw.webp" alt="Premium Cabinet">
-          <img class="claw__img" src="brand_assets/2_luckyclaw.webp" alt="Illuminated Marquee">
-          <img class="claw__img" src="brand_assets/3_luckyclaw.webp" alt="Glass & Mirror Panels">
-          <img class="claw__img" src="brand_assets/4_luckyclaw.webp" alt="Custom Branding Options">
-        </div>
-        <div class="claw__features">
-          <div class="claw__feature">
+        <div class="claw__feature-card" id="clawFeatureCard">
+          <div class="claw__feature" data-index="0">
             <span class="claw__feature-num">01</span>
             <div class="claw__feature-body">
               <p class="claw__feature-title">Premium Cabinet</p>
               <p class="claw__feature-desc">Deep espresso finish with dark timber panelling. It looks considered and sits well in any setting.</p>
             </div>
           </div>
-          <div class="claw__feature">
+          <div class="claw__feature" data-index="1">
             <span class="claw__feature-num">02</span>
             <div class="claw__feature-body">
               <p class="claw__feature-title">Illuminated Marquee</p>
               <p class="claw__feature-desc">A warm cream backlit marquee up top. Classic fairground lettering that fits right in at a modern event.</p>
             </div>
           </div>
-          <div class="claw__feature">
+          <div class="claw__feature" data-index="2">
             <span class="claw__feature-num">03</span>
             <div class="claw__feature-body">
               <p class="claw__feature-title">Glass & Mirror Panels</p>
               <p class="claw__feature-desc">Glass on three sides, mirrored at the back. The amber lighting inside draws people in from across the room.</p>
             </div>
           </div>
-          <div class="claw__feature">
+          <div class="claw__feature" data-index="3">
             <span class="claw__feature-num">04</span>
             <div class="claw__feature-body">
               <p class="claw__feature-title">Custom Branding Options</p>
               <p class="claw__feature-desc">Mirror sticker decals and a custom front sign available. Easy ways to tie it into your event without overdoing it.</p>
             </div>
           </div>
-        </div><!-- /.claw__features -->
+        </div><!-- /.claw__feature-card -->
+
+        <!-- Vertical progress dots — right edge -->
+        <nav class="claw__dots" id="clawDots" aria-label="Feature progress">
+          <span class="claw__dot claw__dot--active" data-dot="0"></span>
+          <span class="claw__dot" data-dot="1"></span>
+          <span class="claw__dot" data-dot="2"></span>
+          <span class="claw__dot" data-dot="3"></span>
+        </nav>
       </div><!-- /.claw__stage -->
 
     </div><!-- /.claw__inner -->
