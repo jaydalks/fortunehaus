@@ -125,9 +125,15 @@
         <div class="chips-section">
           <p class="chips-question">Would you like to customise the Lucky Claw? <span style="opacity:0.5;font-size:0.75em;">(select all that apply)</span></p>
           <div class="chips" id="customChips">
-            <button type="button" class="chip" data-group="custom" data-value="Custom Mirror Sticker Decal">Custom Mirror Sticker Decal</button>
+            <button type="button" class="chip" data-group="custom" data-value="Custom Mirror Sticker Decal" data-reveals="stickerDecalWrap">Custom Mirror Sticker Decal</button>
             <button type="button" class="chip" data-group="custom" data-value="Custom Front Sign">Custom Front Sign</button>
             <button type="button" class="chip" data-group="custom" data-value="No customisation">No customisation</button>
+          </div>
+          <div class="chip-other-input" id="stickerDecalWrap" aria-live="polite">
+            <div class="chip-other-input__inner">
+              <label class="field__label" for="stickerDecalText">Describe your custom sticker design <span style="opacity:0.45;font-weight:400;">(theme, text, logo, colours)</span></label>
+              <input type="text" id="stickerDecalText" name="stickerDecalText" class="field__input" placeholder="e.g. Gold foil monogram with floral border…">
+            </div>
           </div>
         </div>
 

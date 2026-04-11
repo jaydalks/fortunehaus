@@ -62,17 +62,23 @@
         chip.classList.toggle('selected');
         chip.setAttribute('aria-pressed', chip.classList.contains('selected') ? 'true' : 'false');
 
-        /* Show/hide "Other" free-text input if this chip has one */
-        if (chip.dataset.value === 'Other') {
-          var section = chip.closest('.chips-section');
-          var wrap = section && section.querySelector('.chip-other-input');
-          if (wrap) {
-            var isSelected = chip.classList.contains('selected');
-            wrap.classList.toggle('visible', isSelected);
-            if (!isSelected) {
-              var otherInput = wrap.querySelector('input');
-              if (otherInput) otherInput.value = '';
-            }
+        /* Show/hide a linked free-text input for chips that have one.
+           Matches: chips with data-value="Other" (legacy) or any chip
+           whose data-reveals attribute matches a .chip-other-input id
+           in the same section. */
+        var revealsId = chip.dataset.reveals;
+        var section   = chip.closest('.chips-section');
+        var wrap      = revealsId
+          ? document.getElementById(revealsId)
+          : (chip.dataset.value === 'Other' && section)
+            ? section.querySelector('.chip-other-input')
+            : null;
+        if (wrap) {
+          var isSelected = chip.classList.contains('selected');
+          wrap.classList.toggle('visible', isSelected);
+          if (!isSelected) {
+            var revealedInput = wrap.querySelector('input, textarea');
+            if (revealedInput) revealedInput.value = '';
           }
         }
       });
@@ -233,6 +239,12 @@
       var otherText = document.getElementById('celebrationOtherText');
       if (otherText && otherText.value.trim()) {
         payload['Celebration — Other'] = otherText.value.trim();
+      }
+
+      /* Custom Mirror Sticker Decal detail */
+      var stickerText = document.getElementById('stickerDecalText');
+      if (stickerText && stickerText.value.trim()) {
+        payload['Custom Sticker Detail'] = stickerText.value.trim();
       }
 
       /* Radio chips (branding question) */
