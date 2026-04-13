@@ -253,7 +253,7 @@
 
       /* ── Send via FormSubmit ── */
       payload['_cc'] = 'new-enquiries@fortunehaus.com.au';
-      fetch('https://formsubmit.co/ajax/enquiries@fortunehaus.com.au', {
+      fetch('https://formsubmit.co/ajax/bb44da42f61e59b0e5f9906255d7c8e9', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body:    JSON.stringify(payload)
