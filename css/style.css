@@ -410,8 +410,8 @@ ul { list-style: none; }
   font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  text-transform: none;
   text-decoration: none;
   cursor: pointer;
   opacity: 0;
