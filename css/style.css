@@ -168,13 +168,13 @@ ul { list-style: none; }
   line-height: 1.65;
 }
 .body-lg {
-  font-size: 0.95rem;
+  font-size: 1rem;
   font-weight: 400;
   line-height: 1.85;
   letter-spacing: 0.005em;
 }
 .body-sm {
-  font-size: 0.85rem;
+  font-size: 1rem;
   line-height: 1.7;
   opacity: 0.6;
 }
@@ -596,7 +596,7 @@ ul { list-style: none; }
   margin-bottom: 1.5rem;
   max-width: 46ch;
   line-height: 1.8;
-  font-size: 0.95rem;
+  font-size: 1rem;
   text-wrap: pretty;
 }
 .about__right {
@@ -621,14 +621,14 @@ ul { list-style: none; }
 }
 .about__pillar-title {
   font-family: var(--font-body);
-  font-size: 0.88rem;
+  font-size: 1rem;
   font-weight: 500;
   letter-spacing: -0.01em;
   color: var(--espresso);
   margin-bottom: 0.5rem;
 }
 .about__pillar-body {
-  font-size: 0.88rem;
+  font-size: 1rem;
   line-height: 1.7;
   color: var(--espresso);
   opacity: 0.6;
@@ -698,7 +698,7 @@ ul { list-style: none; }
   opacity: 0.65;
   line-height: 1.8;
   margin-bottom: 1.25rem;
-  font-size: 0.93rem;
+  font-size: 1rem;
   max-width: 520px;
 }
 .claw__body:last-of-type { margin-bottom: 0; }
@@ -761,14 +761,14 @@ ul { list-style: none; }
 }
 .claw__feature-body { flex: 1; }
 .claw__feature-title {
-  font-size: 0.9rem;
+  font-size: 1rem;
   font-weight: 500;
   letter-spacing: -0.01em;
   color: var(--white);
   margin-bottom: 0.35rem;
 }
 .claw__feature-desc {
-  font-size: 0.83rem;
+  font-size: 1rem;
   line-height: 1.65;
   color: var(--pale-oak);
   opacity: 0.55;
@@ -795,7 +795,7 @@ ul { list-style: none; }
   opacity: 0.6;
   max-width: 56ch;
   margin: 0 auto;
-  font-size: 0.95rem;
+  font-size: 1rem;
   line-height: 1.75;
 }
 
@@ -866,7 +866,7 @@ ul { list-style: none; }
   font-family: var(--font-accent);
   font-style: italic;
   font-weight: 300;
-  font-size: 0.9rem;
+  font-size: 1rem;
   color: var(--pale-oak);
   opacity: 0.6;
   margin-bottom: 2rem;
@@ -936,7 +936,7 @@ ul { list-style: none; }
   color: var(--pale-oak);
   opacity: 0.85;
   margin-bottom: 2.25rem;
-  font-size: 0.93rem;
+  font-size: 1rem;
   line-height: 1.8;
   text-wrap: pretty;
 }
@@ -968,7 +968,7 @@ a.contact__detail-item:hover { opacity: 0.8; }
 }
 .contact__detail-value {
   font-family: var(--font-body);
-  font-size: 0.88rem;
+  font-size: 1rem;
   font-weight: 400;
   letter-spacing: 0.02em;
   color: var(--pale-oak);
@@ -1140,7 +1140,7 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   margin-bottom: 0.6rem;
 }
 .eq-modal__sub {
-  font-size: 0.88rem;
+  font-size: 1rem;
   color: var(--pale-oak);
   opacity: 0.55;
   line-height: 1.7;
@@ -1297,7 +1297,7 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   text-wrap: balance;
 }
 .step__micro {
-  font-size: 0.88rem;
+  font-size: 1rem;
   color: var(--espresso);
   opacity: 0.5;
   margin-bottom: 2.5rem;
@@ -1325,7 +1325,7 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   border: 0 none;
   border-bottom: 1.5px solid rgba(60,36,21,0.2);
   font-family: var(--font-body);
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: var(--espresso);
   outline: none;
   appearance: none;
@@ -1350,7 +1350,7 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
 /* Chips */
 .chips-section { margin-bottom: 2rem; }
 .chips-question {
-  font-size: 0.82rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--espresso);
   opacity: 0.8;
@@ -1367,7 +1367,7 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   border: 1.5px solid rgba(60,36,21,0.22);
   background: transparent;
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--espresso);
   cursor: pointer;
@@ -1417,7 +1417,7 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   padding: 0.55rem 1.1rem;
   border: 1.5px solid rgba(60,36,21,0.22);
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 1rem;
   font-weight: 500;
   color: var(--espresso);
   cursor: pointer;
@@ -1521,12 +1521,12 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   opacity: 0.6;
   line-height: 1.8;
   margin-bottom: 0.6rem;
-  font-size: 0.92rem;
+  font-size: 1rem;
 }
 .success-page__time {
   color: var(--pale-oak);
   opacity: 0.35;
-  font-size: 0.82rem;
+  font-size: 1rem;
   margin-bottom: 3rem;
 }
 .success-page__home {
@@ -1689,7 +1689,7 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
     margin-bottom: 1.25rem;
   }
   .claw__fbc-intro-body {
-    font-size: 0.88rem;
+    font-size: 1rem;
     line-height: 1.8;
     color: var(--pale-oak);
     opacity: 0.65;
@@ -1732,7 +1732,7 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
     line-height: 1.2;
   }
   .claw__fbc-desc {
-    font-size: 0.88rem;
+    font-size: 1rem;
     line-height: 1.7;
     color: var(--pale-oak);
     opacity: 0.65;
