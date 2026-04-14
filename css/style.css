@@ -224,8 +224,8 @@ ul { list-style: none; }
   font-family: var(--font-body);
   font-size: 0.75rem;
   font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-transform: none;
   color: var(--white);
   opacity: 0.6;
   position: relative;
