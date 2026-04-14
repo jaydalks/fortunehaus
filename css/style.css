@@ -409,7 +409,7 @@ ul { list-style: none; }
   color: rgba(255, 255, 255, 0.88);
   font-family: var(--font-body);
   font-size: 0.72rem;
-  font-weight: 400;
+  font-weight: 600;
   letter-spacing: 0.22em;
   text-transform: uppercase;
   text-decoration: none;
@@ -1012,8 +1012,8 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
 .footer__link {
   font-size: 0.7rem;
   font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-transform: none;
   color: var(--white);
   opacity: 0.35;
   transition: opacity 200ms;
@@ -1050,9 +1050,9 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   opacity: 0.85;
   font-family: var(--font-body);
   font-size: 0.75rem;
-  font-weight: 400;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: none;
   color: var(--white);
   transition:
     opacity 200ms var(--ease-out),
