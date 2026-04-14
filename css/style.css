@@ -142,6 +142,7 @@ ul { list-style: none; }
   font-weight: 400;
   line-height: 1;
   letter-spacing: -0.03em;
+  text-wrap: balance;
 }
 .display-lg {
   font-family: var(--font-primary);
@@ -149,6 +150,7 @@ ul { list-style: none; }
   font-weight: 400;
   line-height: 1.05;
   letter-spacing: -0.03em;
+  text-wrap: balance;
 }
 .display-md {
   font-family: var(--font-primary);
@@ -156,6 +158,7 @@ ul { list-style: none; }
   font-weight: 400;
   line-height: 1.1;
   letter-spacing: -0.025em;
+  text-wrap: balance;
 }
 .accent {
   font-family: var(--font-accent);
@@ -594,6 +597,7 @@ ul { list-style: none; }
   max-width: 46ch;
   line-height: 1.8;
   font-size: 0.95rem;
+  text-wrap: pretty;
 }
 .about__right {
   display: flex;
@@ -934,6 +938,7 @@ ul { list-style: none; }
   margin-bottom: 2.25rem;
   font-size: 0.93rem;
   line-height: 1.8;
+  text-wrap: pretty;
 }
 .contact__cta {
   margin-bottom: 2.5rem;
@@ -1289,6 +1294,7 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   color: var(--espresso);
   line-height: 1.05;
   margin-bottom: 0.5rem;
+  text-wrap: balance;
 }
 .step__micro {
   font-size: 0.88rem;
@@ -1296,6 +1302,7 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   opacity: 0.5;
   margin-bottom: 2.5rem;
   line-height: 1.6;
+  text-wrap: pretty;
 }
 
 /* Fields */
