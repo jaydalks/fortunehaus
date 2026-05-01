@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Fortune Haus</title>
+  <meta name="description" content="Bespoke Event Hire & Experiences — The Lucky Claw">
+  <meta name="robots" content="noindex">
+
+  <link rel="icon" type="image/png" href="brand_assets/favicon.png">
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-DH5ZKBGDR8"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-DH5ZKBGDR8');
+  </script>
+
+  <!-- Google Tag Manager -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-KQLR7TLV');</script>
+  <!-- End Google Tag Manager -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --espresso:       #3C2415;
+      --espresso-mid:   #5a3820;
+      --espresso-light: #7a5035;
+      --pale-oak:       #DDD9CE;
+    }
+
+    html, body {
+      height: 100%;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      font-family: 'DM Sans', Helvetica, Arial, sans-serif;
+      background-color: var(--espresso);
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem env(safe-area-inset-bottom);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: -50%;
+      width: 200%;
+      height: 200%;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Radial glow */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(122,80,53,0.35) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .hub {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 400px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+    }
+
+    /* Logo */
+    .hub__logo {
+      width: 110px;
+      height: auto;
+      display: block;
+      margin: 0 auto 1.25rem;
+      opacity: 0.92;
+      filter: brightness(0) invert(1);
+    }
+
+    /* Thin rule */
+    .hub__rule {
+      width: 32px;
+      height: 1px;
+      background: rgba(221,217,206,0.25);
+      margin: 0 auto 1.25rem;
+    }
+
+    /* Tagline */
+    .hub__tagline {
+      font-size: 0.65rem;
+      font-weight: 400;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(221,217,206,0.45);
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    /* Links */
+    .hub__links {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 0.85rem;
+    }
+
+    .hub__link {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      width: 100%;
+      padding: 1.1rem 1.4rem;
+      border: 1px solid rgba(221,217,206,0.15);
+      border-radius: 3px;
+      background: rgba(221,217,206,0.04);
+      color: var(--pale-oak);
+      text-decoration: none;
+      cursor: pointer;
+      font: inherit;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
+      transition:
+        border-color 350ms ease,
+        background 350ms ease,
+        transform 200ms ease;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .hub__link::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(221,217,206,0.06);
+      transform: scaleX(0);
+      transform-origin: left center;
+      transition: transform 400ms cubic-bezier(0.76, 0, 0.24, 1);
+    }
+
+    .hub__link:hover,
+    .hub__link:active {
+      border-color: rgba(221,217,206,0.35);
+      transform: translateY(-1px);
+    }
+
+    .hub__link:hover::before {
+      transform: scaleX(1);
+    }
+
+    .hub__link:active {
+      transform: scale(0.98);
+    }
+
+    .hub__link-left {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hub__link-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid rgba(221,217,206,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .hub__link-icon svg {
+      width: 16px;
+      height: 16px;
+      color: rgba(221,217,206,0.7);
+    }
+
+    .hub__link-text {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .hub__link-label {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: rgba(221,217,206,0.9);
+      letter-spacing: 0.01em;
+    }
+
+    .hub__link-sub {
+      font-size: 0.7rem;
+      font-weight: 400;
+      color: rgba(221,217,206,0.4);
+      letter-spacing: 0.02em;
+    }
+
+    .hub__link-arrow {
+      position: relative;
+      z-index: 1;
+      color: rgba(221,217,206,0.3);
+      transition: transform 300ms cubic-bezier(0.34, 1.56, 0.64, 1), color 300ms ease;
+      flex-shrink: 0;
+    }
+
+    .hub__link-arrow svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .hub__link:hover .hub__link-arrow {
+      transform: translateX(3px);
+      color: rgba(221,217,206,0.7);
+    }
+
+    /* Footer */
+    .hub__footer {
+      margin-top: 2.5rem;
+      font-size: 0.62rem;
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(221,217,206,0.2);
+      text-align: center;
+    }
+
+    /* Fade in on load */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hub__logo    { animation: fadeUp 600ms ease both; }
+    .hub__rule    { animation: fadeUp 600ms 80ms ease both; }
+    .hub__tagline { animation: fadeUp 600ms 120ms ease both; }
+    .hub__link:nth-child(1) { animation: fadeUp 600ms 200ms ease both; }
+    .hub__link:nth-child(2) { animation: fadeUp 600ms 280ms ease both; }
+    .hub__link:nth-child(3) { animation: fadeUp 600ms 360ms ease both; }
+    .hub__footer  { animation: fadeUp 600ms 440ms ease both; }
+  </style>
+</head>
+<body>
+
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KQLR7TLV"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+
+  <div class="hub">
+
+    <img class="hub__logo" src="brand_assets/logo_design2.png" alt="Fortune Haus">
+    <div class="hub__rule"></div>
+    <p class="hub__tagline">Bespoke Event Hire &amp; Experiences</p>
+
+    <div class="hub__links">
+
+      <!-- Website -->
+      <a class="hub__link"
+         href="https://www.fortunehaus.com.au"
+         onclick="gtag('event', 'click', { event_category: 'links_page', event_label: 'website' });">
+        <div class="hub__link-left">
+          <div class="hub__link-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M2 12h20M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            </svg>
+          </div>
+          <div class="hub__link-text">
+            <span class="hub__link-label">Visit our website</span>
+            <span class="hub__link-sub">fortunehaus.com.au</span>
+          </div>
+        </div>
+        <span class="hub__link-arrow">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </span>
+      </a>
+
+      <!-- Instagram -->
+      <a class="hub__link"
+         href="https://www.instagram.com/fortune.haus"
+         target="_blank"
+         rel="noopener noreferrer"
+         onclick="gtag('event', 'click', { event_category: 'links_page', event_label: 'instagram' });">
+        <div class="hub__link-left">
+          <div class="hub__link-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+              <circle cx="12" cy="12" r="4"/>
+              <circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/>
+            </svg>
+          </div>
+          <div class="hub__link-text">
+            <span class="hub__link-label">Follow us on Instagram</span>
+            <span class="hub__link-sub">@fortune.haus</span>
+          </div>
+        </div>
+        <span class="hub__link-arrow">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </span>
+      </a>
+
+      <!-- Email -->
+      <a class="hub__link"
+         href="mailto:enquiries@fortunehaus.com.au"
+         onclick="gtag('event', 'click', { event_category: 'links_page', event_label: 'email' });">
+        <div class="hub__link-left">
+          <div class="hub__link-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+              <polyline points="22,6 12,13 2,6"/>
+            </svg>
+          </div>
+          <div class="hub__link-text">
+            <span class="hub__link-label">Send us an email</span>
+            <span class="hub__link-sub">enquiries@fortunehaus.com.au</span>
+          </div>
+        </div>
+        <span class="hub__link-arrow">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M3 8h10M9 4l4 4-4 4"/>
+          </svg>
+        </span>
+      </a>
+
+    </div>
+
+    <p class="hub__footer">Fortune Haus &copy; 2026</p>
+
+  </div>
+
+</body>
+</html>
