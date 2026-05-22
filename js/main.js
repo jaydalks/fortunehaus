@@ -149,35 +149,53 @@
       var clawBlur      = document.getElementById('clawBlur');
       var clawTabEls    = gsap.utils.toArray('.claw__tab', clawSection);
       var clawCounterEl = clawSection.querySelector('.claw__counter-num');
+      var enterDur      = 0.6;
+      var exitDur       = 0.4;
+      var stepDur       = enterDur + exitDur; /* 1.0 per panel */
 
-      gsap.set(clawImgs,  { opacity: 0 });
-      gsap.set(clawStage, { opacity: 0 });
+      gsap.set(clawPanels, { opacity: 0, y: 10 });
+      gsap.set(clawImgs,   { opacity: 0 });
+      gsap.set(clawStage,  { opacity: 0 });
 
       var clawTl = gsap.timeline({
         scrollTrigger: {
           trigger: clawSection,
           start: 'top top',
-          end: '+=' + (window.innerHeight * 1.3),
-          pin: true, anticipatePin: 0, scrub: 0.4
+          end: function () { return '+=' + ((clawPanels.length + 1) * window.innerHeight * 0.65); },
+          pin: true, anticipatePin: 0, scrub: 0.4,
+          onUpdate: function (self) {
+            var dur   = clawTl.duration();
+            var tlPos = self.progress * dur;
+            var idx   = -1;
+            for (var j = clawPanels.length - 1; j >= 0; j--) {
+              if (tlPos >= 0.9 + j * stepDur) { idx = j; break; }
+            }
+            clawTabEls.forEach(function (t, i) {
+              t.classList.toggle('claw__tab--active', i === idx);
+            });
+            if (idx >= 0 && clawCounterEl) {
+              clawCounterEl.textContent = String(idx + 1).padStart(2, '0');
+            }
+          }
         }
       });
 
+      /* Phase 1: intro fades, stage reveals */
       clawTl.to(clawIntro, { opacity: 0, y: -30, duration: 0.8, ease: 'power2.in' }, 0);
       if (clawBlur) clawTl.to(clawBlur, { opacity: 1, duration: 0.8, ease: 'none' }, 0.1);
-      clawTl.to(clawStage, { opacity: 1, duration: 0.01 }, 0.9);
-      if (clawImgs[0]) clawTl.to(clawImgs[0], { opacity: 1, duration: 0.5 }, 0.9);
+      clawTl.to(clawStage,    { opacity: 1, duration: 0.01 }, 0.9);
+      clawTl.to(clawPanels[0], { opacity: 1, y: 0, duration: enterDur }, 0.9);
+      clawTl.to(clawImgs[0],   { opacity: 1, duration: enterDur }, 0.9);
 
-      /* Tab click switching */
-      clawTabEls.forEach(function (tab, i) {
-        tab.addEventListener('click', function () {
-          clawTabEls.forEach(function (t) { t.classList.remove('claw__tab--active'); });
-          clawPanels.forEach(function (p) { p.classList.remove('claw__panel--active'); });
-          tab.classList.add('claw__tab--active');
-          clawPanels[i].classList.add('claw__panel--active');
-          gsap.to(clawImgs, { opacity: 0, duration: 0.25, ease: 'none' });
-          gsap.to(clawImgs[i], { opacity: 1, duration: 0.5, delay: 0.15, ease: 'none' });
-          if (clawCounterEl) clawCounterEl.textContent = String(i + 1).padStart(2, '0');
-        });
+      /* Phase 2: scroll through each panel */
+      clawPanels.forEach(function (panel, i) {
+        if (i === 0) return;
+        var exitStart  = 0.9 + (i - 1) * stepDur + enterDur;
+        var enterStart = exitStart + exitDur;
+        clawTl.to(clawPanels[i - 1], { opacity: 0, y: -8, duration: exitDur }, exitStart);
+        clawTl.to(clawImgs[i - 1],   { opacity: 0, duration: exitDur },        exitStart);
+        clawTl.to(panel,             { opacity: 1, y: 0, duration: enterDur }, enterStart);
+        clawTl.to(clawImgs[i],       { opacity: 1, duration: enterDur },       enterStart);
       });
     }
 
