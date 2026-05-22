@@ -55,6 +55,7 @@
         /* Remove scrollbar padding compensation after fade completes */
         setTimeout(function () {
           if (loader) loader.style.paddingRight = '';
+          document.dispatchEvent(new CustomEvent('loaderComplete'));
         }, 950);
       }, 400);
     }, 300);

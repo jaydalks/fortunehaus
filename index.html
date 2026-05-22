@@ -403,7 +403,9 @@
         sessionStorage.setItem('fh-offer-seen', '1');
       }
 
-      setTimeout(openOffer, 2500);
+      document.addEventListener('loaderComplete', function () {
+        setTimeout(openOffer, 1200);
+      }, { once: true });
 
       backdrop.addEventListener('click', closeOffer);
       closeBtn.addEventListener('click', closeOffer);
