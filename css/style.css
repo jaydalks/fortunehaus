@@ -897,12 +897,18 @@ ul { list-style: none; }
 
 .instagram-feed {
   background: var(--pale-oak);
-  padding: clamp(4rem, 7vw, 6rem) clamp(1.5rem, 5vw, 4rem);
+  padding: clamp(4rem, 7vw, 6rem) clamp(1.5rem, 4vw, 3rem);
 }
 
 .instagram-feed__inner {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
+}
+
+.instagram-feed .elfsight-app-c7423f59-8116-4769-a3e7-f9e5bc1b0af8,
+.instagram-feed [class^="elfsight-app"] {
+  width: 100% !important;
+  max-width: 100% !important;
 }
 
 .instagram-feed__header {
