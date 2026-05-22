@@ -206,44 +206,63 @@
         <p class="claw__body">Prizes are chosen with each client to suit the occasion. People gather around it, come back for another go, and remember it long after the night is over.</p>
       </div>
 
-      <!-- Phase 2: Image left + features right — revealed on scroll -->
+      <!-- Phase 2: Image left + tabbed content right -->
       <div class="claw__stage">
         <div class="claw__images">
+          <div class="claw__counter" aria-hidden="true">
+            <span class="claw__counter-num">01</span><span class="claw__counter-sep"> / 04</span>
+          </div>
           <img class="claw__img" src="brand_assets/1_luckyclaw.webp" alt="Premium Cabinet">
           <img class="claw__img" src="brand_assets/2_luckyclaw.webp" alt="Illuminated Marquee">
           <img class="claw__img" src="brand_assets/3_luckyclaw.webp" alt="Glass & Mirror Panels">
           <img class="claw__img" src="brand_assets/4_luckyclaw.webp" alt="Custom Branding Options">
         </div>
-        <div class="claw__features">
-          <div class="claw__feature">
-            <span class="claw__feature-num">01</span>
-            <div class="claw__feature-body">
-              <p class="claw__feature-title">Premium Cabinet</p>
-              <p class="claw__feature-desc">Deep espresso finish with dark timber panelling. It looks considered and sits well in any setting.</p>
+        <div class="claw__content">
+          <div class="claw__panels">
+            <div class="claw__panel claw__panel--active" data-num="01">
+              <span class="claw__panel-label">Premium Cabinet</span>
+              <h3 class="claw__panel-title">Designed to impress.</h3>
+              <p class="claw__panel-desc">Deep espresso finish with dark timber panelling. It looks considered and sits well in any setting.</p>
+            </div>
+            <div class="claw__panel" data-num="02">
+              <span class="claw__panel-label">Illuminated Marquee</span>
+              <h3 class="claw__panel-title">Warm, vintage glow.</h3>
+              <p class="claw__panel-desc">A warm cream backlit marquee up top. Classic fairground lettering that fits right in at a modern event.</p>
+            </div>
+            <div class="claw__panel" data-num="03">
+              <span class="claw__panel-label">Glass &amp; Mirror Panels</span>
+              <h3 class="claw__panel-title">Built to draw a crowd.</h3>
+              <p class="claw__panel-desc">Glass on three sides, mirrored at the back. The amber lighting inside draws people in from across the room.</p>
+            </div>
+            <div class="claw__panel" data-num="04">
+              <span class="claw__panel-label">Custom Branding</span>
+              <h3 class="claw__panel-title">Made for your event.</h3>
+              <p class="claw__panel-desc">Mirror sticker decals and a custom front sign available. Easy ways to tie it into your event without overdoing it.</p>
             </div>
           </div>
-          <div class="claw__feature">
-            <span class="claw__feature-num">02</span>
-            <div class="claw__feature-body">
-              <p class="claw__feature-title">Illuminated Marquee</p>
-              <p class="claw__feature-desc">A warm cream backlit marquee up top. Classic fairground lettering that fits right in at a modern event.</p>
-            </div>
-          </div>
-          <div class="claw__feature">
-            <span class="claw__feature-num">03</span>
-            <div class="claw__feature-body">
-              <p class="claw__feature-title">Glass & Mirror Panels</p>
-              <p class="claw__feature-desc">Glass on three sides, mirrored at the back. The amber lighting inside draws people in from across the room.</p>
-            </div>
-          </div>
-          <div class="claw__feature">
-            <span class="claw__feature-num">04</span>
-            <div class="claw__feature-body">
-              <p class="claw__feature-title">Custom Branding Options</p>
-              <p class="claw__feature-desc">Mirror sticker decals and a custom front sign available. Easy ways to tie it into your event without overdoing it.</p>
-            </div>
-          </div>
-        </div><!-- /.claw__features -->
+          <nav class="claw__tabs" aria-label="Feature navigation">
+            <button class="claw__tab claw__tab--active" data-index="0">
+              <span class="claw__tab-num">01</span>
+              <span class="claw__tab-sep"> · </span>
+              <span class="claw__tab-label">Premium Cabinet</span>
+            </button>
+            <button class="claw__tab" data-index="1">
+              <span class="claw__tab-num">02</span>
+              <span class="claw__tab-sep"> · </span>
+              <span class="claw__tab-label">Illuminated Marquee</span>
+            </button>
+            <button class="claw__tab" data-index="2">
+              <span class="claw__tab-num">03</span>
+              <span class="claw__tab-sep"> · </span>
+              <span class="claw__tab-label">Glass &amp; Mirror</span>
+            </button>
+            <button class="claw__tab" data-index="3">
+              <span class="claw__tab-num">04</span>
+              <span class="claw__tab-sep"> · </span>
+              <span class="claw__tab-label">Custom Branding</span>
+            </button>
+          </nav>
+        </div><!-- /.claw__content -->
       </div><!-- /.claw__stage -->
 
     </div><!-- /.claw__inner -->

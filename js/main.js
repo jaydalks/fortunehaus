@@ -139,24 +139,25 @@
     }
 
     var clawSection  = document.querySelector('.claw');
-    var clawFeatures = clawSection ? gsap.utils.toArray('.claw__feature') : [];
+    var clawPanels   = clawSection ? gsap.utils.toArray('.claw__panel')   : [];
     var clawImgs     = gsap.utils.toArray('.claw__img');
     var clawIntro    = clawSection ? clawSection.querySelector('.claw__intro') : null;
     var clawStage    = clawSection ? clawSection.querySelector('.claw__stage') : null;
     var cards        = gsap.utils.toArray('.enquiry-card');
 
-    if (clawFeatures.length && clawSection && window.innerWidth > 768) {
-      var clawBlur = document.getElementById('clawBlur');
-      clawFeatures.forEach(function (f) { f.classList.remove('reveal', 'visible'); });
-      gsap.set(clawFeatures, { opacity: 0, y: 40 });
-      gsap.set(clawImgs,     { opacity: 0 });
-      gsap.set(clawStage,    { opacity: 0 });
+    if (clawPanels.length && clawSection && window.innerWidth > 768) {
+      var clawBlur      = document.getElementById('clawBlur');
+      var clawTabEls    = gsap.utils.toArray('.claw__tab', clawSection);
+      var clawCounterEl = clawSection.querySelector('.claw__counter-num');
+
+      gsap.set(clawImgs,  { opacity: 0 });
+      gsap.set(clawStage, { opacity: 0 });
 
       var clawTl = gsap.timeline({
         scrollTrigger: {
           trigger: clawSection,
           start: 'top top',
-          end: function () { return '+=' + ((clawFeatures.length + 1) * window.innerHeight * 0.65); },
+          end: '+=' + (window.innerHeight * 1.3),
           pin: true, anticipatePin: 0, scrub: 0.4
         }
       });
@@ -166,19 +167,23 @@
       clawTl.to(clawStage, { opacity: 1, duration: 0.01 }, 0.9);
       if (clawImgs[0]) clawTl.to(clawImgs[0], { opacity: 1, duration: 0.5 }, 0.9);
 
-      clawFeatures.forEach(function (feature, i) {
-        var pos = 1 + i;
-        clawTl.to(feature, { opacity: 1, y: 0, duration: 1, ease: 'power2.out' }, pos);
-        if (i > 0 && clawImgs[i]) {
-          clawTl.to(clawImgs[i - 1], { opacity: 0, duration: 0.7, ease: 'none' }, pos);
-          clawTl.to(clawImgs[i],     { opacity: 1, duration: 0.7, ease: 'none' }, pos);
-        }
+      /* Tab click switching */
+      clawTabEls.forEach(function (tab, i) {
+        tab.addEventListener('click', function () {
+          clawTabEls.forEach(function (t) { t.classList.remove('claw__tab--active'); });
+          clawPanels.forEach(function (p) { p.classList.remove('claw__panel--active'); });
+          tab.classList.add('claw__tab--active');
+          clawPanels[i].classList.add('claw__panel--active');
+          gsap.to(clawImgs, { opacity: 0, duration: 0.25, ease: 'none' });
+          gsap.to(clawImgs[i], { opacity: 1, duration: 0.5, delay: 0.15, ease: 'none' });
+          if (clawCounterEl) clawCounterEl.textContent = String(i + 1).padStart(2, '0');
+        });
       });
     }
 
     if (isMobile) {
       /* On mobile: full-bleed image carousel — slide 0 = intro text, slides 1-4 = features */
-      if (clawSection && clawImgs.length && clawFeatures.length) {
+      if (clawSection && clawImgs.length && clawPanels.length) {
         /* Hide the original inner content */
         var clawInnerEl = clawSection.querySelector('.claw__inner');
         if (clawInnerEl) clawInnerEl.style.display = 'none';
@@ -187,14 +192,14 @@
         var introHeadline = clawIntro ? clawIntro.querySelector('.claw__headline') : null;
         var introBodies   = clawIntro ? clawIntro.querySelectorAll('.claw__body')   : [];
 
-        /* Collect feature data */
+        /* Collect feature data from new panel structure */
         var featData = clawImgs.map(function (img, i) {
-          var feat = clawFeatures[i];
+          var panel = clawPanels[i];
           return {
             src:   img.src,
-            num:   feat ? (feat.querySelector('.claw__feature-num')   || {}).textContent || '' : '',
-            title: feat ? (feat.querySelector('.claw__feature-title') || {}).textContent || '' : '',
-            desc:  feat ? (feat.querySelector('.claw__feature-desc')  || {}).textContent || '' : ''
+            num:   panel ? (panel.dataset.num || '') : '',
+            title: panel ? ((panel.querySelector('.claw__panel-label') || {}).textContent || '') : '',
+            desc:  panel ? ((panel.querySelector('.claw__panel-desc')  || {}).textContent || '') : ''
           };
         });
 
