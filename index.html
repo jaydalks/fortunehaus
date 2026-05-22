@@ -41,6 +41,48 @@
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
+  <!-- ── INTRO OFFER MODAL ── -->
+  <div class="offer-modal" id="offerModal" aria-modal="true" role="dialog" aria-label="Exclusive intro offer" aria-hidden="true">
+    <div class="offer-modal__backdrop" id="offerBackdrop"></div>
+    <div class="offer-modal__panel">
+      <button class="offer-modal__close" id="offerClose" aria-label="Close offer">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 3l10 10M13 3L3 13"/>
+        </svg>
+      </button>
+      <span class="offer-modal__label">Exclusive Intro Offer</span>
+      <div class="offer-modal__price">
+        <span class="offer-modal__currency">$</span>1,500
+      </div>
+      <p class="offer-modal__sub">All-inclusive Lucky Claw hire</p>
+      <ul class="offer-modal__features">
+        <li>
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="2 8 6 12 14 4"/></svg>
+          Up to 4-hour hire
+        </li>
+        <li>
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="2 8 6 12 14 4"/></svg>
+          Free delivery within Metro Sydney
+        </li>
+        <li>
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="2 8 6 12 14 4"/></svg>
+          Complimentary custom mirror decal
+        </li>
+        <li>
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><polyline points="2 8 6 12 14 4"/></svg>
+          50 prizes included
+        </li>
+      </ul>
+      <button class="offer-modal__cta" id="offerCta">
+        Enquire now
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 8h10M9 4l4 4-4 4"/>
+        </svg>
+      </button>
+      <p class="offer-modal__note">Limited availability — enquire to secure your date</p>
+    </div>
+  </div>
+
   <!-- ── LOADER ── -->
   <div class="loader" id="loader" aria-hidden="true">
     <div class="loader__inner">
@@ -339,5 +381,43 @@
   </div>
 
   <script src="js/main.js"></script>
+  <script>
+    (function () {
+      if (sessionStorage.getItem('fh-offer-seen')) return;
+
+      var modal    = document.getElementById('offerModal');
+      var backdrop = document.getElementById('offerBackdrop');
+      var closeBtn = document.getElementById('offerClose');
+      var ctaBtn   = document.getElementById('offerCta');
+
+      function openOffer() {
+        modal.setAttribute('aria-hidden', 'false');
+        modal.classList.add('visible');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeOffer() {
+        modal.classList.remove('visible');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+        sessionStorage.setItem('fh-offer-seen', '1');
+      }
+
+      setTimeout(openOffer, 2500);
+
+      backdrop.addEventListener('click', closeOffer);
+      closeBtn.addEventListener('click', closeOffer);
+      ctaBtn.addEventListener('click', function () {
+        closeOffer();
+        setTimeout(function () {
+          if (typeof openModal === 'function') openModal();
+        }, 300);
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') closeOffer();
+      });
+    })();
+  </script>
 </body>
 </html>

@@ -1546,6 +1546,185 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
 
 
 /* ═══════════════════════════════════════════════════════
+   INTRO OFFER MODAL
+   ═══════════════════════════════════════════════════════ */
+
+.offer-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 500ms var(--ease-out), visibility 500ms var(--ease-out);
+}
+
+.offer-modal.visible {
+  opacity: 1;
+  visibility: visible;
+}
+
+.offer-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 10, 5, 0.75);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  cursor: pointer;
+}
+
+.offer-modal__panel {
+  position: relative;
+  z-index: 1;
+  background: radial-gradient(ellipse at 50% 0%, var(--espresso-mid) 0%, var(--espresso) 70%);
+  border: 1px solid rgba(221,217,206,0.12);
+  border-radius: 3px;
+  padding: 3rem 2.5rem 2.5rem;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  transform: translateY(20px);
+  transition: transform 500ms var(--ease-out);
+  overflow: hidden;
+}
+
+.offer-modal__panel::before {
+  content: '';
+  position: absolute;
+  inset: -50%;
+  width: 200%;
+  height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.04;
+  pointer-events: none;
+}
+
+.offer-modal.visible .offer-modal__panel {
+  transform: translateY(0);
+}
+
+.offer-modal__close {
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(221,217,206,0.4);
+  transition: color 200ms;
+  cursor: pointer;
+}
+
+.offer-modal__close:hover { color: rgba(221,217,206,0.85); }
+.offer-modal__close svg { width: 14px; height: 14px; }
+
+.offer-modal__label {
+  display: block;
+  font-size: 0.62rem;
+  font-weight: 500;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(221,217,206,0.45);
+  margin-bottom: 1.5rem;
+}
+
+.offer-modal__price {
+  font-family: var(--font-primary);
+  font-size: 4rem;
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  color: var(--pale-oak);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+  position: relative;
+}
+
+.offer-modal__currency {
+  font-size: 1.75rem;
+  vertical-align: super;
+  letter-spacing: 0;
+  opacity: 0.6;
+}
+
+.offer-modal__sub {
+  font-size: 0.82rem;
+  color: rgba(221,217,206,0.5);
+  margin-bottom: 2rem;
+  letter-spacing: 0.02em;
+}
+
+.offer-modal__features {
+  list-style: none;
+  text-align: left;
+  border-top: 1px solid rgba(221,217,206,0.1);
+  border-bottom: 1px solid rgba(221,217,206,0.1);
+  padding: 1.25rem 0;
+  margin-bottom: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.offer-modal__features li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.9rem;
+  color: rgba(221,217,206,0.8);
+  font-weight: 400;
+}
+
+.offer-modal__features li svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  color: rgba(221,217,206,0.45);
+}
+
+.offer-modal__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.9rem 2rem;
+  background: rgba(221,217,206,0.08);
+  border: 1px solid rgba(221,217,206,0.3);
+  border-radius: 2px;
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--pale-oak);
+  cursor: pointer;
+  width: 100%;
+  justify-content: center;
+  margin-bottom: 1rem;
+  transition:
+    background 300ms var(--ease-out),
+    border-color 300ms var(--ease-out);
+}
+
+.offer-modal__cta:hover {
+  background: rgba(221,217,206,0.14);
+  border-color: rgba(221,217,206,0.6);
+}
+
+.offer-modal__cta svg { width: 14px; height: 14px; transition: transform 300ms cubic-bezier(0.34,1.56,0.64,1); }
+.offer-modal__cta:hover svg { transform: translateX(4px); }
+
+.offer-modal__note {
+  font-size: 0.68rem;
+  color: rgba(221,217,206,0.3);
+  letter-spacing: 0.02em;
+  text-wrap: pretty;
+}
+
+
+/* ═══════════════════════════════════════════════════════
    SCROLL REVEAL
    ═══════════════════════════════════════════════════════ */
 
