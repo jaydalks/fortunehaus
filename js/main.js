@@ -585,6 +585,7 @@
   if (eqBackdrop) gsap.set(eqBackdrop, { opacity: 0 });
   if (eqPanel)    gsap.set(eqPanel,    { opacity: 0, y: 28, scale: 0.97 });
 
+  window.openModal = openModal;
   function openModal() {
     if (window._lenis) window._lenis.stop();
     var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
