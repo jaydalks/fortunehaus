@@ -258,13 +258,22 @@
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body:    JSON.stringify(payload)
       })
-      .then(function (res) { return res.json(); })
+      .then(function (res) {
+        if (!res.ok) {
+          return res.text().then(function (t) { throw new Error(res.status + ': ' + t); });
+        }
+        return res.json();
+      })
       .then(function () {
         window.location.href = successUrl;
       })
-      .catch(function () {
-        /* On network failure, still redirect — enquiry is logged client-side */
-        window.location.href = successUrl;
+      .catch(function (err) {
+        console.error('FormSubmit error:', err);
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Try again';
+        }
+        alert('Something went wrong submitting your enquiry. Please email us directly at enquiries@fortunehaus.com.au');
       });
     });
 
