@@ -192,9 +192,7 @@
       var typeLabel = { weddings: 'Wedding', private: 'Private Event', brand: 'Brand Activation' }[opts.type] || opts.type;
 
       var payload = {
-        _subject:  'New Enquiry — Fortune Haus (' + typeLabel + ')',
-        _template: 'table',
-        _captcha:  'false',
+        _subject:     'New Enquiry — Fortune Haus (' + typeLabel + ')',
         'Enquiry Type': typeLabel
       };
 
@@ -205,7 +203,7 @@
       var phoneEl = document.getElementById('phone');
       if (firstEl && firstEl.value) payload['First Name'] = firstEl.value.trim();
       if (lastEl  && lastEl.value)  payload['Last Name']  = lastEl.value.trim();
-      if (emailEl && emailEl.value) payload['Email']      = emailEl.value.trim();
+      if (emailEl && emailEl.value) { payload['Email'] = emailEl.value.trim(); payload['_replyto'] = emailEl.value.trim(); }
       if (phoneEl && phoneEl.value) payload['Phone']      = phoneEl.value.trim();
 
       /* Event basics */
@@ -251,9 +249,8 @@
       var brandingRadio = document.querySelector('input[name="branding"]:checked');
       if (brandingRadio) payload['Includes Branding'] = brandingRadio.value;
 
-      /* ── Send via FormSubmit ── */
-      payload['_cc'] = 'new-enquiries@fortunehaus.com.au';
-      fetch('https://formsubmit.co/ajax/enquiries@fortunehaus.com.au', {
+      /* ── Send via Formspree ── */
+      fetch('https://formspree.io/f/xredayoz', {
         method:  'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
         body:    JSON.stringify(payload)
@@ -268,7 +265,7 @@
         window.location.href = successUrl;
       })
       .catch(function (err) {
-        console.error('FormSubmit error:', err);
+        console.error('Formspree error:', err);
         if (submitBtn) {
           submitBtn.disabled = false;
           submitBtn.textContent = 'Try again';
