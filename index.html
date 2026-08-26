@@ -180,6 +180,30 @@
       </div>
     </div>
   </section>
+  <script>
+    (function () {
+      var wrap = document.querySelector('.clients__track-wrap');
+      if (!wrap) return;
+      var track = wrap.querySelector('.clients__track');
+      var ticker;
+
+      function rampRate(target) {
+        clearInterval(ticker);
+        ticker = setInterval(function () {
+          var anims = track.getAnimations();
+          if (!anims.length) { clearInterval(ticker); return; }
+          var a    = anims[0];
+          var step = target === 0 ? -0.04 : 0.04;
+          var next = Math.min(1, Math.max(0, a.playbackRate + step));
+          a.playbackRate = next;
+          if (next === target) clearInterval(ticker);
+        }, 16);
+      }
+
+      wrap.addEventListener('mouseenter', function () { rampRate(0); });
+      wrap.addEventListener('mouseleave', function () { rampRate(1); });
+    })();
+  </script>
 
   <!-- ── THE CLAW ── -->
   <section class="claw grain" id="the-claw" aria-label="The Lucky Claw">

@@ -690,9 +690,6 @@ ul { list-style: none; }
   animation: clients-scroll 32s linear infinite;
 }
 
-.clients__track:hover {
-  animation-play-state: paused;
-}
 
 .clients__logo {
   height: 28px;
