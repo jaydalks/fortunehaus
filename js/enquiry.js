@@ -227,7 +227,8 @@
         goal:              'Activation Goals',
         celebration:       'Celebration Type',
         guests:            'Expected Guests',
-        branding_location: 'Branding Placement'
+        branding_location: 'Branding Placement',
+        source:            'How They Heard'
       };
       Object.keys(chipGroups).forEach(function (g) {
         var label = groupLabels[g] || (g.charAt(0).toUpperCase() + g.slice(1));
@@ -238,6 +239,12 @@
       var otherText = document.getElementById('celebrationOtherText');
       if (otherText && otherText.value.trim()) {
         payload['Celebration — Other'] = otherText.value.trim();
+      }
+
+      /* How they heard — Other free-text */
+      var sourceOther = document.getElementById('sourceOtherText');
+      if (sourceOther && sourceOther.value.trim()) {
+        payload['How They Heard — Other'] = sourceOther.value.trim();
       }
 
       /* Custom Mirror Sticker Decal detail */

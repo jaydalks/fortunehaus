@@ -191,6 +191,22 @@
           <input class="field__input" type="tel" id="phone" name="phone" placeholder="+61 4XX XXX XXX">
         </div>
 
+        <div class="chips-section" style="margin-top:2rem;">
+          <p class="chips-question">How did you hear about us? <span style="opacity:0.5;font-size:0.75em;">(select all that apply)</span></p>
+          <div class="chips">
+            <button type="button" class="chip" data-group="source" data-value="Instagram">Instagram</button>
+            <button type="button" class="chip" data-group="source" data-value="Google">Google</button>
+            <button type="button" class="chip" data-group="source" data-value="Word of Mouth">Word of Mouth</button>
+            <button type="button" class="chip" data-group="source" data-value="TikTok">TikTok</button>
+            <button type="button" class="chip" data-group="source" data-value="Other" data-reveals="sourceOtherWrap">Other</button>
+          </div>
+          <div class="chip-other-input" id="sourceOtherWrap">
+            <div class="chip-other-input__inner">
+              <input class="field__input" type="text" id="sourceOtherText" placeholder="Tell us how you found us…" style="margin-top:0.75rem;">
+            </div>
+          </div>
+        </div>
+
         <div class="form-footer">
           <button type="button" class="btn btn--dark" id="back3" style="opacity:0.45;">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
