@@ -686,7 +686,7 @@ ul { list-style: none; }
   display: flex;
   align-items: center;
   width: max-content;
-  animation: clients-scroll 32s linear infinite;
+  /* animation applied by JS after exact width is measured */
 }
 
 

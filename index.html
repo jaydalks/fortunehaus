@@ -186,7 +186,7 @@
       var track = document.querySelector('.clients__track');
       if (!wrap || !track) return;
 
-      /* ── Measure exact first-half width, then lock in a pixel keyframe ── */
+      /* ── Measure exact first-half width, inject keyframe, then start animation ── */
       function initMarquee() {
         var all   = Array.from(track.children);
         var half  = Math.floor(all.length / 2);
@@ -196,6 +196,7 @@
         var s = document.createElement('style');
         s.textContent = '@keyframes clients-scroll{from{transform:translateX(0)}to{transform:translateX(-' + Math.round(width) + 'px)}}';
         document.head.appendChild(s);
+        track.style.animation = 'clients-scroll 32s linear infinite';
       }
 
       var imgs = Array.from(track.querySelectorAll('img'));
