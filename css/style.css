@@ -706,7 +706,7 @@ ul { list-style: none; }
 
 @keyframes clients-scroll {
   from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  to   { transform: translateX(-50%); } /* overridden by JS with exact px value */
 }
 
 @media (prefers-reduced-motion: reduce) {

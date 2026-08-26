@@ -182,19 +182,38 @@
   </section>
   <script>
     (function () {
-      var wrap = document.querySelector('.clients__track-wrap');
-      if (!wrap) return;
-      var track = wrap.querySelector('.clients__track');
-      var ticker;
+      var wrap  = document.querySelector('.clients__track-wrap');
+      var track = document.querySelector('.clients__track');
+      if (!wrap || !track) return;
 
+      /* ── Measure exact first-half width, then lock in a pixel keyframe ── */
+      function initMarquee() {
+        var all   = Array.from(track.children);
+        var half  = Math.floor(all.length / 2);
+        var width = all.slice(0, half).reduce(function (sum, el) {
+          return sum + el.offsetWidth + (parseFloat(getComputedStyle(el).marginRight) || 0);
+        }, 0);
+        var s = document.createElement('style');
+        s.textContent = '@keyframes clients-scroll{from{transform:translateX(0)}to{transform:translateX(-' + Math.round(width) + 'px)}}';
+        document.head.appendChild(s);
+      }
+
+      var imgs = Array.from(track.querySelectorAll('img'));
+      var done = 0;
+      function onLoad() { if (++done >= imgs.length) initMarquee(); }
+      imgs.forEach(function (img) {
+        if (img.complete) { onLoad(); } else { img.addEventListener('load', onLoad); img.addEventListener('error', onLoad); }
+      });
+
+      /* ── Smooth hover slow-down ── */
+      var ticker;
       function rampRate(target) {
         clearInterval(ticker);
         ticker = setInterval(function () {
           var anims = track.getAnimations();
           if (!anims.length) { clearInterval(ticker); return; }
           var a    = anims[0];
-          var step = target === 0 ? -0.04 : 0.04;
-          var next = Math.min(1, Math.max(0, a.playbackRate + step));
+          var next = Math.min(1, Math.max(0, a.playbackRate + (target === 0 ? -0.04 : 0.04)));
           a.playbackRate = next;
           if (next === target) clearInterval(ticker);
         }, 16);
