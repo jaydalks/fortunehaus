@@ -125,6 +125,15 @@
               <label for="brandingMaybe">Not sure</label>
             </div>
           </div>
+          <div class="chip-other-input" id="brandingLocationReveal">
+            <div class="chip-other-input__inner">
+              <p class="chips-question" style="margin-top:1.25rem;margin-bottom:0.75rem;">Where would you like to show branding? <span style="opacity:0.5;font-size:0.75em;">(select all that apply)</span></p>
+              <div class="chips">
+                <button type="button" class="chip" data-group="branding_location" data-value="Custom Mirror Sticker Decal">Custom Mirror Sticker Decal</button>
+                <button type="button" class="chip" data-group="branding_location" data-value="Custom Front Sign">Custom Front Sign</button>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="chips-section">
@@ -211,6 +220,21 @@
     initEnquiry({
       type: 'brand',
       successUrl: '../success'
+    });
+
+    /* Show/hide branding location chips when Yes is selected */
+    document.querySelectorAll('input[name="branding"]').forEach(function (radio) {
+      radio.addEventListener('change', function () {
+        var reveal = document.getElementById('brandingLocationReveal');
+        var isYes  = radio.value === 'Yes';
+        reveal.classList.toggle('visible', isYes);
+        if (!isYes) {
+          reveal.querySelectorAll('.chip.selected').forEach(function (chip) {
+            chip.classList.remove('selected');
+            chip.setAttribute('aria-pressed', 'false');
+          });
+        }
+      });
     });
   </script>
 </body>

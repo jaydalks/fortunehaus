@@ -222,11 +222,12 @@
         chipGroups[g].push(chip.dataset.value);
       });
       var groupLabels = {
-        timing:      'Timing',
-        custom:      'Customisation',
-        goal:        'Activation Goals',
-        celebration: 'Celebration Type',
-        guests:      'Expected Guests'
+        timing:            'Timing',
+        custom:            'Customisation',
+        goal:              'Activation Goals',
+        celebration:       'Celebration Type',
+        guests:            'Expected Guests',
+        branding_location: 'Branding Placement'
       };
       Object.keys(chipGroups).forEach(function (g) {
         var label = groupLabels[g] || (g.charAt(0).toUpperCase() + g.slice(1));
