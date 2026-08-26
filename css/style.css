@@ -576,7 +576,7 @@ ul { list-style: none; }
 
 .about {
   background: var(--pale-oak);
-  padding: clamp(5rem, 10vw, 10rem) clamp(1.5rem, 4vw, 3rem);
+  padding: clamp(5rem, 10vw, 10rem) clamp(1.5rem, 4vw, 3rem) clamp(3rem, 5vw, 5rem);
   position: relative;
   overflow: hidden;
 }
