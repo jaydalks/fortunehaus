@@ -685,7 +685,6 @@ ul { list-style: none; }
 .clients__track {
   display: flex;
   align-items: center;
-  gap: 4rem;
   width: max-content;
   animation: clients-scroll 32s linear infinite;
 }
@@ -697,6 +696,7 @@ ul { list-style: none; }
   opacity: 0.45;
   filter: brightness(0) invert(1);
   flex-shrink: 0;
+  margin-right: 4rem;
   transition: opacity 300ms var(--ease-out);
 }
 
@@ -712,7 +712,8 @@ ul { list-style: none; }
 @media (prefers-reduced-motion: reduce) {
   .clients__track { animation: none; }
   .clients__track-wrap { mask-image: none; -webkit-mask-image: none; }
-  .clients__track { flex-wrap: wrap; justify-content: center; gap: 2.5rem; padding: 0 2rem; }
+  .clients__track { flex-wrap: wrap; justify-content: center; padding: 0 2rem; }
+  .clients__logo  { margin-right: 2.5rem; margin-bottom: 1rem; }
 }
 
 
