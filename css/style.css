@@ -1377,17 +1377,28 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   transition: width 550ms var(--ease-out);
   will-change: width;
 }
+/* Sits in the centre of the dark enquiry nav and scrolls away with it,
+   so it never floats over the form fields */
 .progress-bar__label {
-  position: fixed;
-  top: 0.5rem;
-  right: clamp(1.5rem, 4vw, 3rem);
+  position: absolute;
+  top: calc(1.5rem + 4px);
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 201;
+  line-height: 20px;
+  white-space: nowrap;
   font-size: 0.68rem;
   font-weight: 500;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--espresso);
-  opacity: 0.4;
+  color: var(--pale-oak);
+  opacity: 0.5;
+  pointer-events: none;
+}
+/* Phones: no room beside the logo and Back link. Each step already
+   shows "Step N of 3" and the progress bar shows how far along you are. */
+@media (max-width: 640px) {
+  .progress-bar__label { display: none; }
 }
 
 /* Enquiry nav */

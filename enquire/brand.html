@@ -129,8 +129,20 @@
             <div class="chip-other-input__inner">
               <p class="chips-question" style="margin-top:1.25rem;margin-bottom:0.75rem;">Where would you like to show branding? <span style="opacity:0.5;font-size:0.75em;">(select all that apply)</span></p>
               <div class="chips">
-                <button type="button" class="chip" data-group="branding_location" data-value="Custom Mirror Sticker Decal">Custom Mirror Sticker Decal</button>
-                <button type="button" class="chip" data-group="branding_location" data-value="Custom Front Sign">Custom Front Sign</button>
+                <button type="button" class="chip" data-group="branding_location" data-value="Custom Mirror Sticker Decal" data-reveals="brandDecalWrap">Custom Mirror Sticker Decal</button>
+                <button type="button" class="chip" data-group="branding_location" data-value="Custom Front Sign" data-reveals="brandSignWrap">Custom Front Sign</button>
+              </div>
+              <div class="chip-other-input" id="brandDecalWrap" aria-live="polite">
+                <div class="chip-other-input__inner">
+                  <label class="field__label" for="brandDecalText">Describe your mirror decal <span style="opacity:0.45;font-weight:400;">(logo, text, colours, campaign)</span></label>
+                  <input type="text" id="brandDecalText" name="brandDecalText" class="field__input" data-payload-label="Mirror Decal Detail" placeholder="e.g. Brand logo with campaign tagline in white…">
+                </div>
+              </div>
+              <div class="chip-other-input" id="brandSignWrap" aria-live="polite">
+                <div class="chip-other-input__inner">
+                  <label class="field__label" for="brandSignText">Describe your front sign <span style="opacity:0.45;font-weight:400;">(logo, text, colours)</span></label>
+                  <input type="text" id="brandSignText" name="brandSignText" class="field__input" data-payload-label="Front Sign Detail" placeholder="e.g. Company logo on a black background…">
+                </div>
               </div>
             </div>
           </div>
@@ -179,6 +191,11 @@
             <label class="field__label" for="lastName">Last Name <span aria-label="required">*</span></label>
             <input class="field__input" type="text" id="lastName" name="lastName" placeholder="Last name" required aria-required="true">
           </div>
+        </div>
+
+        <div class="field">
+          <label class="field__label" for="company">Company Name <span aria-label="required">*</span></label>
+          <input class="field__input" type="text" id="company" name="company" placeholder="Company or brand name" autocomplete="organization" required aria-required="true">
         </div>
 
         <div class="field">
@@ -248,6 +265,11 @@
           reveal.querySelectorAll('.chip.selected').forEach(function (chip) {
             chip.classList.remove('selected');
             chip.setAttribute('aria-pressed', 'false');
+          });
+          /* Close and clear the decal / sign description boxes too */
+          reveal.querySelectorAll('.chip-other-input').forEach(function (wrap) {
+            wrap.classList.remove('visible');
+            wrap.querySelectorAll('input, textarea').forEach(function (el) { el.value = ''; });
           });
         }
       });

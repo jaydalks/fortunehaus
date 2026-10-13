@@ -160,6 +160,16 @@
         lastEl.style.borderColor = '';
       }
 
+      /* Company name — only on forms that include it (brand activations) */
+      var companyEl = document.getElementById('company');
+      if (companyEl && !companyEl.value.trim()) {
+        if (ok) companyEl.focus();
+        companyEl.style.borderColor = 'rgba(180,40,40,0.6)';
+        ok = false;
+      } else if (companyEl) {
+        companyEl.style.borderColor = '';
+      }
+
       if (emailEl) {
         var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailEl.value);
         if (!emailOk) {
@@ -223,6 +233,8 @@
       if (lastEl  && lastEl.value)  payload['Last Name']  = lastEl.value.trim();
       if (emailEl && emailEl.value) { payload['Email'] = emailEl.value.trim(); payload['_replyto'] = emailEl.value.trim(); }
       if (phoneEl && phoneEl.value) payload['Phone']      = phoneEl.value.trim();
+      var companyInput = document.getElementById('company');
+      if (companyInput && companyInput.value.trim()) payload['Company'] = companyInput.value.trim();
 
       /* Event basics */
       var dateEl     = document.getElementById('eventDate');
@@ -270,6 +282,12 @@
       if (stickerText && stickerText.value.trim()) {
         payload['Custom Sticker Detail'] = stickerText.value.trim();
       }
+
+      /* Any other free-text box that names its own email label,
+         e.g. the brand form's mirror decal and front sign descriptions */
+      form.querySelectorAll('[data-payload-label]').forEach(function (el) {
+        if (el.value.trim()) payload[el.dataset.payloadLabel] = el.value.trim();
+      });
 
       /* Radio chips (branding question) */
       var brandingRadio = document.querySelector('input[name="branding"]:checked');
