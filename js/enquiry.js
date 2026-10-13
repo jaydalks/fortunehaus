@@ -306,7 +306,23 @@
         return res.json();
       })
       .then(function () {
-        window.location.href = successUrl;
+        /* Tell Tag Manager the enquiry was sent, then go to the thank-you
+           page. eventCallback fires once GTM has sent its tags; the timer is
+           a fallback for when GTM is blocked or slow. */
+        var redirected = false;
+        function goToSuccess() {
+          if (redirected) return;
+          redirected = true;
+          window.location.href = successUrl;
+        }
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({
+          event: 'enquiry_submit',
+          enquiry_type: opts.type,
+          eventCallback: goToSuccess,
+          eventTimeout: 1500
+        });
+        setTimeout(goToSuccess, 1800);
       })
       .catch(function (err) {
         console.error('Formspree error:', err);

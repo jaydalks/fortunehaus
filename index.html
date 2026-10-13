@@ -4,9 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fortune Haus — Premium Event Experiences</title>
+  <link rel="canonical" href="https://fortunehaus.com.au/">
   <meta name="description" content="Fortune Haus delivers premium, interactive event experiences designed to elevate any occasion. The Lucky Claw — a refined vintage-arcade centrepiece for weddings, private events, and brand activations.">
 
   <link rel="icon" type="image/png" href="brand_assets/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-DH5ZKBGDR8"></script>
@@ -28,11 +30,56 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300;1,9..40,400&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css?v=31e2444b">
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollToPlugin.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": "https://fortunehaus.com.au/#organization",
+    "name": "Fortune Haus",
+    "url": "https://fortunehaus.com.au/",
+    "logo": "https://fortunehaus.com.au/apple-touch-icon.png",
+    "email": "enquiries@fortunehaus.com.au",
+    "description": "Fortune Haus hires out the Lucky Claw, a full-size vintage-style claw machine, for weddings, private events and brand activations.",
+    "areaServed": {
+      "@type": "Country",
+      "name": "Australia"
+    },
+    "sameAs": [
+      "https://www.instagram.com/fortune.haus"
+    ],
+    "makesOffer": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Lucky Claw hire for weddings",
+          "url": "https://fortunehaus.com.au/enquire/weddings"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Lucky Claw hire for private events",
+          "url": "https://fortunehaus.com.au/enquire/private"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "Lucky Claw hire for brand activations",
+          "url": "https://fortunehaus.com.au/enquire/brand"
+        }
+      }
+    ]
+  }
+  </script>
 </head>
 <body>
 
@@ -90,9 +137,12 @@
       class="hero__video"
       autoplay loop muted playsinline
       aria-hidden="true"
-      preload="metadata"
+      preload="auto"
+      poster="brand_assets/hero-poster.jpg"
     >
-      <source src="brand_assets/clawmachine_header.mp4" type="video/mp4">
+      <!-- Same 1928×1072 resolution as the original master, re-encoded
+           from 5 MB to under 1 MB with no visible difference -->
+      <source src="brand_assets/hero.mp4" type="video/mp4">
     </video>
 
     <!-- Layered masks: colour grade → edge vignette → bottom dissolve -->
@@ -431,6 +481,6 @@
     </div>
   </div>
 
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v=206b141c"></script>
 </body>
 </html>

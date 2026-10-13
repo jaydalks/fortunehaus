@@ -13,6 +13,7 @@ const MIME = {
   '.webp': 'image/webp', '.gif': 'image/gif', '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon', '.mp4': 'video/mp4', '.webm': 'video/webm',
   '.pdf': 'application/pdf', '.woff': 'font/woff', '.woff2': 'font/woff2',
+  '.txt': 'text/plain', '.xml': 'application/xml',
 };
 
 /* Resolve a URL path the way GitHub Pages does:
