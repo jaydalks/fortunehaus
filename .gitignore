@@ -1,3 +1,11 @@
 node_modules/
 temporary screenshots/
 .DS_Store
+
+# Source files kept locally but not published on the live site
+brand_assets/*.pdf
+brand_assets/1_luckyclaw.png
+brand_assets/2_luckyclaw.png
+brand_assets/3_luckyclaw.png
+brand_assets/4_luckyclaw.png
+brand_assets/lucky_claw2.png

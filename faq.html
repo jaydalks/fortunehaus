@@ -14,7 +14,7 @@
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-    gtag('config', 'G-DH5ZKBGDR8');
+    gtag('config', 'G-DH5ZKBGDR8', { send_page_view: false }); /* page views are sent by Google Tag Manager */
   </script>
 
   <!-- Google Tag Manager -->
@@ -219,6 +219,12 @@
 
     .faq-cta__btn:hover svg {
       transform: translateX(3px);
+    }
+
+    .faq-item__trigger:focus-visible,
+    .faq-cta__btn:focus-visible {
+      outline: 2px solid currentColor;
+      outline-offset: 3px;
     }
 
     @media (max-width: 520px) {

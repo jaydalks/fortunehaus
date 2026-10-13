@@ -20,7 +20,9 @@
     }
 
     /* ── Show step + update URL for analytics tracking ── */
-    function showStep(n) {
+    /* fromHistory is true when the browser Back/Forward button triggered the
+       change. The history entry already exists then, so we must not push another. */
+    function showStep(n, fromHistory) {
       document.querySelectorAll('.form-step').forEach(function (el) {
         el.classList.remove('active');
       });
@@ -32,8 +34,10 @@
       setProgress(n);
 
       /* Update URL so each step has a trackable address */
-      var newUrl = window.location.pathname + '?step=' + n;
-      history.pushState({ step: n }, '', newUrl);
+      if (!fromHistory) {
+        var newUrl = window.location.pathname + '?step=' + n;
+        history.pushState({ step: n }, '', newUrl);
+      }
 
       /* Fire GA4 virtual pageview */
       if (typeof gtag === 'function') {
@@ -56,9 +60,23 @@
     /* Initialise URL on page load to step=1 */
     history.replaceState({ step: 1 }, '', window.location.pathname + '?step=1');
 
-    /* ── Chip toggle (multi-select) ── */
+    /* ── Browser Back / Forward moves between form steps ── */
+    window.addEventListener('popstate', function (e) {
+      var step = e.state && e.state.step;
+      if (step >= 1 && step <= total) showStep(step, true);
+    });
+
+    /* ── Chip toggle (multi-select, or single-select when the
+          .chips container has data-single) ── */
     document.querySelectorAll('.chip[data-group]').forEach(function (chip) {
       chip.addEventListener('click', function () {
+        var container = chip.closest('.chips');
+        if (container && container.hasAttribute('data-single') && !chip.classList.contains('selected')) {
+          container.querySelectorAll('.chip.selected').forEach(function (other) {
+            other.classList.remove('selected');
+            other.setAttribute('aria-pressed', 'false');
+          });
+        }
         chip.classList.toggle('selected');
         chip.setAttribute('aria-pressed', chip.classList.contains('selected') ? 'true' : 'false');
 

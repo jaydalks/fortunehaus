@@ -26,8 +26,18 @@
         document.documentElement.style.overflow = '';
         var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
         if (loader) loader.style.paddingRight = scrollbarW + 'px';
-        window.scrollTo(0, 0);
-        if (window._lenis) { window._lenis.scrollTo(0, { immediate: true }); window._lenis.start(); }
+
+        /* Land on the section named in the URL hash (e.g. index.html#enquire),
+           otherwise start at the top */
+        var hashTarget = getHashTarget();
+        if (window._lenis) window._lenis.start();
+        if (hashTarget) {
+          if (typeof ScrollTrigger !== 'undefined') ScrollTrigger.refresh();
+          scrollToSection(hashTarget, true);
+        } else {
+          window.scrollTo(0, 0);
+          if (window._lenis) window._lenis.scrollTo(0, { immediate: true });
+        }
 
         /* Fade the loader out — video becomes visible beneath */
         loader.classList.add('loader--hidden');
@@ -145,7 +155,9 @@
     var clawStage    = clawSection ? clawSection.querySelector('.claw__stage') : null;
     var cards        = gsap.utils.toArray('.enquiry-card');
 
-    if (clawPanels.length && clawSection && window.innerWidth > 768) {
+    /* Desktop pinned timeline. Must use the same test as the mobile carousel
+       below (!isMobile) so the two never run together at tablet widths. */
+    if (clawPanels.length && clawSection && !isMobile) {
       var clawBlur      = document.getElementById('clawBlur');
       var clawTabEls    = gsap.utils.toArray('.claw__tab', clawSection);
       var clawCounterEl = clawSection.querySelector('.claw__counter-num');
@@ -477,7 +489,7 @@
   }
 
   /* ── Lenis smooth scroll — desktop only ── */
-  if (!isMobile && typeof Lenis !== 'undefined') {
+  if (!isMobile && typeof Lenis !== 'undefined' && typeof gsap !== 'undefined') {
     var lenis = new Lenis({
       duration:        1.6,
       easing:          function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); },
@@ -550,15 +562,29 @@
     el.addEventListener('click', closeMenu);
   });
 
+  function getHashTarget() {
+    var hash = window.location.hash;
+    if (!hash || hash.length < 2) return null;
+    try { return document.querySelector(hash); } catch (err) { return null; }
+  }
+
+  function scrollToSection(target, immediate) {
+    var navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
+    var top = target.getBoundingClientRect().top + window.scrollY - navH;
+    if (window._lenis) {
+      window._lenis.scrollTo(top, { immediate: !!immediate });
+    } else {
+      window.scrollTo({ top: top, behavior: immediate ? 'auto' : 'smooth' });
+    }
+  }
+
   document.querySelectorAll('a[href^="#"]').forEach(function (link) {
     link.addEventListener('click', function (e) {
       var target = document.querySelector(link.getAttribute('href'));
       if (!target) return;
       e.preventDefault();
       closeMenu();
-      var navH = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-h')) || 72;
-      var top = target.getBoundingClientRect().top + window.scrollY - navH;
-      window.scrollTo({ top: top, behavior: 'smooth' });
+      scrollToSection(target, false);
     });
   });
 
@@ -582,11 +608,21 @@
   var eqPanel    = eqModal ? eqModal.querySelector('.eq-modal__panel') : null;
   var navEnquire = document.getElementById('navEnquireBtn');
 
-  if (eqBackdrop) gsap.set(eqBackdrop, { opacity: 0 });
-  if (eqPanel)    gsap.set(eqPanel,    { opacity: 0, y: 28, scale: 0.97 });
+  /* GSAP comes from a CDN. If it fails to load, the modal still opens and
+     closes, just without the animation. */
+  var hasGsap = typeof gsap !== 'undefined';
+
+  if (hasGsap) {
+    if (eqBackdrop) gsap.set(eqBackdrop, { opacity: 0 });
+    if (eqPanel)    gsap.set(eqPanel,    { opacity: 0, y: 28, scale: 0.97 });
+  } else {
+    if (eqBackdrop) eqBackdrop.style.opacity = '0';
+    if (eqPanel)    eqPanel.style.opacity    = '0';
+  }
 
   window.openModal = openModal;
   function openModal() {
+    if (!eqModal) return;
     if (window._lenis) window._lenis.stop();
     var scrollbarW = window.innerWidth - document.documentElement.clientWidth;
     document.body.style.overflow = 'hidden';
@@ -594,22 +630,36 @@
     nav.style.paddingRight = scrollbarW + 'px';
     eqModal.classList.add('open');
     eqModal.setAttribute('aria-hidden', 'false');
-    gsap.to(eqBackdrop, { opacity: 1, duration: 0.55, ease: 'power2.out' });
-    gsap.to(eqPanel,    { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'back.out(1.5)', delay: 0.05 });
+    if (hasGsap) {
+      gsap.to(eqBackdrop, { opacity: 1, duration: 0.55, ease: 'power2.out' });
+      gsap.to(eqPanel,    { opacity: 1, y: 0, scale: 1, duration: 0.5, ease: 'back.out(1.5)', delay: 0.05 });
+    } else {
+      if (eqBackdrop) eqBackdrop.style.opacity = '1';
+      if (eqPanel)    eqPanel.style.opacity    = '1';
+    }
     if (eqClose) eqClose.focus();
   }
 
+  function finishClose() {
+    eqModal.classList.remove('open');
+    eqModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    document.body.style.paddingRight = '';
+    nav.style.paddingRight = '';
+    if (window._lenis) window._lenis.start();
+  }
+
   function closeModal() {
+    if (!eqModal) return;
+    if (!hasGsap) {
+      if (eqBackdrop) eqBackdrop.style.opacity = '0';
+      if (eqPanel)    eqPanel.style.opacity    = '0';
+      finishClose();
+      return;
+    }
     gsap.to(eqBackdrop, { opacity: 0, duration: 0.35, ease: 'power2.in' });
     gsap.to(eqPanel, { opacity: 0, y: 16, scale: 0.97, duration: 0.3, ease: 'power2.in',
-      onComplete: function () {
-        eqModal.classList.remove('open');
-        eqModal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-        document.body.style.paddingRight = '';
-        nav.style.paddingRight = '';
-        if (window._lenis) window._lenis.start();
-      }
+      onComplete: finishClose
     });
   }
 

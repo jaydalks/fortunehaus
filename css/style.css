@@ -410,6 +410,7 @@ ul { list-style: none; }
   font-family: var(--font-body);
   font-size: 0.72rem;
   font-weight: 600;
+  line-height: inherit;
   letter-spacing: 0.08em;
   text-transform: none;
   text-decoration: none;
@@ -2000,4 +2001,33 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   .contact__details {
     justify-content: center;
   }
+}
+
+/* Phones: email and socials don't fit side by side, so stack them */
+@media (max-width: 560px) {
+  .contact__details {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+  .contact__detail-divider { display: none; }
+}
+
+/* ── Keyboard focus for elements without their own focus style ──
+   currentColor keeps the ring readable on both light and dark sections. */
+.nav__logo:focus-visible,
+.nav__burger:focus-visible,
+.nav__mobile-link:focus-visible,
+.claw__tab:focus-visible,
+.claw__dot:focus-visible,
+a.contact__detail-item:focus-visible,
+.footer__logo:focus-visible,
+.footer__link:focus-visible,
+.eq-modal__close:focus-visible,
+.eq-card:focus-visible,
+.enquiry-nav__logo:focus-visible,
+.enquiry-nav__back:focus-visible,
+.success-page__home:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
 }
