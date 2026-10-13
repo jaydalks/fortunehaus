@@ -1513,7 +1513,7 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   line-height: 1.55;
 }
 .field__group { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
-.field--group { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 0; }
+.field--group { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem; }
 .field__half { display: flex; flex-direction: column; gap: 0.5rem; }
 
 /* Chips */
