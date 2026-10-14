@@ -39,13 +39,8 @@
         history.pushState({ step: n }, '', newUrl);
       }
 
-      /* Fire GA4 virtual pageview */
-      if (typeof gtag === 'function') {
-        gtag('event', 'page_view', {
-          page_location: window.location.href,
-          page_title: document.title + ' — Step ' + n
-        });
-      }
+      /* Step progress goes to GA4 as an enquiry_step event via GTM (below),
+         so steps are not counted as extra page views. */
 
       /* Fire GTM dataLayer event */
       window.dataLayer = window.dataLayer || [];
