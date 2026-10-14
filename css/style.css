@@ -1512,6 +1512,13 @@ a.contact__detail-item:hover .contact__detail-value { opacity: 1; }
   opacity: 0.4;
   line-height: 1.55;
 }
+.field__error {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  line-height: 1.55;
+  color: rgba(180,40,40,0.85);
+}
+.field__error[hidden] { display: none; }
 .field__group { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
 .field--group { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem; }
 .field__half { display: flex; flex-direction: column; gap: 0.5rem; }

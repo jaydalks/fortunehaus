@@ -98,17 +98,51 @@
       chip.setAttribute('aria-pressed', 'false');
     });
 
+    /* ── Event date: no past dates ──
+       Today's date in the visitor's own timezone, as YYYY-MM-DD. (toISOString
+       would use UTC, which is still "yesterday" in Australia each morning.) */
+    function todayLocal() {
+      var d = new Date();
+      return d.getFullYear() + '-' +
+        String(d.getMonth() + 1).padStart(2, '0') + '-' +
+        String(d.getDate()).padStart(2, '0');
+    }
+
+    var eventDateEl = document.getElementById('eventDate');
+    var dateErrorEl = null;
+    if (eventDateEl) {
+      /* Greys out past days in the calendar picker */
+      eventDateEl.min = todayLocal();
+
+      /* Message shown when a past date is typed in by hand */
+      dateErrorEl = document.createElement('p');
+      dateErrorEl.className = 'field__error';
+      dateErrorEl.id = 'eventDateError';
+      dateErrorEl.setAttribute('role', 'alert');
+      dateErrorEl.hidden = true;
+      dateErrorEl.textContent = 'Please choose a date from today onwards';
+      eventDateEl.insertAdjacentElement('afterend', dateErrorEl);
+      eventDateEl.setAttribute('aria-describedby', 'eventDateError');
+
+      eventDateEl.addEventListener('input', function () {
+        dateErrorEl.hidden = true;
+      });
+    }
+
     /* ── Validate step 1 ── */
     function validateStep1() {
       var ok = true;
 
-      var dateEl = document.getElementById('eventDate');
-      if (dateEl && !dateEl.value) {
+      var dateEl = eventDateEl;
+      var isPast = dateEl && dateEl.value && dateEl.value < todayLocal();
+      if (dateEl && (!dateEl.value || isPast)) {
         dateEl.focus();
         dateEl.style.borderColor = 'rgba(180,40,40,0.6)';
+        if (dateErrorEl) dateErrorEl.hidden = !isPast;
         ok = false;
       } else if (dateEl) {
         dateEl.style.borderColor = '';
+        if (dateErrorEl) dateErrorEl.hidden = true;
       }
 
       var venueEl = document.getElementById('venue');
